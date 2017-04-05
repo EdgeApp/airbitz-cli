@@ -4,7 +4,9 @@ const packageJson = require('./package.json')
 export default {
   banner: '#!/usr/bin/env node',
   entry: 'src/node/index.js',
-  external: Object.keys(packageJson.dependencies),
+  external: ['buffer', 'path', 'fs'].concat(
+    Object.keys(packageJson.dependencies)
+  ),
   plugins: [
     buble({
       transforms: {

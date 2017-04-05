@@ -11,7 +11,13 @@
   ],
   "license": "SEE LICENSE IN LICENSE",
   "bin": "bin/airbitz-cli",
-  "dependencies": {},
+  "dependencies": {
+    "airbitz-core-js": "^0.2.1",
+    "chalk": "^1.1.3",
+    "node-getopt": "^0.2.3",
+    "source-map-support": "^0.4.14",
+    "xdg-basedir": "^2.0.0"
+  },
   "devDependencies": {
     "eslint": "^3.18.0",
     "eslint-config-standard": "^7.1.0",
