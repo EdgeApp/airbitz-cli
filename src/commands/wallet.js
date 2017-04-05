@@ -1,13 +1,19 @@
-import {command, UsageError} from '../command.js'
+import { command, UsageError } from '../command.js'
 
-command('wallet-list', {
-  help: 'Lists the wallets in an account',
-  needsAccount: true
-}, function (session, argv) {
-  if (argv.length !== 0) throw new UsageError(this)
+command(
+  'wallet-list',
+  {
+    help: 'Lists the wallets in an account',
+    needsAccount: true
+  },
+  function (session, argv) {
+    if (argv.length !== 0) throw new UsageError(this)
 
-  session.account.listWalletIds().forEach(id => {
-    const wallet = session.account.getWallet(id)
-    console.log(`id (${wallet.type}) = ${JSON.stringify(wallet.repoKeys, null, 2)}`)
-  })
-})
+    session.account.listWalletIds().forEach(id => {
+      const wallet = session.account.getWallet(id)
+      console.log(
+        `id (${wallet.type}) = ${JSON.stringify(wallet.repoKeys, null, 2)}`
+      )
+    })
+  }
+)

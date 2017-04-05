@@ -3,7 +3,7 @@ import { internal, makeNodeContext, PasswordError } from 'airbitz-core-js'
 const { filterObject, objectAssign, rejectify } = internal
 
 // Commands:
-import {command, UsageError} from '../command.js'
+import { command, UsageError } from '../command.js'
 import '../commands/all.js'
 
 // Command-line tools:
@@ -30,33 +30,37 @@ const getopt = new Getopt([
   ['h', 'help', 'Display options']
 ])
 
-const helpCommand = command('help', {
-  usage: '[command]',
-  help: 'Displays help for any command'
-}, function (session, argv) {
-  if (argv.length > 1) throw new UsageError(this, 'Too many parameters')
+const helpCommand = command(
+  'help',
+  {
+    usage: '[command]',
+    help: 'Displays help for any command'
+  },
+  function (session, argv) {
+    if (argv.length > 1) throw new UsageError(this, 'Too many parameters')
 
-  if (argv.length === 1) {
-    // Command help:
-    const cmd = command.find(argv[0])
-    console.log('Usage: ' + cmd.usage)
-    if (cmd.help != null) {
-      console.log(cmd.help)
-    }
-  } else {
-    // Program help:
-    getopt.showHelp()
-    console.log('Available commands:')
-    command.list().forEach(name => {
-      const cmd = command.find(name)
-      let line = '  ' + name
+    if (argv.length === 1) {
+      // Command help:
+      const cmd = command.find(argv[0])
+      console.log('Usage: ' + cmd.usage)
       if (cmd.help != null) {
-        line += '\t- ' + cmd.help
+        console.log(cmd.help)
       }
-      console.log(line)
-    })
+    } else {
+      // Program help:
+      getopt.showHelp()
+      console.log('Available commands:')
+      command.list().forEach(name => {
+        const cmd = command.find(name)
+        let line = '  ' + name
+        if (cmd.help != null) {
+          line += '\t- ' + cmd.help
+        }
+        console.log(line)
+      })
+    }
   }
-})
+)
 
 /**
  * Loads the config file,
@@ -123,11 +127,13 @@ function makeSession (config, cmd) {
         throw new UsageError(cmd, 'No login credentials')
       }
 
-      return session.context.loginWithPassword(config.username, config.password, null, {}).then(account => {
-        session.account = account
-        session.login = account.login
-        return session
-      })
+      return session.context
+        .loginWithPassword(config.username, config.password, null, {})
+        .then(account => {
+          session.account = account
+          session.login = account.login
+          return session
+        })
     })
   }
 
@@ -141,7 +147,7 @@ function main () {
   const opt = getopt.parseSystem()
 
   // Look up the command:
-  const cmd = (opt.options['help'] || !opt.argv.length)
+  const cmd = opt.options['help'] || !opt.argv.length
     ? helpCommand
     : command.find(opt.argv.shift())
 
