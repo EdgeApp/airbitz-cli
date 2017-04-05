@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+
+# Compile the upstream core, if it has been symlinked:
+if [ -L ./node_modules/airbitz-core-js ]; then
+  (
+    cd ./node_modules/airbitz-core-js
+    npm run build
+  )
+fi
+
+# Compile the CLI:
+./node_modules/.bin/rollup -c
+chmod +x ./bin/airbitz-cli
+
+# Run the CLI:
+./bin/airbitz-cli "$@"
