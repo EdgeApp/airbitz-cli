@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+  font: 0.8em Arial, Helvetica, sans-serif;
+}
+
+#setup {
+  background: #eee;
+  padding: 1em;
+  border-bottom: 1px solid black;
+  line-height: 3em;
+}
+
+#setup label {
+  margin: 0 1em;
+  display: inline-block;
+}
+
+#output {
+  padding: 1em;
+}
+
+#command {
+  width: 90%
+}
