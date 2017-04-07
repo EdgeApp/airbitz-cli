@@ -1,6 +1,7 @@
 // Airbitz context stuff:
-import { internal, makeNodeContext, PasswordError } from 'airbitz-core-js'
-const { filterObject, objectAssign, rejectify } = internal
+import { internal, makeContext, PasswordError } from 'airbitz-core-js'
+import { makeNodeIo } from 'airbitz-io-node-js'
+const { objectAssign, rejectify } = internal
 
 // Commands:
 import { command, UsageError } from '../command.js'
@@ -114,10 +115,12 @@ function makeSession (config, cmd) {
     if (config.apiKey == null) {
       throw new UsageError(cmd, 'No API key')
     }
-    session.context = makeNodeContext(
-      config.directory || './.cli',
-      filterObject(config, ['appId', 'apiKey', 'authServer'])
-    )
+    session.context = makeContext({
+      appId: config.appId,
+      apiKey: config.apiKey,
+      authServer: config.authServer,
+      io: makeNodeIo(config.directory || './.cli')
+    })
   }
 
   // Create a login if we need one:
