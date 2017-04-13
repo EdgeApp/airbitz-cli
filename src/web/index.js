@@ -1,7 +1,38 @@
 import { makeContext } from 'airbitz-core-js'
-import { command } from '../command.js'
+import { command, UsageError } from '../command.js'
 import '../commands/all.js'
 import parse from 'lib-cmdparse'
+
+const helpCommand = command(
+  'help',
+  {
+    usage: '[command]',
+    help: 'Displays help for any command'
+  },
+  function (session, argv) {
+    if (argv.length > 1) throw new UsageError(this, 'Too many parameters')
+
+    if (argv.length === 1) {
+      // Command help:
+      const cmd = command.find(argv[0])
+      console.log('Usage: ' + cmd.usage)
+      if (cmd.help != null) {
+        console.log(cmd.help)
+      }
+    } else {
+      // Program help:
+      console.log('Available commands:')
+      command.list().forEach(name => {
+        const cmd = command.find(name)
+        let line = '  ' + name
+        if (cmd.help != null) {
+          line += '\t- ' + cmd.help
+        }
+        console.log(line)
+      })
+    }
+  }
+)
 
 /**
  * Adds text to the output area.
@@ -61,14 +92,14 @@ function onEnter (event) {
     }
 
     // Look up the command:
-    const helpCommand = null
     const cmd = parsed.exec ? command.find(parsed.exec) : helpCommand
 
     // Execute the command:
     appendLine(line)
 
     // Invoke the command:
-    cmd.invoke(window.session, parsed.args).catch(e => appendLine(e.message))
+    const out = Promise.resolve(cmd.invoke(window.session, parsed.args))
+    out.catch(e => appendLine(e.message))
   } catch (e) {
     appendLine(e.message)
   }
@@ -93,6 +124,8 @@ function main () {
       onEnter(event)
     }
   })
+
+  onStart()
 }
 
 main()
