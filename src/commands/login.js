@@ -28,10 +28,8 @@ command(
 
     return session.context
       .usernameAvailable(username)
-      .then(
-        ok => console.log('Available'),
-        bad => console.log('Not available')
-      )
+      .then(available =>
+        console.log(available ? 'Available' : 'Not available'))
   }
 )
 
