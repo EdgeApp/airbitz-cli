@@ -136,7 +136,7 @@ command(
 
     return session.txLib.getTransactions(null).then(txs => {
       console.log(`got ${txs.length} transactions`)
-      txs.forEach(tx => console.log(JSON.stringify(tx, null, 1)))
+      return txs.forEach(tx => console.log(JSON.stringify(tx, null, 1)))
     })
   }
 )
@@ -230,7 +230,7 @@ command(
       .then(tx => {
         return session.txLib.saveTx(tx)
       }).then(tx => {
-        console.log('done spending')
+        return console.log('done spending')
       }).catch(e => {
         console.error(e)
       })
