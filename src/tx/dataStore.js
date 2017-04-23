@@ -14,7 +14,6 @@ export class ABCDataStore {
     } else {
       return Promise.reject(new Error('Error: listKeys: invalid folder'))
     }
-
   }
 
 // abcWallet.dataStore.removeKey(folder, key, callback)
@@ -39,7 +38,6 @@ export class ABCDataStore {
     } else {
       return Promise.reject(new Error('Error: readData: invalid folder'))
     }
-
   }
 
 // writeData(folder, key, value, callback)

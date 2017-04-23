@@ -19,7 +19,7 @@ command(
 )
 
 command(
-  'tx-start',
+  'tx-make-engine',
   {
     usage: '',
     help: 'Starts up the TX watcher library',
@@ -28,16 +28,16 @@ command(
   function (session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
+    const options = TxLibBTC.createMasterKeys('shitcoin')
     const abcTxLibAccess = {
       accountLocalDataStore: new ABCDataStore(),
       walletLocalDataStore: new ABCDataStore(),
       accountDataStore: new ABCDataStore(),
       walletDataStore: new ABCDataStore()
     }
-    const options = {}
     const callbacks = {
-      abcWalletTxAddressesChecked (...rest) {
-        console.log('abcWalletTxAddressesChecked', rest)
+      addressesChecked (...rest) {
+        console.log('addressesChecked', rest)
       },
       transactionsChanged (...rest) {
         console.log('transactionsChanged', rest)
@@ -48,30 +48,24 @@ command(
     }
 
     session.txLib = TxLibBTC.makeEngine(abcTxLibAccess, options, callbacks)
+
     return Promise.resolve()
   }
 )
 
 command(
-  'tx-start',
+  'tx-start-engine',
   {
     usage: '',
-    help: 'Starts up the TX watcher library',
+    help: 'Start the wallet tx engine',
     needsContext: true
   },
   function (session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
+    if (session.txLib == null) throw new Error('Call tx-start first')
 
-    const abcTxLibAccess = {}
-    const options = {}
-    const callbacks = {
-      abcWalletTxAddressesChecked (...rest) {
-        console.log('abcWalletTxAddressesChecked', rest)
-      }
-    }
-
-    session.txLib = TxLibBTC.makeEngine(abcTxLibAccess, options, callbacks)
-    return Promise.resolve()
+    const ret = session.txLib.startEngine()
+    return ret
   }
 )
 
@@ -80,22 +74,6 @@ command(
   {
     usage: '',
     help: 'Gets the height of the running tx library',
-    needsContext: true
-  },
-  function (session, argv) {
-    if (argv.length !== 0) throw new UsageError(this)
-    if (session.txLib == null) throw new Error('Call tx-start first')
-
-    console.log('height: ', session.txLib.getBlockHeight())
-    return Promise.resolve()
-  }
-)
-
-command(
-  'tx-height',
-  {
-    usage: '',
-    help: 'Gets the block height of the running tx library',
     needsContext: true
   },
   function (session, argv) {
