@@ -1,5 +1,5 @@
 export class ABCDataStore {
-  constructor (directory, data = {}) {
+  constructor (directory = '', data = {}) {
     this.dir = directory
     this.data = data
   }
@@ -10,9 +10,11 @@ export class ABCDataStore {
     let keys
     if (targetFolder) {
       keys = Object.keys(targetFolder)
+      return Promise.resolve(keys)
+    } else {
+      return Promise.reject(new Error('Error: listKeys: invalid folder'))
     }
 
-    return keys
   }
 
 // abcWallet.dataStore.removeKey(folder, key, callback)
@@ -20,6 +22,9 @@ export class ABCDataStore {
     const targetFolder = this.data[folder]
     if (targetFolder) {
       delete targetFolder[key]
+      return Promise.resolve()
+    } else {
+      return Promise.reject(new Error('Error: removeKey: invalid folder'))
     }
   }
 
@@ -30,9 +35,11 @@ export class ABCDataStore {
 
     if (targetFolder) {
       targetData = targetFolder[key]
+      return Promise.resolve(targetData)
+    } else {
+      return Promise.reject(new Error('Error: readData: invalid folder'))
     }
 
-    return targetData
   }
 
 // writeData(folder, key, value, callback)
@@ -43,10 +50,12 @@ export class ABCDataStore {
       this.data[folder] = {}
     }
     this.data[folder][key] = newValue
+    return Promise.resolve()
   }
 
 // abcWallet.dataStore.removeFolder(folder, callback)
   removeFolder (folder) {
     delete this.data[folder]
+    return Promise.resolve()
   }
 }
