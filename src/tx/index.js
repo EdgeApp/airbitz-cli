@@ -26,9 +26,8 @@ command(
     needsContext: true
   },
   function (session, argv) {
-    if (argv.length !== 0) throw new UsageError(this)
-
-    const options = TxLibBTC.createMasterKeys('shitcoin')
+    if (argv.length > 1) throw new UsageError(this)
+    const options = (argv.length === 1) ? {masterPrivateKey: argv[0]} : TxLibBTC.createMasterKeys('shitcoin')
     // const options = {
     //   masterPrivateKey: "e299f9da0b0c0e0df0239f",
     //   masterPublicKey: "pube299f9da0b0c0e0df0239f"
@@ -40,6 +39,7 @@ command(
       walletDataStore: new ABCDataStore()
     }
     const callbacks = {
+
       addressesChecked (...rest) {
         console.log('addressesChecked', rest)
       },

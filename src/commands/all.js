@@ -1,4 +1,4 @@
-import '../tx'
+import '../tx/index.js'
 import './edge.js'
 import './login.js'
 import './password.js'
