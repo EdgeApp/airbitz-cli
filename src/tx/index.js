@@ -1,12 +1,12 @@
 import { command, UsageError } from '../command.js'
-import { TxLibBTC } from '../../../lib-stubs/dist/index.es.js'
+import { TxLibBTC } from '../../../airbitz-txlib-shitcoin/dist/index.es.js'
 import { ABCDataStore } from './dataStore.js'
 
 command(
   'tx-info',
   {
     usage: '',
-    help: 'Starts up the TX watcher library',
+    help: 'Get info on the TX library',
     needsContext: true
   },
   function (session, argv) {
@@ -22,13 +22,17 @@ command(
   'tx-make-engine',
   {
     usage: '',
-    help: 'Starts up the TX watcher library',
+    help: 'Initializes TX watcher library',
     needsContext: true
   },
   function (session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     const options = TxLibBTC.createMasterKeys('shitcoin')
+    // const options = {
+    //   masterPrivateKey: "e299f9da0b0c0e0df0239f",
+    //   masterPublicKey: "pube299f9da0b0c0e0df0239f"
+    // }
     const abcTxLibAccess = {
       accountLocalDataStore: new ABCDataStore(),
       walletLocalDataStore: new ABCDataStore(),
@@ -57,7 +61,7 @@ command(
   'tx-start-engine',
   {
     usage: '',
-    help: 'Start the wallet tx engine',
+    help: 'Start the wallet tx engine background processes',
     needsContext: true
   },
   function (session, argv) {
