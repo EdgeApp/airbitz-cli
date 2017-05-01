@@ -115,11 +115,18 @@ function makeSession (config, cmd) {
     if (config.apiKey == null) {
       throw new UsageError(cmd, 'No API key')
     }
+    let directory = config.directory
+    if (directory == null) {
+      directory = xdgBasedir.config != null
+        ? xdgBasedir.config + '/airbitz'
+        : './airbitz'
+    }
+
     session.context = makeContext({
       appId: config.appId,
       apiKey: config.apiKey,
       authServer: config.authServer,
-      io: makeNodeIo(config.directory || './.cli')
+      io: makeNodeIo(directory)
     })
   }
 
