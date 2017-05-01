@@ -1,5 +1,5 @@
 import { command, UsageError } from '../command.js'
-import { TxLibBTC } from '../../../airbitz-txlib-shitcoin/dist/index.es.js'
+import { TxLibBTC } from '../../../lib-stubs/dist/index.es.js'
 import { ABCDataStore } from './dataStore.js'
 
 command(
