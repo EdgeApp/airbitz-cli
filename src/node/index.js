@@ -4,7 +4,7 @@ import { makeNodeIo } from 'airbitz-io-node-js'
 const { objectAssign, rejectify } = internal
 
 // Commands:
-import { command, UsageError } from '../command.js'
+import { command, findCommand, listCommands, UsageError } from '../command.js'
 import '../commands/all.js'
 
 // Command-line tools:
@@ -31,6 +31,21 @@ const getopt = new Getopt([
   ['h', 'help', 'Display options']
 ])
 
+function formatUsage (cmd) {
+  // Set up the help options:
+  let out = 'Usage: ' + cmd.name
+  if (cmd.needsContext) {
+    out += ' [-k <api-key>] [-d <work-dir>]'
+  }
+  if (cmd.needsLogin) {
+    out += ' -u <username> -p <password>'
+  }
+  if (cmd.usage != null) {
+    out += ' ' + cmd.usage
+  }
+  return out
+}
+
 const helpCommand = command(
   'help',
   {
@@ -42,8 +57,8 @@ const helpCommand = command(
 
     if (argv.length === 1) {
       // Command help:
-      const cmd = command.find(argv[0])
-      console.log('Usage: ' + cmd.usage)
+      const cmd = findCommand(argv[0])
+      console.log(formatUsage(cmd))
       if (cmd.help != null) {
         console.log(cmd.help)
       }
@@ -51,8 +66,8 @@ const helpCommand = command(
       // Program help:
       getopt.showHelp()
       console.log('Available commands:')
-      command.list().forEach(name => {
-        const cmd = command.find(name)
+      listCommands().forEach(name => {
+        const cmd = findCommand(name)
         let line = '  ' + name
         if (cmd.help != null) {
           line += '\t- ' + cmd.help
@@ -159,7 +174,7 @@ function main () {
   // Look up the command:
   const cmd = opt.options['help'] || !opt.argv.length
     ? helpCommand
-    : command.find(opt.argv.shift())
+    : findCommand(opt.argv.shift())
 
   // Load the config file:
   const config = loadConfig(opt.options)
@@ -181,7 +196,7 @@ rejectify(main)().catch(e => {
     switch (e.type) {
       case UsageError.type:
         if (e.command != null) {
-          console.error(`Usage: ${e.command.usage}`)
+          console.error(formatUsage(e.command))
         }
         break
       case PasswordError.name:

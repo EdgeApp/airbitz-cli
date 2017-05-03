@@ -1,4 +1,4 @@
-const commands = []
+const commands = {}
 
 /**
  * Creates an error indicating a problem with the command-line arguments.
@@ -16,9 +16,13 @@ UsageError.type = UsageError.name
  * Creates a new command, and adds it to the global command registry.
  */
 export function command (name, opts, body) {
+  if (name in commands) throw new Error(`Command "${name}" defined twice`)
+
   const cmd = {
+    help: opts.help,
+    invoke: body,
     name: name,
-    invoke: body
+    usage: opts.usage
   }
 
   // Expand the needs flags:
@@ -27,20 +31,6 @@ export function command (name, opts, body) {
   cmd.needsLogin = opts.needsLogin | cmd.needsAccount
   cmd.needsContext = opts.needsContext | cmd.needsLogin
 
-  // Set up the help options:
-  let usage = name
-  if (cmd.needsContext) {
-    usage += ' [-k <api-key>] [-d <work-dir>]'
-  }
-  if (cmd.needsLogin) {
-    usage += ' -u <username> -p <password>'
-  }
-  if (opts.usage != null) {
-    usage += ' ' + opts.usage
-  }
-  cmd.usage = usage
-  cmd.help = opts.help
-
   commands[name] = cmd
   return cmd
 }
@@ -48,7 +38,7 @@ export function command (name, opts, body) {
 /**
  * Finds the command with the given name.
  */
-command.find = function (name) {
+export function findCommand (name) {
   const cmd = commands[name]
   if (cmd == null) throw new UsageError(null, `No command named "${name}"`)
   return cmd
@@ -57,6 +47,6 @@ command.find = function (name) {
 /**
  * Returns the list of all commands, in sorted order.
  */
-command.list = function () {
+export function listCommands () {
   return Object.keys(commands).sort()
 }
