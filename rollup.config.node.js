@@ -2,8 +2,11 @@ import buble from 'rollup-plugin-buble'
 const packageJson = require('./package.json')
 
 export default {
-  entry: 'src/index.js',
-  external: Object.keys(packageJson.dependencies),
+  banner: '#!/usr/bin/env node',
+  entry: 'src/node/index.js',
+  external: ['buffer', 'path', 'fs'].concat(
+    Object.keys(packageJson.dependencies)
+  ),
   plugins: [
     buble({
       transforms: {
@@ -13,13 +16,8 @@ export default {
   ],
   targets: [
     {
-      dest: packageJson.main,
+      dest: packageJson.bin,
       format: 'cjs',
-      sourceMap: true
-    },
-    {
-      dest: packageJson.module,
-      format: 'es',
       sourceMap: true
     }
   ]
