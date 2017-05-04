@@ -10,7 +10,18 @@
     "Tim Horton <tim@airbitz.co>"
   ],
   "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Airbitz/airbitz-cli.git"
+  },
   "bin": "bin/airbitz-cli",
+  "files": [
+    "bin/*",
+    "changelog.md",
+    "LICENSE",
+    "package.json",
+    "readme.md"
+  ],
   "dependencies": {
     "airbitz-core-js": "^0.3.0",
     "airbitz-io-node-js": "^0.1.0",
@@ -28,17 +39,6 @@
     "husky": "^0.13.3",
     "rollup": "^0.41.6",
     "rollup-plugin-buble": "^0.15.0"
-  },
-  "files": [
-    "bin/*",
-    "changelog.md",
-    "LICENSE",
-    "package.json",
-    "readme.md"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:Airbitz/airbitz-cli.git"
   },
   "scripts": {
     "build": "rollup -c",
