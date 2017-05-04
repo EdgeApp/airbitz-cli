@@ -16,7 +16,9 @@ UsageError.type = UsageError.name
  * Creates a new command, and adds it to the global command registry.
  */
 export function command (name, opts, body) {
-  if (name in commands) throw new Error(`Command "${name}" defined twice`)
+  if (name in commands && !opts.replace) {
+    throw new Error(`Command "${name}" defined twice`)
+  }
 
   const cmd = {
     help: opts.help,

@@ -4,7 +4,8 @@ import { makeNodeIo } from 'airbitz-io-node-js'
 const { objectAssign, rejectify } = internal
 
 // Commands:
-import { command, findCommand, listCommands, UsageError } from '../command.js'
+import { command, findCommand, UsageError } from '../command.js'
+import { printCommandList } from '../commands/help.js'
 import '../commands/all.js'
 
 // Command-line tools:
@@ -50,7 +51,8 @@ const helpCommand = command(
   'help',
   {
     usage: '[command]',
-    help: 'Displays help for any command'
+    help: 'Displays help for any command',
+    replace: true
   },
   function (console, session, argv) {
     if (argv.length > 1) throw new UsageError(this, 'Too many parameters')
@@ -65,15 +67,7 @@ const helpCommand = command(
     } else {
       // Program help:
       getopt.showHelp()
-      console.log('Available commands:')
-      listCommands().forEach(name => {
-        const cmd = findCommand(name)
-        let line = '  ' + name
-        if (cmd.help != null) {
-          line += '\t- ' + cmd.help
-        }
-        console.log(line)
-      })
+      printCommandList(console)
     }
   }
 )
