@@ -7,7 +7,7 @@ command(
     help: 'Requests an edge login',
     needsContext: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     return new Promise((resolve, reject) => {

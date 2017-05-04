@@ -7,7 +7,7 @@ command(
     help: "Shows a user's recovery questions",
     needsContext: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const key = argv[0]
     const username = argv[1]
@@ -25,7 +25,7 @@ command(
     help: 'Logs the user in with a recovery key and answers',
     needsContext: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length < 2) throw new UsageError(this)
     const key = argv[0]
     const username = argv[1]
@@ -52,7 +52,7 @@ command(
     help: 'Creates or changes the recovery questions for a login',
     needsLogin: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length % 2) throw new UsageError(this)
 
     const questions = []

@@ -6,13 +6,13 @@ command(
     help: 'Lists the wallets in an account',
     needsAccount: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     session.account.listWalletIds().forEach(id => {
       const wallet = session.account.getWallet(id)
       console.log(
-        `id (${wallet.type}) = ${JSON.stringify(wallet.repoKeys, null, 2)}`
+        `$(id) (${wallet.type}) = ${JSON.stringify(wallet.repoKeys, null, 2)}`
       )
     })
   }

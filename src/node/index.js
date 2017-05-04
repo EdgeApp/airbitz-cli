@@ -52,7 +52,7 @@ const helpCommand = command(
     usage: '[command]',
     help: 'Displays help for any command'
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length > 1) throw new UsageError(this, 'Too many parameters')
 
     if (argv.length === 1) {
@@ -182,7 +182,7 @@ function main () {
   // Set up the session:
   return makeSession(config, cmd).then(session => {
     // Invoke the command:
-    return cmd.invoke(session, opt.argv)
+    return cmd.invoke(console, session, opt.argv)
   })
 }
 

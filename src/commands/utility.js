@@ -9,7 +9,7 @@ command(
     help: 'Visits the selected URI on the auth server',
     needsContext: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     function parseArgs (argv) {
       switch (argv.length) {
         case 1:
@@ -36,7 +36,7 @@ command(
     help: 'Puts the provided lobby request JSON on the auth server',
     needsContext: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyRequest = JSON.parse(argv[0])
 

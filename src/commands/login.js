@@ -7,7 +7,7 @@ command(
     help: 'Removes any locally-stored data for the given username',
     needsContext: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
@@ -22,7 +22,7 @@ command(
     help: 'Determines whether or not a username is available',
     needsContext: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
@@ -40,7 +40,7 @@ command(
     help: 'Create a login on the auth server',
     needsContext: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 3) throw new UsageError(this)
     const username = argv[0]
     const password = argv[1]
