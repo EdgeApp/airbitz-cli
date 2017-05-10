@@ -50,6 +50,12 @@ airbitz-io-node-js@^0.2.0:
     disklet "^0.1.1"
     node-fetch "^1.6.3"
 
+"airbitz-txlib-shitcoin@https://github.com/Airbitz/airbitz-txlib-shitcoin.git":
+  version "0.1.1"
+  resolved "https://github.com/Airbitz/airbitz-txlib-shitcoin.git#6cdcb19bb4a13aa1823e77aa3ec87a2040f6a0e9"
+  dependencies:
+    rfc4648 "^0.9.1"
+
 ajv-keywords@^1.0.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.5.1.tgz#314dd0a4b3368fad3dfcdc54ede6171b886daf3c"
