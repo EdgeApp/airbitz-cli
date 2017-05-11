@@ -65,7 +65,7 @@ command(
     help: 'Hashes a username using scrypt',
     needsContext: true
   },
-  function (session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
