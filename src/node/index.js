@@ -73,6 +73,26 @@ const helpCommand = command(
 )
 
 /**
+ * If we are passed a single object, format that as proper JSON.
+ */
+const jsonConsole = {
+  log (...args) {
+    if (args.length === 1) {
+      const arg = args[0]
+      if (typeof arg === 'string') {
+        console.log(arg)
+      } else if (arg instanceof Error) {
+        console.log(chalk.red(arg.toString()))
+      } else {
+        console.log(chalk.green(JSON.stringify(arg, null, 2)))
+      }
+    } else {
+      console.log(...args)
+    }
+  }
+}
+
+/**
  * Loads the config file,
  * and returns its contents merged with the command-line options.
  */
@@ -176,33 +196,26 @@ function main () {
   // Set up the session:
   return makeSession(config, cmd).then(session => {
     // Invoke the command:
-    return cmd.invoke(console, session, opt.argv)
+    return cmd.invoke(jsonConsole, session, opt.argv)
   })
 }
 
 // Invoke the main function with error reporting:
 rejectify(main)().catch(e => {
-  if (e.type != null) {
-    // This is a known error, so just show the message:
-    console.error(chalk.red(e.message))
+  console.error(chalk.red(e.toString()))
 
-    // Special handling for particular error types:
-    switch (e.type) {
-      case UsageError.type:
-        if (e.command != null) {
-          console.error(formatUsage(e.command))
-        }
-        break
-      case PasswordError.name:
-        if (e.wait) {
-          console.error(`Please try again in ${e.wait} seconds`)
-        }
-        break
-    }
-  } else {
-    // This is an unexpected crash error, so show a stack trace:
-    console.error(chalk.red('Unexpected error'))
-    console.error(e)
+  // Special handling for particular error types:
+  switch (e.name) {
+    case UsageError.name:
+      if (e.command != null) {
+        console.error(formatUsage(e.command))
+      }
+      break
+    case PasswordError.name:
+      if (e.wait) {
+        console.error(`Please try again in ${e.wait} seconds`)
+      }
+      break
   }
   process.exit(1)
 })

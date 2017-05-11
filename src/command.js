@@ -6,7 +6,7 @@ const commands = {}
  */
 export function UsageError (command, message) {
   const e = new Error(message || 'Incorrect arguments')
-  e.type = UsageError.name
+  e.type = e.name = UsageError.name
   e.command = command
   return e
 }
