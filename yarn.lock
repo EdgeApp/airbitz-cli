@@ -38,6 +38,11 @@ airbitz-core-js@^0.3.1:
     hash.js "^1.0.3"
     scrypt-js "^2.0.3"
 
+"airbitz-currency-shitcoin@file:../airbitz-currency-shitcoin":
+  version "0.1.1"
+  dependencies:
+    rfc4648 "^0.9.1"
+
 airbitz-io-node-js@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/airbitz-io-node-js/-/airbitz-io-node-js-0.2.0.tgz#dff58a778ba785e9cb18cc700f4c48f0670768bc"
