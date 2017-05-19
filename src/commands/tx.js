@@ -1,5 +1,4 @@
 import { command, UsageError } from '../command.js'
-import { makeCurrencyWallet } from 'airbitz-core-js'
 import { makeShitcoinPlugin } from 'airbitz-currency-shitcoin'
 
 /**
@@ -34,18 +33,23 @@ command(
 command(
   'tx-make-engine',
   {
-    usage: '<wallet-id>',
+    usage: '',
     help: 'Creates an blockchain engine for the selected wallet',
-    needsAccount: true
+    needsContext: true
   },
   function (console, session, argv) {
-    if (argv.length !== 1) throw new UsageError(this)
-    const walletId = argv[0]
+    if (argv.length !== 0) throw new UsageError(this)
     makePlugin(session)
 
-    const keyInfo = session.account.allKeys.find(info => info.id === walletId)
-    if (keyInfo == null) {
-      throw new UsageError(this, `Cannot find wallet ${walletId}`)
+    // Hard coded private keys for ease of development
+    // (Otherwise you would have to do a full login on each refresh):
+    const keyInfo = {
+      id: '33LtiHFcFoXqhdrX61zOVut6QzVCBVl8LvChK1HneTc=',
+      type: 'wallet:shitcoin',
+      keys: {
+        masterPrivateKey: '9959a7b8cedbd8d2',
+        masterPublicKey: 'pub9959a7b8cedbd8d2'
+      }
     }
 
     const callbacks = {
@@ -68,14 +72,15 @@ command(
       }
     }
 
-    return makeCurrencyWallet(keyInfo, {
-      account: session.account,
-      plugin: session.shitcoinPlugin,
+    // Actually make the engine:
+    session.currencyWallet = session.shitcoinPlugin.makeEngine(keyInfo, {
+      pluginFolder: session.context.io.folder.folder('pluginFolder'),
+      walletFolder: session.context.io.folder.folder('walletFolder'),
+      walletLocalFolder: session.context.io.folder.folder('walletLocalFolder'),
       callbacks
-    }).then(currencyWallet => {
-      session.currencyWallet = currencyWallet
-      return currencyWallet
     })
+
+    return Promise.resolve()
   }
 )
 
@@ -198,8 +203,28 @@ command(
     if (argv.length !== 1) throw new UsageError(this)
     const address = argv[0]
 
-    session.currencyWallet.lockReceiveAddress({ publicAddress: address })
+    session.currencyWallet.addGapLimitAddresses([address], {})
     console.log('done')
+
+    return Promise.resolve()
+  }
+)
+
+command(
+  'tx-address-state',
+  {
+    usage: '<address>',
+    help: 'Gets the state of an address',
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (session.currencyWallet == null) {
+      throw new Error('Call tx-make-engine first')
+    }
+    if (argv.length !== 1) throw new UsageError(this)
+    const address = argv[0]
+
+    console.log(session.currencyWallet.isAddressUsed(address, {}))
 
     return Promise.resolve()
   }
