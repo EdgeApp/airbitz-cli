@@ -6,6 +6,7 @@ export default {
   external: Object.keys(packageJson.dependencies),
   plugins: [
     buble({
+      objectAssign: 'Object.assign',
       transforms: {
         dangerousForOf: true
       }

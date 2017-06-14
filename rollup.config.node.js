@@ -9,6 +9,7 @@ export default {
   ),
   plugins: [
     buble({
+      objectAssign: 'Object.assign',
       transforms: {
         dangerousForOf: true
       }

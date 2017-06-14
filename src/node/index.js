@@ -1,7 +1,7 @@
 // Airbitz context stuff:
 import { internal, makeContext, PasswordError } from 'airbitz-core-js'
 import { makeNodeIo } from 'airbitz-io-node-js'
-const { objectAssign, rejectify } = internal
+const { rejectify } = internal
 
 // Commands:
 import { command, findCommand, UsageError } from '../command.js'
@@ -116,7 +116,7 @@ function loadConfig (options) {
       throw e
     }
   })
-  const config = objectAssign({}, ...configFiles)
+  const config = Object.assign({}, ...configFiles)
 
   // Calculate the active settings:
   return {
