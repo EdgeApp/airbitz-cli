@@ -82,13 +82,34 @@ const jsonConsole = {
       if (typeof arg === 'string') {
         console.log(arg)
       } else if (arg instanceof Error) {
-        console.log(chalk.red(arg.toString()))
+        logError(arg)
       } else {
         console.log(chalk.green(JSON.stringify(arg, null, 2)))
       }
     } else {
       console.log(...args)
     }
+  }
+}
+
+/**
+ * Logs an Error instance to the console.
+ */
+function logError (e) {
+  console.error(chalk.red(e.toString()))
+
+  // Special handling for particular error types:
+  switch (e.name) {
+    case UsageError.name:
+      if (e.command != null) {
+        console.error(formatUsage(e.command))
+      }
+      break
+    case PasswordError.name:
+      if (e.wait) {
+        console.error(`Please try again in ${e.wait} seconds`)
+      }
+      break
   }
 }
 
@@ -201,21 +222,4 @@ function main () {
 }
 
 // Invoke the main function with error reporting:
-rejectify(main)().catch(e => {
-  console.error(chalk.red(e.toString()))
-
-  // Special handling for particular error types:
-  switch (e.name) {
-    case UsageError.name:
-      if (e.command != null) {
-        console.error(formatUsage(e.command))
-      }
-      break
-    case PasswordError.name:
-      if (e.wait) {
-        console.error(`Please try again in ${e.wait} seconds`)
-      }
-      break
-  }
-  process.exit(1)
-})
+rejectify(main)().catch(logError).then(() => process.exit(1))
