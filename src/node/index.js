@@ -4,7 +4,7 @@ import { makeNodeIo } from 'airbitz-io-node-js'
 const { rejectify } = internal
 
 // Commands:
-import { command, findCommand, UsageError } from '../command.js'
+import { command, findCommand, listCommands, UsageError } from '../command.js'
 import { printCommandList } from '../commands/help.js'
 import '../commands/all.js'
 
@@ -12,8 +12,10 @@ import '../commands/all.js'
 import chalk from 'chalk'
 import fs from 'fs'
 import Getopt from 'node-getopt'
+import parse from 'lib-cmdparse'
 import path from 'path'
 import sourceMapSupport from 'source-map-support'
+import readline from 'readline'
 import xdgBasedir from 'xdg-basedir'
 
 // Display the original source location for errors:
@@ -151,34 +153,39 @@ function loadConfig (options) {
 }
 
 /**
- * Sets up a session object with the Airbitz objects
- * needed by the command.
+ * Creates a session object with a basic context object.
+ */
+function makeSession (config, cmd = null) {
+  const session = {}
+
+  // API key:
+  if (config.apiKey == null) {
+    throw new UsageError(cmd, 'No API key')
+  }
+  let directory = config.directory
+  if (directory == null) {
+    directory = xdgBasedir.config != null
+      ? xdgBasedir.config + '/airbitz'
+      : './airbitz'
+  }
+
+  session.context = makeContext({
+    appId: config.appId,
+    apiKey: config.apiKey,
+    authServer: config.authServer,
+    io: makeNodeIo(directory)
+  })
+
+  return session
+}
+
+/**
+ * Sets up a session object with the Airbitz objects needed by the command.
  * @return a promise
  */
-function makeSession (config, cmd) {
-  const session = {}
-  let out = Promise.resolve(session)
-
+function prepareSession (config, cmd) {
   // Create a context if we need one:
-  if (cmd.needsContext) {
-    // API key:
-    if (config.apiKey == null) {
-      throw new UsageError(cmd, 'No API key')
-    }
-    let directory = config.directory
-    if (directory == null) {
-      directory = xdgBasedir.config != null
-        ? xdgBasedir.config + '/airbitz'
-        : './airbitz'
-    }
-
-    session.context = makeContext({
-      appId: config.appId,
-      apiKey: config.apiKey,
-      authServer: config.authServer,
-      io: makeNodeIo(directory)
-    })
-  }
+  let out = Promise.resolve(cmd.needsContext ? makeSession(config, cmd) : {})
 
   // Create a login if we need one:
   if (cmd.needsLogin) {
@@ -201,24 +208,77 @@ function makeSession (config, cmd) {
 }
 
 /**
+ * Parses the provided command line and attempts to run the command.
+ */
+function runLine (text, session) {
+  const parsed = parse(text)
+  const cmd = parsed.exec ? findCommand(parsed.exec) : findCommand('help')
+
+  if ((cmd.needsLogin || cmd.needsAccount) && session.account == null) {
+    throw new UsageError(cmd, 'Please log in first')
+  }
+
+  return Promise.resolve(cmd.invoke(jsonConsole, session, parsed.args))
+}
+
+/**
+ * Repeatedly prompts the user for a command to run.
+ */
+function runPrompt (readline, session) {
+  console.log('Use the `help` command for usage information')
+
+  return new Promise((resolve, reject) => {
+    function done () {
+      resolve()
+      readline.close()
+    }
+
+    function prompt () {
+      readline.question('> ', text => {
+        if (/exit/.test(text)) return done()
+        rejectify(runLine)(text, session).catch(logError).then(prompt)
+      })
+    }
+
+    readline.on('close', done)
+    prompt()
+  })
+}
+
+/**
  * Parses the options and invokes the requested command.
  */
 function main () {
   const opt = getopt.parseSystem()
 
-  // Look up the command:
-  const cmd = opt.options['help'] || !opt.argv.length
-    ? helpCommand
-    : findCommand(opt.argv.shift())
-
   // Load the config file:
   const config = loadConfig(opt.options)
 
-  // Set up the session:
-  return makeSession(config, cmd).then(session => {
-    // Invoke the command:
-    return cmd.invoke(jsonConsole, session, opt.argv)
-  })
+  if (opt.argv.length === 0) {
+    // Run the interactive shell:
+    const session = makeSession(config)
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      completer (line) {
+        const commands = listCommands()
+        const match = commands.filter(command => command.startsWith(line))
+        return [match.length ? match : commands, line]
+      }
+    })
+    return runPrompt(rl, session)
+  } else {
+    // Look up the command:
+    const cmd = opt.options['help'] || !opt.argv.length
+      ? helpCommand
+      : findCommand(opt.argv.shift())
+
+    // Set up the session:
+    return prepareSession(config, cmd).then(session => {
+      // Invoke the command:
+      return cmd.invoke(jsonConsole, session, opt.argv)
+    })
+  }
 }
 
 // Invoke the main function with error reporting:
