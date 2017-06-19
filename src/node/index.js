@@ -1,8 +1,3 @@
-// Airbitz context stuff:
-import { internal, makeContext, PasswordError } from 'airbitz-core-js'
-import { makeNodeIo } from 'airbitz-io-node-js'
-const { rejectify } = internal
-
 // Commands:
 import { command, findCommand, listCommands, UsageError } from '../command.js'
 import { printCommandList } from '../commands/help.js'
@@ -17,6 +12,11 @@ import path from 'path'
 import sourceMapSupport from 'source-map-support'
 import readline from 'readline'
 import xdgBasedir from 'xdg-basedir'
+
+// Airbitz context stuff:
+import { internal, makeContext, PasswordError } from 'airbitz-core-js'
+import { makeNodeIo } from 'airbitz-io-node-js'
+const { rejectify } = internal
 
 // Display the original source location for errors:
 sourceMapSupport.install()
