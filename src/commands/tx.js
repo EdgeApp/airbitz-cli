@@ -1,13 +1,22 @@
 import { command, UsageError } from '../command.js'
 import { makeShitcoinPlugin } from 'airbitz-currency-shitcoin'
+import { makeEthereumPlugin } from 'airbitz-currency-ethereum'
 
 /**
  * Ensures that the session contains a shitcoin plugin, if it doesn't aready.
  * This needs to happen once when the app first boots.
  */
 function makePlugin (session) {
-  if (session.shitcoinPlugin == null) {
-    session.shitcoinPlugin = makeShitcoinPlugin({
+  if (session.currencyPlugins == null) {
+    session.currencyPlugins = {}
+  }
+  if (session.currencyPlugins.shitcoin == null) {
+    session.currencyPlugins.shitcoin = makeShitcoinPlugin({
+      io: session.context.io
+    })
+  }
+  if (session.currencyPlugins.ethereum == null) {
+    session.currencyPlugins.ethereum = makeEthereumPlugin({
       io: session.context.io
     })
   }
@@ -21,10 +30,10 @@ command(
     needsContext: true
   },
   function (console, session, argv) {
-    if (argv.length !== 0) throw new UsageError(this)
+    if (argv.length !== 1) throw new UsageError(this)
     makePlugin(session)
 
-    console.log(session.shitcoinPlugin.getInfo())
+    console.log(session.currencyPlugins[argv[0]].getInfo())
 
     return Promise.resolve()
   }
@@ -38,18 +47,19 @@ command(
     needsContext: true
   },
   function (console, session, argv) {
-    if (argv.length !== 0) throw new UsageError(this)
+    if (argv.length !== 2) throw new UsageError(this)
     makePlugin(session)
+
+    const walletType = argv[1]
+
+    const masterKeys = session.currencyPlugins[argv[0]].createMasterKeys(walletType)
 
     // Hard coded private keys for ease of development
     // (Otherwise you would have to do a full login on each refresh):
     const keyInfo = {
       id: '33LtiHFcFoXqhdrX61zOVut6QzVCBVl8LvChK1HneTc=',
-      type: 'wallet:shitcoin',
-      keys: {
-        masterPrivateKey: '9959a7b8cedbd8d2',
-        masterPublicKey: 'pub9959a7b8cedbd8d2'
-      }
+      type: 'wallet:' + walletType,
+      keys: masterKeys
     }
 
     const callbacks = {
@@ -73,7 +83,7 @@ command(
     }
 
     // Actually make the engine:
-    session.currencyWallet = session.shitcoinPlugin.makeEngine(keyInfo, {
+    session.currencyWallet = session.currencyPlugins[argv[0]].makeEngine(keyInfo, {
       pluginFolder: session.context.io.folder.folder('pluginFolder'),
       walletFolder: session.context.io.folder.folder('walletFolder'),
       walletLocalFolder: session.context.io.folder.folder('walletLocalFolder'),
