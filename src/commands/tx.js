@@ -143,8 +143,9 @@ command(
       throw new Error('Call tx-make-engine first')
     }
 
-    const opts = {}
+    let opts = null
     if (argv.length === 1) {
+      opts = {}
       opts.currencyCode = argv[0]
     }
 
@@ -166,12 +167,13 @@ command(
       throw new Error('Call tx-make-engine first')
     }
 
-    let currencyCode
+    let opts = null
     if (argv.length > 0) {
-      currencyCode = argv[0]
+      opts = {}
+      opts.currencyCode = argv[0]
     }
     return session.currencyWallet
-      .getTransactions({ currencyCode })
+      .getTransactions(opts)
       .then(txs => {
         console.log(`got ${txs.length} transactions`)
         return txs.forEach(tx => console.log(tx))
@@ -254,19 +256,17 @@ command(
     if (argv.length < 2 || argv.length > 3) throw new UsageError(this)
     const address = argv[0]
     const amount = argv[1]
-    let currencyCode
+    const spendTarget = {
+      publicAddress: address,
+      amountSatoshi: amount
+    }
+
     if (argv.length > 2) {
-      currencyCode = argv[2]
+      spendTarget.currencyCode = argv[2]
     }
 
     const spend = {
-      spendTargets: [
-        {
-          currencyCode,
-          publicAddress: address,
-          amountSatoshi: amount
-        }
-      ],
+      spendTargets: [ spendTarget ],
       networkFeeOption: 'standard'
     }
 

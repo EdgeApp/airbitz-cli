@@ -45,7 +45,11 @@ airbitz-core-js@^0.3.1:
 "airbitz-currency-ethereum@file:../airbitz-currency-ethereum":
   version "0.0.1"
   dependencies:
+    bn.js "^4.11.7"
+    buffer "^5.0.6"
     ethereumjs-wallet "file:../ethereumjs-wallet"
+    jsonschema "^1.1.1"
+    sprintf-js "^1.1.1"
 
 "airbitz-currency-shitcoin@file:../airbitz-currency-shitcoin":
   version "0.1.1"
@@ -161,7 +165,7 @@ bl@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
-bn.js@^4.11.3, bn.js@^4.8.0:
+bn.js@^4.11.3, bn.js@^4.11.7, bn.js@^4.8.0:
   version "4.11.7"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.7.tgz#ddb048e50d9482790094c13eb3fcfc833ce7ab46"
 
@@ -903,6 +907,10 @@ jsonpointer@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/jsonpointer/-/jsonpointer-4.0.1.tgz#4fd92cb34e0e9db3c89c8622ecf51f9b978c6cb9"
 
+jsonschema@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/jsonschema/-/jsonschema-1.1.1.tgz#3cede8e3e411d377872eefbc9fdf26383cbc3ed9"
+
 keccakjs@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/keccakjs/-/keccakjs-0.2.1.tgz#1d633af907ef305bbf9f2fa616d56c44561dfa4d"
@@ -1341,6 +1349,10 @@ source-map-support@^0.4.0, source-map-support@^0.4.14:
 source-map@^0.5.6:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
+
+sprintf-js@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.1.1.tgz#36be78320afe5801f6cea3ee78b6e5aab940ea0c"
 
 sprintf-js@~1.0.2:
   version "1.0.3"
