@@ -14,8 +14,8 @@ import readline from 'readline'
 import xdgBasedir from 'xdg-basedir'
 
 // Airbitz context stuff:
-import { internal, makeContext, PasswordError } from 'airbitz-core-js'
-import { makeNodeIo } from 'airbitz-io-node-js'
+import { internal, PasswordError } from 'airbitz-core-js'
+import { makeNodeContext } from 'airbitz-io-node-js'
 const { rejectify } = internal
 
 // Display the original source location for errors:
@@ -169,11 +169,11 @@ function makeSession (config, cmd = null) {
       : './airbitz'
   }
 
-  session.context = makeContext({
-    appId: config.appId,
+  session.context = makeNodeContext({
     apiKey: config.apiKey,
+    appId: config.appId,
     authServer: config.authServer,
-    io: makeNodeIo(directory)
+    path: directory
   })
 
   return session
