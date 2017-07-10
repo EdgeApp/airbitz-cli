@@ -5,7 +5,9 @@ login system and wallet.
 
 Install the CLI globally using `npm install -g airbitz-cli`.
 
-You can see documentation by running `airbitz-cli help`
+You can see documentation by running `airbitz-cli help`.
+
+Please note: There is a bug in `yarn` which prevents it from working with this repository. Use `npm` instead.
 
 ## Developing
 

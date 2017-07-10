@@ -27,8 +27,8 @@
   ],
   "dependencies": {
     "airbitz-core-js": "^0.3.2",
-    "airbitz-currency-ethereum": "file:../airbitz-currency-ethereum",
-    "airbitz-currency-shitcoin": "file:../airbitz-currency-shitcoin",
+    "airbitz-currency-ethereum": "git+ssh://git@github.com/Airbitz/airbitz-currency-ethereum.git#4d6038679d8e8d51ce5c97d720bebcfd33944d44",
+    "airbitz-currency-shitcoin": "git+ssh://git@github.com/Airbitz/airbitz-currency-shitcoin.git#d0e2b4b40a95f450c94d8dae757b86a6e2a517bf",
     "airbitz-io-node-js": "^0.3.0",
     "chalk": "^1.1.3",
     "lib-cmdparse": "^0.1.0",
@@ -50,6 +50,6 @@
     "build": "rollup -c && rollup -c rollup.config.node.js",
     "lint": "eslint '*.js' 'src/**/*.js'",
     "precommit": "npm run lint",
-    "prepublish": "npm run lint && npm run build"
+    "prepare": "npm run lint && npm run build"
   }
 }
