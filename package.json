@@ -29,6 +29,7 @@
     "airbitz-core-js": "git+ssh://git@github.com/Airbitz/airbitz-core-js.git",
     "airbitz-currency-ethereum": "git+ssh://git@github.com/Airbitz/airbitz-currency-ethereum.git",
     "airbitz-currency-shitcoin": "git+ssh://git@github.com/Airbitz/airbitz-currency-shitcoin.git",
+    "airbitz-exchange-plugins": "git+ssh://git@github.com/Airbitz/airbitz-exchange-plugins.git",
     "airbitz-io-node-js": "^0.3.0",
     "chalk": "^1.1.3",
     "lib-cmdparse": "^0.1.0",

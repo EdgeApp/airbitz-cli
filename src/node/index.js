@@ -14,7 +14,12 @@ import readline from 'readline'
 import xdgBasedir from 'xdg-basedir'
 
 // Airbitz context stuff:
+import {
+  shitcoinCurrencyPlugin,
+  shitcoinExchangePlugin
+} from 'airbitz-currency-shitcoin'
 import { internal, PasswordError } from 'airbitz-core-js'
+import { coinbasePlugin, shapeshiftPlugin } from 'airbitz-exchange-plugins'
 import { makeNodeContext } from 'airbitz-io-node-js'
 const { rejectify } = internal
 
@@ -176,7 +181,13 @@ function makeSession (config, cmd = null) {
     apiKey: config.apiKey,
     appId: config.appId,
     authServer: config.authServer,
-    path: directory
+    path: directory,
+    plugins: [
+      coinbasePlugin,
+      shapeshiftPlugin,
+      shitcoinCurrencyPlugin,
+      shitcoinExchangePlugin
+    ]
   })
 
   return session

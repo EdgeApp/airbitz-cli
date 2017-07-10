@@ -1,4 +1,5 @@
 import './edge.js'
+import './exchange.js'
 import './help.js'
 import './keys.js'
 import './login.js'
