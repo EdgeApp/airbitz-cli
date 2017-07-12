@@ -1,6 +1,7 @@
 import { command, UsageError } from '../command.js'
 import { makeShitcoinPlugin } from 'airbitz-currency-shitcoin'
 import { makeEthereumPlugin } from 'airbitz-currency-ethereum'
+import { makeBitcoinPlugin } from 'airbitz-currency-bitcoin'
 
 /**
  * Ensures that the session contains a shitcoin plugin, if it doesn't aready.
@@ -17,6 +18,11 @@ function makePlugin (session) {
   }
   if (session.currencyPlugins.ethereum == null) {
     session.currencyPlugins.ethereum = makeEthereumPlugin({
+      io: session.context.io
+    })
+  }
+  if (session.currencyPlugins.bitcoin == null) {
+    session.currencyPlugins.bitcoin = makeBitcoinPlugin({
       io: session.context.io
     })
   }
