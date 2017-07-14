@@ -286,3 +286,21 @@ command(
       })
   }
 )
+
+command(
+  'tx-enable-tokens',
+  {
+    usage: '<currencyCode> <currencyCode> ...',
+    help: 'Enable token support',
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (session.currencyWallet == null) {
+      throw new Error('Call tx-make-engine first')
+    }
+    if (argv.length < 1) throw new UsageError(this)
+
+    session.currencyWallet.enableTokens(argv)
+    return true
+  }
+)
