@@ -258,7 +258,7 @@ command(
     const amount = argv[1]
     const spendTarget = {
       publicAddress: address,
-      amountSatoshi: amount
+      amountSatoshi: parseInt(amount)
     }
 
     if (argv.length > 2) {
@@ -270,11 +270,9 @@ command(
       networkFeeOption: 'standard'
     }
 
-    return session.currencyWallet
-      .makeSpend(spend)
-      .then(tx => {
-        return session.currencyWallet.signTx(tx)
-      })
+    const tx = session.currencyWallet.makeSpend(spend)
+
+    return session.currencyWallet.signTx(tx)
       .then(tx => {
         return session.currencyWallet.broadcastTx(tx)
       })
