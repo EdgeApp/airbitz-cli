@@ -25,7 +25,7 @@ function makePlugin (session) {
 command(
   'tx-info',
   {
-    usage: '',
+    usage: '<plugin>',
     help: 'Get info on the currency plugin',
     needsContext: true
   },
@@ -42,7 +42,7 @@ command(
 command(
   'tx-make-engine',
   {
-    usage: '',
+    usage: '<plugin> <walletType>',
     help: 'Creates an blockchain engine for the selected wallet',
     needsContext: true
   },
@@ -133,7 +133,7 @@ command(
 command(
   'tx-balance',
   {
-    usage: '<currencyCode>',
+    usage: '[<currencyCode>]',
     help: 'Gets the wallet balance',
     needsContext: true
   },
@@ -245,7 +245,7 @@ command(
 command(
   'tx-spend',
   {
-    usage: '<address> <amount> <currencyCode>',
+    usage: '<address> <amount> [<currencyCode>]',
     help: 'Sends money to an address',
     needsContext: true
   },
