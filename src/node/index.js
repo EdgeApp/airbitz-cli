@@ -112,6 +112,9 @@ function logError (e) {
         console.error(`Please try again in ${e.wait} seconds`)
       }
       break
+    default:
+      console.error(chalk.dim(e.stack.replace(/.*\n/, '')))
+      break
   }
 }
 
