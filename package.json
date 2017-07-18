@@ -2,21 +2,14 @@
   "name": "airbitz-cli",
   "version": "0.3.2",
   "description": "Airbitz CLI tool",
-  "url": "https://airbitz.co",
+  "homepage": "https://airbitz.co",
+  "license": "SEE LICENSE IN LICENSE",
   "author": "Airbitz, Inc.",
   "contributors": [
     "Paul Puey <paul@airbitz.co>",
     "William Swanson <william@airbitz.co>",
     "Tim Horton <tim@airbitz.co>"
   ],
-  "license": "SEE LICENSE IN LICENSE",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:Airbitz/airbitz-cli.git"
-  },
-  "bin": "bin/airbitz-cli",
-  "main": "lib/index.cjs.js",
-  "module": "lib/index.es.js",
   "files": [
     "bin/*",
     "changelog.md",
@@ -25,6 +18,19 @@
     "package.json",
     "readme.md"
   ],
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "bin": "bin/airbitz-cli",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Airbitz/airbitz-cli.git"
+  },
+  "scripts": {
+    "build": "rollup -c && rollup -c rollup.config.node.js",
+    "precommit": "npm run lint",
+    "lint": "eslint '*.js' 'src/**/*.js'",
+    "prepare": "npm run lint && npm run build"
+  },
   "dependencies": {
     "airbitz-core-js": "git+ssh://git@github.com/Airbitz/airbitz-core-js.git",
     "airbitz-currency-ethereum": "git+ssh://git@github.com/Airbitz/airbitz-currency-ethereum.git",
@@ -46,11 +52,5 @@
     "husky": "^0.13.3",
     "rollup": "^0.41.6",
     "rollup-plugin-buble": "^0.15.0"
-  },
-  "scripts": {
-    "build": "rollup -c && rollup -c rollup.config.node.js",
-    "lint": "eslint '*.js' 'src/**/*.js'",
-    "precommit": "npm run lint",
-    "prepare": "npm run lint && npm run build"
   }
 }
