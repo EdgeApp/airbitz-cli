@@ -1,25 +1,34 @@
 import { command, UsageError } from '../command.js'
-import { makeShitcoinPlugin } from 'airbitz-currency-shitcoin'
-import { makeEthereumPlugin } from 'airbitz-currency-ethereum'
+import { ShitcoinPlugin } from 'airbitz-currency-shitcoin'
+import { EthereumPlugin } from 'airbitz-currency-ethereum'
 
 /**
  * Ensures that the session contains a shitcoin plugin, if it doesn't aready.
  * This needs to happen once when the app first boots.
  */
-function makePlugin (session) {
-  if (session.currencyPlugins == null) {
+function makePlugins (session) {
+  if (!session.currencyPlugins) {
     session.currencyPlugins = {}
   }
-  if (session.currencyPlugins.shitcoin == null) {
-    session.currencyPlugins.shitcoin = makeShitcoinPlugin({
+  const promiseArray = []
+  if (!session.currencyPlugins.shitcoin) {
+    const p = ShitcoinPlugin.makePlugin({
       io: session.context.io
     })
+    promiseArray.push(p)
   }
-  if (session.currencyPlugins.ethereum == null) {
-    session.currencyPlugins.ethereum = makeEthereumPlugin({
+  if (!session.currencyPlugins.ethereum) {
+    const p = EthereumPlugin.makePlugin({
       io: session.context.io
     })
+    promiseArray.push(p)
   }
+
+  return Promise.all(promiseArray).then(result => {
+    session.currencyPlugins.shitcoin = result[0]
+    session.currencyPlugins.ethereum = result[1]
+    return 0
+  })
 }
 
 command(
@@ -31,11 +40,10 @@ command(
   },
   function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
-    makePlugin(session)
-
-    console.log(session.currencyPlugins[argv[0]].getInfo())
-
-    return Promise.resolve()
+    makePlugins(session).then(() => {
+      console.log(session.currencyPlugins[argv[0]].getInfo())
+      return 0
+    })
   }
 )
 
@@ -43,54 +51,53 @@ command(
   'tx-make-engine',
   {
     usage: '<plugin> <walletType>',
-    help: 'Creates an blockchain engine for the selected wallet',
+    help: 'Creates a blockchain engine for the selected wallet',
     needsContext: true
   },
   function (console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
-    makePlugin(session)
+    makePlugins(session).then(() => {
+      const walletType = argv[1]
 
-    const walletType = argv[1]
+      const masterKeys = session.currencyPlugins[argv[0]].createMasterKeys(walletType)
 
-    const masterKeys = session.currencyPlugins[argv[0]].createMasterKeys(walletType)
-
-    // Hard coded private keys for ease of development
-    // (Otherwise you would have to do a full login on each refresh):
-    const keyInfo = {
-      id: '33LtiHFcFoXqhdrX61zOVut6QzVCBVl8LvChK1HneTc=',
-      type: 'wallet:' + walletType,
-      keys: masterKeys
-    }
-
-    const callbacks = {
-      onAddressesChecked (progressRatio) {
-        console.log('onAddressesCheck', progressRatio)
-      },
-      onBalanceChanged (balance) {
-        console.log('onBalanceChange', balance)
-      },
-      onBlockHeightChanged (height) {
-        console.log('onBlockHeightChange', height)
-      },
-      onNewTransactions (transactionList) {
-        console.log('onNewTransactions')
-        console.log(transactionList)
-      },
-      onTransactionsChanged (transactionList) {
-        console.log('onTransactionsChanged')
-        console.log(transactionList)
+      // Hard coded private keys for ease of development
+      // (Otherwise you would have to do a full login on each refresh):
+      const keyInfo = {
+        id: '33LtiHFcFoXqhdrX61zOVut6QzVCBVl8LvChK1HneTc=',
+        type: 'wallet:' + walletType,
+        keys: masterKeys
       }
-    }
 
-    // Actually make the engine:
-    session.currencyWallet = session.currencyPlugins[argv[0]].makeEngine(keyInfo, {
-      pluginFolder: session.context.io.folder.folder('pluginFolder'),
-      walletFolder: session.context.io.folder.folder('walletFolder'),
-      walletLocalFolder: session.context.io.folder.folder('walletLocalFolder'),
-      callbacks
+      const callbacks = {
+        onAddressesChecked (progressRatio) {
+          console.log('onAddressesCheck', progressRatio)
+        },
+        onBalanceChanged (currencyCode, balance) {
+          console.log('onBalanceChange:' + currencyCode + ' ' + balance)
+        },
+        onBlockHeightChanged (height) {
+          console.log('onBlockHeightChange', height)
+        },
+        onNewTransactions (transactionList) {
+          console.log('onNewTransactions')
+          console.log(transactionList)
+        },
+        onTransactionsChanged (transactionList) {
+          console.log('onTransactionsChanged')
+          console.log(transactionList)
+        }
+      }
+
+      // Actually make the engine:
+      session.currencyWallet = session.currencyPlugins[argv[0]].makeEngine(keyInfo, {
+        pluginFolder: session.context.io.folder.folder('pluginFolder'),
+        walletFolder: session.context.io.folder.folder('walletFolder'),
+        walletLocalFolder: session.context.io.folder.folder('walletLocalFolder'),
+        callbacks
+      })
+      return 0
     })
-
-    return Promise.resolve()
   }
 )
 
@@ -102,12 +109,17 @@ command(
     needsContext: true
   },
   function (console, session, argv) {
-    if (argv.length !== 0) throw new UsageError(this)
-    if (session.currencyWallet == null) {
+    if (argv.length > 2) throw new UsageError(this)
+    if (!session.currencyWallet) {
       throw new Error('Call tx-make-engine first')
     }
 
-    const ret = session.currencyWallet.startEngine()
+    const opts = {}
+    if (argv.length === 2) {
+      opts[argv[0]] = argv[1]
+    }
+
+    const ret = session.currencyWallet.startEngine(opts)
     return ret
   }
 )
@@ -182,10 +194,10 @@ command(
 )
 
 command(
-  'tx-address',
+  'tx-get-address',
   {
     usage: '',
-    help: 'Gets a fresh address from the watcher',
+    help: 'Gets a fresh, unused address from the txlib',
     needsContext: true
   },
   function (console, session, argv) {
@@ -202,20 +214,19 @@ command(
 )
 
 command(
-  'tx-address-lock',
+  'tx-add-gap-addresses',
   {
-    usage: '<address>',
-    help: "Marks an address as used, so it won't be shown again",
+    usage: '<address> <address> ...',
+    help: 'Marks addresses as used and increases the gap limit',
     needsContext: true
   },
   function (console, session, argv) {
     if (session.currencyWallet == null) {
       throw new Error('Call tx-make-engine first')
     }
-    if (argv.length !== 1) throw new UsageError(this)
-    const address = argv[0]
+    if (argv.length < 1) throw new UsageError(this)
 
-    session.currencyWallet.addGapLimitAddresses([address], {})
+    session.currencyWallet.addGapLimitAddresses(argv, {})
     console.log('done')
 
     return Promise.resolve()
@@ -223,7 +234,7 @@ command(
 )
 
 command(
-  'tx-address-state',
+  'tx-is-address-used',
   {
     usage: '<address>',
     help: 'Gets the state of an address',
@@ -258,7 +269,7 @@ command(
     const amount = argv[1]
     const spendTarget = {
       publicAddress: address,
-      amountSatoshi: parseInt(amount)
+      nativeAmount: amount
     }
 
     if (argv.length > 2) {
@@ -270,9 +281,10 @@ command(
       networkFeeOption: 'standard'
     }
 
-    const tx = session.currencyWallet.makeSpend(spend)
-
-    return session.currencyWallet.signTx(tx)
+    session.currencyWallet.makeSpend(spend)
+      .then(tx => {
+        return session.currencyWallet.signTx(tx)
+      })
       .then(tx => {
         return session.currencyWallet.broadcastTx(tx)
       })
@@ -280,7 +292,8 @@ command(
         return session.currencyWallet.saveTx(tx)
       })
       .then(tx => {
-        return console.log('done spending')
+        console.log('done spending')
+        return console.log(tx)
       })
   }
 )
