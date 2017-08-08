@@ -3,32 +3,30 @@ import { ShitcoinPlugin } from 'airbitz-currency-shitcoin'
 import { EthereumPlugin } from 'airbitz-currency-ethereum'
 
 /**
- * Ensures that the session contains a shitcoin plugin, if it doesn't aready.
+ * Ensures that the session contains a shitcoin plugin, if it doesn't already.
  * This needs to happen once when the app first boots.
  */
 function makePlugins (session) {
   if (!session.currencyPlugins) {
     session.currencyPlugins = {}
-  }
-  const promiseArray = []
-  if (!session.currencyPlugins.shitcoin) {
-    const p = ShitcoinPlugin.makePlugin({
+    const promiseArray = []
+    let p = ShitcoinPlugin.makePlugin({
       io: session.context.io
     })
     promiseArray.push(p)
-  }
-  if (!session.currencyPlugins.ethereum) {
-    const p = EthereumPlugin.makePlugin({
+    p = EthereumPlugin.makePlugin({
       io: session.context.io
     })
     promiseArray.push(p)
-  }
 
-  return Promise.all(promiseArray).then(result => {
-    session.currencyPlugins.shitcoin = result[0]
-    session.currencyPlugins.ethereum = result[1]
-    return 0
-  })
+    return Promise.all(promiseArray).then(result => {
+      session.currencyPlugins.shitcoin = result[0]
+      session.currencyPlugins.ethereum = result[1]
+      return 0
+    })
+  } else {
+    return Promise.resolve(0)
+  }
 }
 
 command(
@@ -41,7 +39,7 @@ command(
   function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     makePlugins(session).then(() => {
-      console.log(session.currencyPlugins[argv[0]].getInfo())
+      console.log(session.currencyPlugins[argv[0]].currencyInfo)
       return 0
     })
   }
