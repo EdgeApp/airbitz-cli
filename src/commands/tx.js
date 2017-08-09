@@ -54,6 +54,23 @@ command(
 )
 
 command(
+  'tx-parseuri',
+  {
+    usage: '<plugin> <uri>',
+    help: 'Parse a given URI',
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (argv.length !== 2) throw new UsageError(this)
+    makePlugins(session).then(() => {
+      const parsedUri = session.currencyPlugins[argv[0]].parseUri(argv[1])
+      console.log(parsedUri)
+      return 0
+    })
+  }
+)
+
+command(
   'tx-make-engine',
   {
     usage: '<plugin> <walletType>',
