@@ -29,7 +29,7 @@ function makePlugins (session) {
     return Promise.all(promiseArray).then(result => {
       session.currencyPlugins.shitcoin = result[0]
       // session.currencyPlugins.ethereum = result[1]
-      session.currencyPlugins.dash = result[2]
+      session.currencyPlugins.dash = result[1]
       return 0
     })
   } else {
