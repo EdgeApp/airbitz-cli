@@ -1,6 +1,6 @@
 import { command, UsageError } from '../command.js'
 import { ShitcoinPlugin } from 'airbitz-currency-shitcoin'
-import { EthereumPlugin } from 'airbitz-currency-ethereum'
+// import { EthereumPlugin } from 'airbitz-currency-ethereum'
 import { DashPlugin } from 'airbitz-currency-dash'
 
 /**
@@ -16,10 +16,10 @@ function makePlugins (session) {
     })
     promiseArray.push(p)
 
-    p = EthereumPlugin.makePlugin({
-      io: session.context.io
-    })
-    promiseArray.push(p)
+    // p = EthereumPlugin.makePlugin({
+    //   io: session.context.io
+    // })
+    // promiseArray.push(p)
 
     p = DashPlugin.makePlugin({
       io: session.context.io
@@ -28,7 +28,7 @@ function makePlugins (session) {
 
     return Promise.all(promiseArray).then(result => {
       session.currencyPlugins.shitcoin = result[0]
-      session.currencyPlugins.ethereum = result[1]
+      // session.currencyPlugins.ethereum = result[1]
       session.currencyPlugins.dash = result[2]
       return 0
     })
