@@ -35,6 +35,7 @@
   "dependencies": {
     "airbitz-core-js": "git+ssh://git@github.com/Airbitz/airbitz-core-js.git",
     "airbitz-currency-dash": "git+ssh://git@github.com/Airbitz/airbitz-currency-dash.git",
+    "airbitz-currency-bitcoin": "git+ssh://git@github.com/Airbitz/airbitz-currency-bitcoin.git#newCliAPI",
     "airbitz-currency-ethereum": "git+ssh://git@github.com/Airbitz/airbitz-currency-ethereum.git",
     "airbitz-currency-shitcoin": "git+ssh://git@github.com/Airbitz/airbitz-currency-shitcoin.git",
     "airbitz-exchange-plugins": "git+ssh://git@github.com/Airbitz/airbitz-exchange-plugins.git",
