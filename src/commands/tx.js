@@ -1,47 +1,25 @@
 import { command, UsageError } from '../command.js'
 import { ShitcoinPlugin } from 'airbitz-currency-shitcoin'
+import { EthereumPlugin } from 'airbitz-currency-ethereum'
 import { BitcoinPlugin } from 'airbitz-currency-bitcoin'
-// import { EthereumPlugin } from 'airbitz-currency-ethereum'
-import { DashPlugin } from 'airbitz-currency-dash'
 
 /**
  * Ensures that the session contains a shitcoin plugin, if it doesn't already.
  * This needs to happen once when the app first boots.
  */
 function makePlugins (session) {
-  if (!session.currencyPlugins) {
-    session.currencyPlugins = {}
-    const promiseArray = []
-    let p = ShitcoinPlugin.makePlugin({
-      io: session.context.io
-    })
-    promiseArray.push(p)
+  if (session.currencyPlugins) return Promise.resolve(0)
+  session.currencyPlugins = {}
+  const pluginArray = []
+  pluginArray.push(ShitcoinPlugin)
+  pluginArray.push(EthereumPlugin)
+  pluginArray.push(BitcoinPlugin)
+  const promiseArray = pluginArray.map(plugin => plugin.makePlugin({ io: session.context.io }))
 
-    // p = EthereumPlugin.makePlugin({
-    //   io: session.context.io
-    // })
-    // promiseArray.push(p)
-
-    p = DashPlugin.makePlugin({
-      io: session.context.io
-    })
-    promiseArray.push(p)
-
-    p = BitcoinPlugin.makePlugin({
-      io: session.context.io
-    })
-    promiseArray.push(p)
-
-    return Promise.all(promiseArray).then(result => {
-      session.currencyPlugins.shitcoin = result[0]
-      // session.currencyPlugins.ethereum = result[1]
-      session.currencyPlugins.dash = result[1]
-      session.currencyPlugins.bitcoin = result[2]
-      return 0
-    })
-  } else {
-    return Promise.resolve(0)
-  }
+  return Promise.all(promiseArray).then(result => {
+    result.forEach(mp => (session.currencyPlugins[mp.pluginName] = mp))
+    return 0
+  })
 }
 
 command(
@@ -78,6 +56,71 @@ command(
 )
 
 command(
+  'tx-encodeuri',
+  {
+    usage: '<plugin> <address> <amount> <label> <message>',
+    help: 'Parse a given URI',
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (argv.length < 2) throw new UsageError(this)
+    makePlugins(session).then(() => {
+      const obj = {
+        publicAddress: argv[1]
+      }
+      if (argv.length > 2) {
+        obj.nativeAmount = argv[2]
+      }
+      if (argv.length > 3) {
+        obj.label = argv[3]
+      }
+      if (argv.length > 4) {
+        obj.message = argv[4]
+      }
+
+      const encodedUri = session.currencyPlugins[argv[0]].encodeUri(obj)
+      console.log(encodedUri)
+      return 0
+    })
+  }
+)
+
+command(
+  'tx-create-private-key',
+  {
+    usage: '<plugin> <walletType>',
+    help: 'Create a master private key for a new wallet',
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (argv.length < 2) throw new UsageError(this)
+    makePlugins(session).then(() => {
+      const walletInfo = session.currencyPlugins[argv[0]].createPrivateKey(argv[1])
+      console.log(walletInfo)
+      return 0
+    })
+  }
+)
+
+command(
+  'tx-derive-public-key',
+  {
+    usage: '<plugin> <walletInfoJson>',
+    help: 'Create a master private key for a new wallet',
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (argv.length < 2) throw new UsageError(this)
+    makePlugins(session).then(() => {
+      const walletInfoIn = JSON.parse(argv[1])
+      const walletInfoOut = session.currencyPlugins[argv[0]].derivePublicKey(walletInfoIn)
+      console.log(walletInfoOut)
+      return 0
+    })
+  }
+)
+
+command(
   'tx-make-engine',
   {
     usage: '<plugin> <walletType>',
@@ -87,16 +130,22 @@ command(
   function (console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     makePlugins(session).then(() => {
-      const walletType = argv[1]
+      const type = argv[1]
 
-      const masterKeys = session.currencyPlugins[argv[0]].createMasterKeys(walletType)
+      const privateKeys = session.currencyPlugins[argv[0]].createPrivateKey(type)
+      console.log(privateKeys)
+      const walletInfo = { keys: privateKeys, type }
+
+      const publicKeys = session.currencyPlugins[argv[0]].derivePublicKey(walletInfo)
+      console.log(publicKeys)
 
       // Hard coded private keys for ease of development
       // (Otherwise you would have to do a full login on each refresh):
-      const keyInfo = {
+      const keys = Object.assign({}, privateKeys, publicKeys)
+      const walletInfoOut = {
         id: '33LtiHFcFoXqhdrX61zOVut6QzVCBVl8LvChK1HneTc=',
-        type: 'wallet:' + walletType,
-        keys: masterKeys
+        type: 'wallet:' + type,
+        keys
       }
 
       const callbacks = {
@@ -120,12 +169,13 @@ command(
       }
 
       // Actually make the engine:
-      session.currencyWallet = session.currencyPlugins[argv[0]].makeEngine(keyInfo, {
+      session.currencyWallet = session.currencyPlugins[argv[0]].makeEngine(walletInfoOut, {
         pluginFolder: session.context.io.folder.folder('pluginFolder'),
         walletFolder: session.context.io.folder.folder('walletFolder'),
         walletLocalFolder: session.context.io.folder.folder('walletLocalFolder'),
         callbacks
       })
+      console.log(session.currencyWallet)
       return 0
     })
   }
