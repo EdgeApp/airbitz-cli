@@ -1,6 +1,6 @@
 import { command, UsageError } from '../command.js'
-import { ShitcoinPlugin } from 'airbitz-currency-shitcoin'
-import { EthereumPlugin } from 'airbitz-currency-ethereum'
+import { ShitcoinCurrencyPluginFactory } from 'airbitz-currency-shitcoin'
+import { EthereumCurrencyPluginFactory } from 'airbitz-currency-ethereum'
 
 /**
  * Ensures that the session contains a shitcoin plugin, if it doesn't already.
@@ -11,11 +11,12 @@ function makePlugins (session) {
     session.currencyPlugins = {}
     const pluginArray = []
     const promiseArray = []
-    pluginArray.push(ShitcoinPlugin)
-    pluginArray.push(EthereumPlugin)
+    // pluginArray.push(ShitcoinPlugin)
+    pluginArray.push(EthereumCurrencyPluginFactory)
+    pluginArray.push(ShitcoinCurrencyPluginFactory)
 
-    for (const plugin of pluginArray) {
-      const p = plugin.makePlugin({
+    for (const pluginFactory of pluginArray) {
+      const p = pluginFactory.makePlugin({
         io: session.context.io
       })
       promiseArray.push(p)
