@@ -13,7 +13,10 @@ command(
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyRequest = JSON.parse(argv[0])
 
-    return makeLobby(session.context.io, lobbyRequest).then(lobby => {
+    return makeLobby(
+      session.context.internalUnitTestingHack,
+      lobbyRequest
+    ).then(lobby => {
       console.log('Created lobby ' + lobby.lobbyId)
       return new Promise((resolve, reject) => {
         const subscription = lobby.subscribe(reply => {
