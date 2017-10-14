@@ -1,5 +1,10 @@
 # airbitz-cli
 
+## 0.3.3
+
+* Fix a crash on startup
+* Fix the `username-hash` command
+
 ## 0.3.2
 
 * Export the CLI commands as a library
