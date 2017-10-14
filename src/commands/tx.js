@@ -1,5 +1,4 @@
 import { command, UsageError } from '../command.js'
-import { ShitcoinCurrencyPluginFactory } from 'airbitz-currency-shitcoin'
 import { EthereumCurrencyPluginFactory } from 'airbitz-currency-ethereum'
 
 /**
@@ -13,7 +12,6 @@ function makePlugins (session) {
     const promiseArray = []
     // pluginArray.push(ShitcoinPlugin)
     pluginArray.push(EthereumCurrencyPluginFactory)
-    pluginArray.push(ShitcoinCurrencyPluginFactory)
 
     for (const pluginFactory of pluginArray) {
       const p = pluginFactory.makePlugin({

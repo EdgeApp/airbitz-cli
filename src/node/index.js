@@ -14,10 +14,6 @@ import readline from 'readline'
 import xdgBasedir from 'xdg-basedir'
 
 // Airbitz context stuff:
-import {
-  shitcoinCurrencyPlugin,
-  shitcoinExchangePlugin
-} from 'airbitz-currency-shitcoin'
 import { internal, PasswordError } from 'airbitz-core-js'
 import { coinbasePlugin, shapeshiftPlugin } from 'airbitz-exchange-plugins'
 import { makeNodeContext } from 'airbitz-io-node-js'
@@ -172,9 +168,8 @@ function makeSession (config, cmd = null) {
   }
   let directory = config.directory
   if (directory == null) {
-    directory = xdgBasedir.config != null
-      ? xdgBasedir.config + '/airbitz'
-      : './airbitz'
+    directory =
+      xdgBasedir.config != null ? xdgBasedir.config + '/airbitz' : './airbitz'
   }
 
   session.context = makeNodeContext({
@@ -182,12 +177,7 @@ function makeSession (config, cmd = null) {
     appId: config.appId,
     authServer: config.authServer,
     path: directory,
-    plugins: [
-      coinbasePlugin,
-      shapeshiftPlugin,
-      shitcoinCurrencyPlugin,
-      shitcoinExchangePlugin
-    ]
+    plugins: [coinbasePlugin, shapeshiftPlugin]
   })
 
   return session
@@ -283,9 +273,10 @@ function main () {
     return runPrompt(rl, session)
   } else {
     // Look up the command:
-    const cmd = opt.options['help'] || !opt.argv.length
-      ? helpCommand
-      : findCommand(opt.argv.shift())
+    const cmd =
+      opt.options['help'] || !opt.argv.length
+        ? helpCommand
+        : findCommand(opt.argv.shift())
 
     // Set up the session:
     return prepareSession(config, cmd).then(session => {
