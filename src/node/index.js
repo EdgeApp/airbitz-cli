@@ -15,7 +15,7 @@ import xdgBasedir from 'xdg-basedir'
 
 // Airbitz context stuff:
 import { internal, PasswordError } from 'airbitz-core-js'
-import { coinbasePlugin, shapeshiftPlugin } from 'airbitz-exchange-plugins'
+import { coinbasePlugin, shapeshiftPlugin } from 'edge-exchange-plugins'
 import { makeNodeContext } from 'airbitz-io-node-js'
 const { rejectify } = internal
 
