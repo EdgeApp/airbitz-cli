@@ -33,7 +33,7 @@
     "prepare": "npm run lint && npm run build"
   },
   "dependencies": {
-    "airbitz-core-js": "git+ssh://git@github.com/Airbitz/airbitz-core-js.git",
+    "airbitz-core-js": "git+ssh://git@github.com/Airbitz/airbitz-core-js.git#develop",
     "airbitz-currency-dash": "git+ssh://git@github.com/Airbitz/airbitz-currency-dash.git",
     "airbitz-currency-ethereum": "git+ssh://git@github.com/Airbitz/airbitz-currency-ethereum.git#develop",
     "airbitz-exchange-plugins": "git+ssh://git@github.com/Airbitz/airbitz-exchange-plugins.git",
