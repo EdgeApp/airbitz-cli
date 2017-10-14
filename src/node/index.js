@@ -15,7 +15,6 @@ import xdgBasedir from 'xdg-basedir'
 
 // Airbitz context stuff:
 import { internal, PasswordError } from 'airbitz-core-js'
-import { coinbasePlugin, shapeshiftPlugin } from 'airbitz-exchange-plugins'
 import { makeNodeContext } from 'airbitz-io-node-js'
 const { rejectify } = internal
 
@@ -177,7 +176,7 @@ function makeSession (config, cmd = null) {
     appId: config.appId,
     authServer: config.authServer,
     path: directory,
-    plugins: [coinbasePlugin, shapeshiftPlugin]
+    plugins: []
   })
 
   return session
