@@ -1,4 +1,6 @@
 import { command, UsageError } from '../command.js'
+import { internal } from 'airbitz-core-js'
+const { authRequest } = internal
 
 command(
   'auth-fetch',
@@ -21,8 +23,9 @@ command(
       }
     }
 
-    return session.context.io
-      .authRequest(...parseArgs(argv))
-      .then(reply => console.log(JSON.stringify(reply, null, 2)))
+    const ai = session.context.internalUnitTestingHack()
+    return authRequest(ai, ...parseArgs(argv)).then(reply =>
+      console.log(reply)
+    )
   }
 )
