@@ -69,7 +69,8 @@ command(
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
-    return hashUsername(session.context.io, username).then(hash => {
+    const ai = session.context.internalUnitTestingHack()
+    return hashUsername(ai, username).then(hash => {
       console.log('base64', base64.stringify(hash))
       console.log('base58', base58.stringify(hash))
       return null
