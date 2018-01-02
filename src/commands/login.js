@@ -59,6 +59,24 @@ command(
 )
 
 command(
+  'logout',
+  {
+    usage: '',
+    help: 'Logs out of the current account',
+    needsAccount: true
+  },
+  function (console, session, argv) {
+    if (argv.length !== 0) throw new UsageError(this)
+
+    const account = session.account
+    session.account = void 0
+    session.login = void 0
+    session.wallet = void 0
+    return account.logout()
+  }
+)
+
+command(
   'username-hash',
   {
     usage: '<username>',
