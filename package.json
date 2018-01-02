@@ -26,11 +26,12 @@
     "url": "git@github.com:Airbitz/airbitz-cli.git"
   },
   "scripts": {
-    "updot": "updot",
     "build": "rollup -c && rollup -c rollup.config.node.js",
-    "precommit": "npm run lint",
+    "precommit": "lint-staged && npm run build",
+    "format": "import-sort -l --write '*.js' 'src/**/*.js'; prettier-eslint --write '*.js' 'src/**/*.js'",
     "lint": "eslint '*.js' 'src/**/*.js'",
-    "prepare": "npm run lint && npm run build"
+    "prepare": "npm run lint && npm run build",
+    "updot": "updot"
   },
   "dependencies": {
     "airbitz-core-js": "git+ssh://git@github.com/Airbitz/airbitz-core-js.git#develop",
@@ -48,9 +49,26 @@
     "eslint-config-standard": "^7.1.0",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.1.1",
-    "husky": "^0.13.3",
+    "husky": "^0.14.3",
+    "import-sort-cli": "^4.2.0",
+    "import-sort-parser-babylon": "^4.2.0",
+    "import-sort-style-module": "^4.2.0",
+    "lint-staged": "^6.0.0",
+    "prettier-eslint-cli": "^4.7.0",
     "rollup": "^0.41.6",
     "rollup-plugin-buble": "^0.15.0",
     "updot": "^1.0.3"
+  },
+  "importSort": {
+    ".js, .es": {
+      "parser": "babylon",
+      "style": "module"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "import-sort --list-different",
+      "prettier-eslint --list-different"
+    ]
   }
 }

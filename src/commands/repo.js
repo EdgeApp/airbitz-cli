@@ -1,6 +1,8 @@
-import { command, UsageError } from '../command.js'
 import { internal } from 'airbitz-core-js'
 import { base16 } from 'rfc4648'
+
+import { UsageError, command } from '../command.js'
+
 const { Repo } = internal
 
 command(

@@ -1,5 +1,6 @@
-import { command, UsageError } from '../command.js'
 import { internal } from 'airbitz-core-js'
+
+import { UsageError, command } from '../command.js'
 
 const { base64, base58, hashUsername } = internal
 

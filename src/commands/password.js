@@ -1,4 +1,4 @@
-import { command, UsageError } from '../command.js'
+import { UsageError, command } from '../command.js'
 
 command(
   'password-login',

@@ -1,22 +1,21 @@
-// Commands:
-import { command, findCommand, listCommands, UsageError } from '../command.js'
-import { printCommandList } from '../commands/help.js'
 import '../commands/all.js'
 
-// Command-line tools:
-import chalk from 'chalk'
 import fs from 'fs'
-import Getopt from 'node-getopt'
-import parse from 'lib-cmdparse'
 import path from 'path'
-import sourceMapSupport from 'source-map-support'
 import readline from 'readline'
+
+import { PasswordError, internal } from 'airbitz-core-js'
+import { makeNodeContext } from 'airbitz-io-node-js'
+import chalk from 'chalk'
+import { coinbasePlugin, shapeshiftPlugin } from 'edge-exchange-plugins'
+import parse from 'lib-cmdparse'
+import Getopt from 'node-getopt'
+import sourceMapSupport from 'source-map-support'
 import xdgBasedir from 'xdg-basedir'
 
-// Airbitz context stuff:
-import { internal, PasswordError } from 'airbitz-core-js'
-import { coinbasePlugin, shapeshiftPlugin } from 'edge-exchange-plugins'
-import { makeNodeContext } from 'airbitz-io-node-js'
+import { UsageError, command, findCommand, listCommands } from '../command.js'
+import { printCommandList } from '../commands/help.js'
+
 const { rejectify } = internal
 
 // Display the original source location for errors:
@@ -240,7 +239,9 @@ function runPrompt (readline, session) {
     function prompt () {
       readline.question('> ', text => {
         if (/exit/.test(text)) return done()
-        rejectify(runLine)(text, session).catch(logError).then(prompt)
+        rejectify(runLine)(text, session)
+          .catch(logError)
+          .then(prompt)
       })
     }
 
@@ -287,4 +288,6 @@ function main () {
 }
 
 // Invoke the main function with error reporting:
-rejectify(main)().catch(logError).then(() => process.exit(1))
+rejectify(main)()
+  .catch(logError)
+  .then(() => process.exit(1))
