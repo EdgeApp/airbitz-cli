@@ -77,6 +77,21 @@ command(
 )
 
 command(
+  'messages-fetch',
+  {
+    usage: '',
+    help: 'Fetches login messages for all local users',
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (argv.length !== 0) throw new UsageError(this)
+    return session.context
+      .fetchLoginMessages()
+      .then(messages => console.log(messages))
+  }
+)
+
+command(
   'username-hash',
   {
     usage: '<username>',
