@@ -77,3 +77,19 @@ command(
     })
   }
 )
+
+command(
+  'username-list',
+  {
+    usage: '',
+    help: 'Lists the usernames on this device',
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (argv.length !== 0) throw new UsageError(this)
+
+    return session.context
+      .listUsernames()
+      .then(usernames => console.log(usernames))
+  }
+)
