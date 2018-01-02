@@ -6,6 +6,16 @@ import readline from 'readline'
 
 import chalk from 'chalk'
 import { errorNames, internal, makeEdgeContext } from 'edge-core-js'
+import {
+  bitcoinCurrencyPluginFactory,
+  bitcoinTestnetCurrencyPluginFactory,
+  bitcoincashCurrencyPluginFactory,
+  bitcoincashTestnetCurrencyPluginFactory,
+  dashCurrencyPluginFactory,
+  dogecoinCurrencyPluginFactory,
+  litecoinCurrencyPluginFactory
+} from 'edge-currency-bitcoin'
+import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum'
 import { coinbasePlugin, shapeshiftPlugin } from 'edge-exchange-plugins'
 import parse from 'lib-cmdparse'
 import Getopt from 'node-getopt'
@@ -16,6 +26,21 @@ import { UsageError, command, findCommand, listCommands } from '../command.js'
 import { printCommandList } from '../commands/help.js'
 
 const { rejectify } = internal
+
+const plugins = [
+  // Currencies:
+  bitcoinCurrencyPluginFactory,
+  bitcoinTestnetCurrencyPluginFactory,
+  bitcoincashCurrencyPluginFactory,
+  bitcoincashTestnetCurrencyPluginFactory,
+  dashCurrencyPluginFactory,
+  dogecoinCurrencyPluginFactory,
+  ethereumCurrencyPluginFactory,
+  litecoinCurrencyPluginFactory,
+  // Exchange rates:
+  coinbasePlugin,
+  shapeshiftPlugin
+]
 
 // Display the original source location for errors:
 sourceMapSupport.install()
@@ -175,7 +200,7 @@ function makeSession (config, cmd = null) {
     appId: config.appId,
     authServer: config.authServer,
     path: directory,
-    plugins: [coinbasePlugin, shapeshiftPlugin]
+    plugins
   }).then(context => {
     session.context = context
     return session
