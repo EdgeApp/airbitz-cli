@@ -3,18 +3,28 @@ import { UsageError, command } from '../command.js'
 command(
   'wallet-list',
   {
-    help: 'Lists the wallets in an account',
+    help: 'Lists the currency wallets in an account',
     needsAccount: true
   },
   function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
-    session.account.listWalletIds().forEach(id => {
-      const wallet = session.account.getWallet(id)
-      console.log(
-        `$(id) (${wallet.type}) = ${JSON.stringify(wallet.repoKeys, null, 2)}`
-      )
-    })
+    function showWallets (ids) {
+      for (const id of ids) {
+        const { type } = session.account.getWallet(id)
+        const currencyWallet = session.account.currencyWallets[id]
+        if (currencyWallet) {
+          console.log(` ${id} (${type}): "${currencyWallet.name}"`)
+        } else {
+          console.log(` ${id} (${type}) <not loaded>`)
+        }
+      }
+    }
+
+    console.log('Active:')
+    showWallets(session.account.activeWalletIds)
+    console.log('Archived:')
+    showWallets(session.account.archivedWalletIds)
   }
 )
 
