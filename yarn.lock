@@ -60,40 +60,6 @@ aes-js@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/aes-js/-/aes-js-3.1.0.tgz#f5f7588494526997cc635cc334c8bb8e967a5d82"
 
-"airbitz-core-js@git+ssh://git@github.com/Airbitz/airbitz-core-js.git#develop":
-  version "0.4.0"
-  resolved "git+ssh://git@github.com/Airbitz/airbitz-core-js.git#a5e39ce2e5a094445aaf5b6dfd71a4b64e2a2a2d"
-  dependencies:
-    aes-js "^3.1.0"
-    airbitz-core-types "git://github.com/Airbitz/airbitz-core-types.git"
-    base-x "^1.0.4"
-    biggystring "^1.0.7"
-    chai "^4.1.2"
-    core-js "^2.5.1"
-    currency-codes "^1.1.2"
-    disklet "^0.2.2"
-    elliptic "^6.4.0"
-    hash.js "^1.0.3"
-    mocha "^3.5.0"
-    redux "^3.6.0"
-    redux-keto "^0.3.0"
-    redux-pixies "^0.3.1"
-    redux-thunk "^2.2.0"
-    rfc4648 "^0.9.1"
-    scrypt-js "^2.0.3"
-    utf8 "^2.1.2"
-
-"airbitz-core-types@git://github.com/Airbitz/airbitz-core-types.git":
-  version "0.0.1"
-  resolved "git://github.com/Airbitz/airbitz-core-types.git#0947f36ea4cfb9a775c042776a3c24bdb7d53181"
-
-airbitz-io-node-js@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/airbitz-io-node-js/-/airbitz-io-node-js-0.3.0.tgz#b00c7b43d2cf04b812914380b9f93a5ba43c570f"
-  dependencies:
-    disklet "^0.1.2"
-    node-fetch "^1.6.3"
-
 ajv-keywords@^1.0.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.5.1.tgz#314dd0a4b3368fad3dfcdc54ede6171b886daf3c"
@@ -195,8 +161,8 @@ assert@^1.4.1:
     util "0.10.3"
 
 assertion-error@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/assertion-error/-/assertion-error-1.0.2.tgz#13ca515d86206da0bac66e834dd397d87581094c"
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/assertion-error/-/assertion-error-1.1.0.tgz#e60b6b0e8f301bd97e5375215bda406c85118c0b"
 
 babel-code-frame@^6.16.0, babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -259,8 +225,8 @@ base-x@^1.0.4:
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-1.1.0.tgz#42d3d717474f9ea02207f6d1aa1f426913eeb7ac"
 
 biggystring@^1.0.7:
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/biggystring/-/biggystring-1.1.9.tgz#27bf4d3324d21b20301912cf62482e0f20c0db63"
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/biggystring/-/biggystring-1.1.10.tgz#90cd3410802699b2605c443f6f13c52259a3cc61"
   dependencies:
     bn.js "^4.11.7"
 
@@ -455,13 +421,9 @@ core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
-core-js@^2.4.0, core-js@^2.4.1:
+core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.1:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.3.tgz#8acc38345824f16d8365b7c9b4259168e8ed603e"
-
-core-js@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.1.tgz#ae6874dc66937789b80754ff5428df66819ca50b"
 
 core-util-is@~1.0.0:
   version "1.0.2"
@@ -557,6 +519,10 @@ del@^2.0.2:
     pinkie-promise "^2.0.0"
     rimraf "^2.2.8"
 
+detect-bundler@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/detect-bundler/-/detect-bundler-1.0.0.tgz#b1445d25baf2e71fa5cf9a61b293e0f49abd63c9"
+
 detect-newline@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-2.1.0.tgz#f41f1c10be4b00e87b5f13da680759f2c5bfd3e2"
@@ -575,12 +541,6 @@ dir-glob@^2.0.0:
   dependencies:
     arrify "^1.0.1"
     path-type "^3.0.0"
-
-disklet@^0.1.2:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/disklet/-/disklet-0.1.3.tgz#1f32db40723c714a56851a22e48f9332f207d888"
-  dependencies:
-    rfc4648 "^0.9.1"
 
 disklet@^0.2.2:
   version "0.2.5"
@@ -613,6 +573,31 @@ edge-exchange-plugins@^0.1.1:
   resolved "https://registry.yarnpkg.com/edge-exchange-plugins/-/edge-exchange-plugins-0.1.1.tgz#09fea02535529a7569a2c61b99b7177ff3b90a63"
   dependencies:
     iso4217 "^0.2.0"
+
+edge-login@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/edge-login/-/edge-login-0.5.0.tgz#6f064bca4ba2ff68907a0eb4ed10c437505195d4"
+  dependencies:
+    aes-js "^3.1.0"
+    base-x "^1.0.4"
+    biggystring "^1.0.7"
+    chai "^4.1.2"
+    core-js "^2.5.1"
+    currency-codes "^1.1.2"
+    detect-bundler "^1.0.0"
+    disklet "^0.2.2"
+    elliptic "^6.4.0"
+    hash.js "^1.0.3"
+    hmac-drbg "^1.0.1"
+    mocha "^3.5.0"
+    node-fetch "^1.7.3"
+    redux "^3.6.0"
+    redux-keto "^0.3.2"
+    redux-pixies "^0.3.3"
+    redux-thunk "^2.2.0"
+    rfc4648 "^1.0.0"
+    scrypt-js "^2.0.3"
+    utf8 "^2.1.2"
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -1123,7 +1108,7 @@ he@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
-hmac-drbg@^1.0.0:
+hmac-drbg@^1.0.0, hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
   dependencies:
@@ -1792,7 +1777,7 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-node-fetch@^1.0.1, node-fetch@^1.6.3:
+node-fetch@^1.0.1, node-fetch@^1.7.3:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
   dependencies:
@@ -2095,8 +2080,8 @@ quick-lru@^1.0.0:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-1.1.0.tgz#4360b17c61136ad38078397ff11416e186dcfbb8"
 
 react-native-fs@^2.5.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.8.1.tgz#029ac6d23331704db93735c3540ff795f5286566"
+  version "2.9.7"
+  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.9.7.tgz#29ac2d4728270cec4df63f1c4beb1140f8246049"
   dependencies:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
@@ -2152,13 +2137,13 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
-redux-keto@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/redux-keto/-/redux-keto-0.3.0.tgz#4f9f3306efdb8fd95dcd08c045b2ab52a6b21158"
+redux-keto@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/redux-keto/-/redux-keto-0.3.2.tgz#15c18d61fec5e76e3d0d3f02767a996fee4ff622"
 
-redux-pixies@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/redux-pixies/-/redux-pixies-0.3.1.tgz#26cc790b218b1258cda713112cf3b224afc98f12"
+redux-pixies@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/redux-pixies/-/redux-pixies-0.3.3.tgz#8e7b95271328a4c1eee520cca8c2cb6503f6b85c"
 
 redux-thunk@^2.2.0:
   version "2.2.0"
@@ -2247,6 +2232,10 @@ restore-cursor@^2.0.0:
 rfc4648@^0.9.1:
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/rfc4648/-/rfc4648-0.9.1.tgz#6dff84c2ed0e63381424da2a7caa9b750fa7e477"
+
+rfc4648@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/rfc4648/-/rfc4648-1.0.0.tgz#fdcbf9a438feef09bde4b8ee7eaf6b7f47935528"
 
 rimraf@^2.2.8:
   version "2.6.2"
@@ -2491,8 +2480,8 @@ symbol-observable@^0.2.2:
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-0.2.4.tgz#95a83db26186d6af7e7a18dbd9760a2f86d08f40"
 
 symbol-observable@^1.0.3:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.1.0.tgz#5c68fd8d54115d9dfb72a84720549222e8db9b32"
 
 table@^3.7.8:
   version "3.8.3"
@@ -2545,8 +2534,8 @@ type-check@~0.3.2:
     prelude-ls "~1.1.2"
 
 type-detect@^4.0.0:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.3.tgz#0e3f2670b44099b0b46c284d136a7ef49c74c2ea"
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.7.tgz#862bd2cf6058ad92799ff5a5b8cf7b6cec726198"
 
 typedarray@^0.0.6:
   version "0.0.6"

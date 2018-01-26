@@ -2,9 +2,9 @@
 set -e
 
 # Compile the upstream core, if it has been symlinked:
-if [ -L ./node_modules/airbitz-core-js ]; then
+if [ -L ./node_modules/edge-login ]; then
   (
-    cd ./node_modules/airbitz-core-js
+    cd ./node_modules/edge-login
     npm run build
   )
 fi

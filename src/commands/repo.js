@@ -1,4 +1,4 @@
-import { internal } from 'airbitz-core-js'
+import { internal } from 'edge-login'
 import { base16 } from 'rfc4648'
 
 import { UsageError, command } from '../command.js'

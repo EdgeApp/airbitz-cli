@@ -4,10 +4,9 @@ import fs from 'fs'
 import path from 'path'
 import readline from 'readline'
 
-import { PasswordError, internal } from 'airbitz-core-js'
-import { makeNodeContext } from 'airbitz-io-node-js'
 import chalk from 'chalk'
 import { coinbasePlugin, shapeshiftPlugin } from 'edge-exchange-plugins'
+import { PasswordError, internal, makeEdgeContext } from 'edge-login'
 import parse from 'lib-cmdparse'
 import Getopt from 'node-getopt'
 import sourceMapSupport from 'source-map-support'
@@ -171,15 +170,16 @@ function makeSession (config, cmd = null) {
       xdgBasedir.config != null ? xdgBasedir.config + '/airbitz' : './airbitz'
   }
 
-  session.context = makeNodeContext({
+  return makeEdgeContext({
     apiKey: config.apiKey,
     appId: config.appId,
     authServer: config.authServer,
     path: directory,
     plugins: [coinbasePlugin, shapeshiftPlugin]
+  }).then(context => {
+    session.context = context
+    return session
   })
-
-  return session
 }
 
 /**
@@ -261,17 +261,18 @@ function main () {
 
   if (opt.argv.length === 0) {
     // Run the interactive shell:
-    const session = makeSession(config)
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-      completer (line) {
-        const commands = listCommands()
-        const match = commands.filter(command => command.startsWith(line))
-        return [match.length ? match : commands, line]
-      }
+    return makeSession(config).then(session => {
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        completer (line) {
+          const commands = listCommands()
+          const match = commands.filter(command => command.startsWith(line))
+          return [match.length ? match : commands, line]
+        }
+      })
+      return runPrompt(rl, session)
     })
-    return runPrompt(rl, session)
   } else {
     // Look up the command:
     const cmd =
