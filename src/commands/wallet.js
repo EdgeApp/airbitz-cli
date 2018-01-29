@@ -17,3 +17,20 @@ command(
     })
   }
 )
+
+command(
+  'wallet-undelete',
+  {
+    help: "Removes a key's deleted flag",
+    usage: '<wallet-id>',
+    needsAccount: true
+  },
+  function (console, session, argv) {
+    if (argv.length !== 1) throw new UsageError(this)
+    const walletId = argv[0]
+
+    const opts = {}
+    opts[walletId] = { deleted: false }
+    return session.account.changeWalletStates(opts)
+  }
+)
