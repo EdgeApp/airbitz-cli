@@ -37,3 +37,20 @@ command(
     return session.account.createWallet(keyInfo.type, keyInfo.keys)
   }
 )
+
+command(
+  'key-undelete',
+  {
+    help: "Removes a key's deleted flag",
+    usage: '<wallet-id>',
+    needsAccount: true
+  },
+  function (console, session, argv) {
+    if (argv.length !== 1) throw new UsageError(this)
+    const walletId = JSON.parse(argv[0])
+
+    const opts = {}
+    opts[walletId] = { deleted: false }
+    return session.account.changeKeyStates(opts)
+  }
+)
