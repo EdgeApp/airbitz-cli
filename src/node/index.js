@@ -6,7 +6,7 @@ import readline from 'readline'
 
 import chalk from 'chalk'
 import { coinbasePlugin, shapeshiftPlugin } from 'edge-exchange-plugins'
-import { PasswordError, internal, makeEdgeContext } from 'edge-login'
+import { errorNames, internal, makeEdgeContext } from 'edge-login'
 import parse from 'lib-cmdparse'
 import Getopt from 'node-getopt'
 import sourceMapSupport from 'source-map-support'
@@ -106,7 +106,7 @@ function logError (e) {
         console.error(formatUsage(e.command))
       }
       break
-    case PasswordError.name:
+    case errorNames.PasswordError:
       if (e.wait) {
         console.error(`Please try again in ${e.wait} seconds`)
       }
