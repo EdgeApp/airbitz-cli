@@ -1,4 +1,4 @@
-import { internal } from 'edge-login'
+import { internal } from 'edge-core-js'
 import { base16 } from 'rfc4648'
 
 import { UsageError, command } from '../command.js'

@@ -1,4 +1,4 @@
-import { internal } from 'edge-login'
+import { internal } from 'edge-core-js'
 
 import { UsageError, command } from '../command.js'
 
