@@ -1,8 +1,9 @@
 import { internal } from 'edge-core-js'
+import { base64 } from 'rfc4648'
 
 import { UsageError, command } from '../command.js'
 
-const { authRequest } = internal
+const { authRequest, base58, hmacSha256, utf8 } = internal
 
 command(
   'auth-fetch',
@@ -27,5 +28,23 @@ command(
 
     const ai = session.context.internalUnitTestingHack()
     return authRequest(ai, ...parseArgs(argv)).then(reply => console.log(reply))
+  }
+)
+
+command(
+  'filename-hash',
+  {
+    usage: '[dataKey] [txid]',
+    help: 'Runs the filename hashing algorithm',
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (argv.length !== 2) throw new UsageError(this)
+    const dataKey = argv[0]
+    const data = argv[1]
+
+    console.log(
+      base58.stringify(hmacSha256(utf8.parse(data), base64.parse(dataKey)))
+    )
   }
 )
