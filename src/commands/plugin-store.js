@@ -12,12 +12,12 @@ command(
     const pluginId = argv[0]
 
     if (pluginId) {
-      return session.account.pluginStorage
-        .listItems(pluginId)
+      return session.account.pluginData
+        .listItemIds(pluginId)
         .then(names => console.log(names))
     } else {
-      return session.account.pluginStorage
-        .listPlugins()
+      return session.account.pluginData
+        .listPluginIds()
         .then(names => console.log(names))
     }
   }
@@ -36,9 +36,9 @@ command(
     const itemId = argv[1]
 
     if (itemId) {
-      return session.account.pluginStorage.deleteItem(pluginId, itemId)
+      return session.account.pluginData.deleteItem(pluginId, itemId)
     } else {
-      return session.account.pluginStorage.clearPlugin(pluginId)
+      return session.account.pluginData.deletePlugin(pluginId)
     }
   }
 )
@@ -55,7 +55,7 @@ command(
     const pluginId = argv[0]
     const itemId = argv[1]
 
-    return session.account.pluginStorage
+    return session.account.pluginData
       .getItem(pluginId, itemId)
       .then(text => console.log(text))
   }
@@ -74,6 +74,6 @@ command(
     const itemId = argv[1]
     const text = argv[2]
 
-    return session.account.pluginStorage.setItem(pluginId, itemId, text)
+    return session.account.pluginData.setItem(pluginId, itemId, text)
   }
 )
