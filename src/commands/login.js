@@ -1,8 +1,10 @@
 import { internal } from 'edge-core-js'
+import { base64 } from 'rfc4648'
 
 import { UsageError, command } from '../command.js'
+import { base58 } from '../encoding.js'
 
-const { base64, base58, hashUsername } = internal
+const { hashUsername } = internal
 
 command(
   'account-remove',
