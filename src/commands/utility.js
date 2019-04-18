@@ -1,11 +1,8 @@
-import { internal } from 'edge-core-js'
 import hashjs from 'hash.js'
 import { base64 } from 'rfc4648'
 
 import { UsageError, command } from '../command.js'
 import { base58, utf8 } from '../encoding.js'
-
-const { authRequest } = internal
 
 function hmacSha256 (data, key) {
   const hmac = hashjs.hmac(hashjs.sha256, key)
@@ -33,8 +30,10 @@ command(
       }
     }
 
-    const ai = session.context.internalUnitTestingHack()
-    return authRequest(ai, ...parseArgs(argv)).then(reply => console.log(reply))
+    const internal = session.context.$internalStuff
+    return internal
+      .authRequest(...parseArgs(argv))
+      .then(reply => console.log(reply))
   }
 )
 

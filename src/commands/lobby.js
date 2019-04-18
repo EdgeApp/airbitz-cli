@@ -1,8 +1,4 @@
-import { internal } from 'edge-core-js'
-
 import { UsageError, command } from '../command.js'
-
-const { makeLobby } = internal
 
 command(
   'lobby-create',
@@ -15,17 +11,17 @@ command(
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyRequest = JSON.parse(argv[0])
 
-    return makeLobby(
-      session.context.internalUnitTestingHack,
-      lobbyRequest
-    ).then(lobby => {
+    const internal = session.context.$internalStuff
+    return internal.makeLobby(lobbyRequest).then(lobby => {
       console.log('Created lobby ' + lobby.lobbyId)
       return new Promise((resolve, reject) => {
-        const subscription = lobby.subscribe(reply => {
-          console.log(JSON.stringify(reply, null, 2))
-          subscription.unsubscribe()
-          resolve(reply)
-        }, reject)
+        lobby.on('error', reject)
+        lobby.watch('replies', replies => {
+          if (replies.length === 0) return
+          console.log(JSON.stringify(replies[0], null, 2))
+          resolve(replies[0])
+          lobby.close()
+        })
       })
     })
   }

@@ -1,24 +1,21 @@
-import { internal } from 'edge-core-js'
 import { base16 } from 'rfc4648'
 
 import { UsageError, command } from '../command.js'
 
-const { Repo } = internal
-
 command(
   'repo-sync',
   {
-    usage: '<sync-key> <data-key>',
+    usage: '<sync-key>',
     help: 'Fetches the contents of a sync repo',
     needsContext: true
   },
   function (console, session, argv) {
-    if (argv.length !== 2) throw new UsageError(this)
+    if (argv.length !== 1) throw new UsageError(this)
     const syncKey = base16.parse(argv[0])
-    const dataKey = base16.parse(argv[1])
 
-    const store = new Repo(session.context.io, dataKey, syncKey)
-    return store.sync().then(changed => {
+    const internal = session.context.$internalStuff
+    internal.syncRepo(syncKey).then(results => {
+      const changed = results.changes.length !== 0
       console.log(changed ? 'changed' : 'unchanged')
       return changed
     })
@@ -38,8 +35,11 @@ command(
     const dataKey = base16.parse(argv[1])
     const path = argv.length === 3 ? argv[2] : ''
 
-    const store = new Repo(session.context.io, dataKey, syncKey)
-    console.log(store.keys(path))
+    const internal = session.context.$internalStuff
+    return internal
+      .getRepoDisklet(syncKey, dataKey)
+      .then(disklet => disklet.list(path))
+      .then(listing => console.log(listing))
   }
 )
 
@@ -57,8 +57,10 @@ command(
     const path = argv[2]
     const value = argv[3]
 
-    const store = new Repo(session.context.io, dataKey, syncKey)
-    store.setText(path, value)
+    const internal = session.context.$internalStuff
+    return internal
+      .getRepoDisklet(syncKey, dataKey)
+      .then(disklet => disklet.setText(path, value))
   }
 )
 
@@ -75,8 +77,10 @@ command(
     const dataKey = base16.parse(argv[1])
     const path = argv[2]
 
-    const store = new Repo(session.context.io, dataKey, syncKey)
-    const value = store.getText(path)
-    console.log(value)
+    const internal = session.context.$internalStuff
+    return internal
+      .getRepoDisklet(syncKey, dataKey)
+      .then(disklet => disklet.getText(path))
+      .then(text => console.log(text))
   }
 )
