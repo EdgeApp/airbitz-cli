@@ -607,11 +607,15 @@ edge-core-js@^0.15.10:
     ws "^5.1.1"
     yaob "^0.3.3"
 
-edge-exchange-plugins@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/edge-exchange-plugins/-/edge-exchange-plugins-0.1.1.tgz#09fea02535529a7569a2c61b99b7177ff3b90a63"
+edge-exchange-plugins@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/edge-exchange-plugins/-/edge-exchange-plugins-0.6.0.tgz#c75624e80bb7e45cee8111720674894022944e85"
+  integrity sha512-u90IYvWqT70q2ShMQx9D5wkcE5LXTxda3kNRSkwgHpB5iI+lNV/Z9qEE5UjjlQUfe7d90yDj7kwzwqwvXcaFMQ==
   dependencies:
+    esm "^3.2.4"
+    hashjs "^1.2.0"
     iso4217 "^0.2.0"
+    utf8 "^3.0.0"
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -1163,6 +1167,11 @@ hash.js@^1.0.0, hash.js@^1.0.3:
   dependencies:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.0"
+
+hashjs@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/hashjs/-/hashjs-1.2.0.tgz#a40e2d69de57826774643029c7b1bb4f2390baaa"
+  integrity sha1-pA4tad5Xgmd0ZDApx7G7TyOQuqo=
 
 hmac-drbg@^1.0.0, hmac-drbg@^1.0.1:
   version "1.0.1"

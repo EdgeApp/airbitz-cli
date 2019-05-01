@@ -5,8 +5,13 @@ import path from 'path'
 import readline from 'readline'
 
 import chalk from 'chalk'
-import { errorNames, makeEdgeContext } from 'edge-core-js'
-import { coinbasePlugin, shapeshiftPlugin } from 'edge-exchange-plugins'
+import {
+  addEdgeCorePlugins,
+  errorNames,
+  lockEdgeCorePlugins,
+  makeEdgeContext
+} from 'edge-core-js'
+import exchangePlugins from 'edge-exchange-plugins'
 import parse from 'lib-cmdparse'
 import Getopt from 'node-getopt'
 import sourceMapSupport from 'source-map-support'
@@ -14,6 +19,9 @@ import xdgBasedir from 'xdg-basedir'
 
 import { UsageError, command, findCommand, listCommands } from '../command.js'
 import { printCommandList } from '../commands/help.js'
+
+addEdgeCorePlugins(exchangePlugins)
+lockEdgeCorePlugins()
 
 /**
  * If the function f throws an error, return that as a rejected promise.
@@ -186,7 +194,7 @@ function makeSession (config, cmd = null) {
     appId: config.appId,
     authServer: config.authServer,
     path: directory,
-    plugins: [coinbasePlugin, shapeshiftPlugin]
+    plugins: { coinbase: true, 'shapeshift-rate': true }
   }).then(context => {
     session.context = context
     return session
