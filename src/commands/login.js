@@ -1,8 +1,7 @@
-import { internal } from 'edge-core-js'
+import { base64 } from 'rfc4648'
 
 import { UsageError, command } from '../command.js'
-
-const { base64, base58, hashUsername } = internal
+import { base58 } from '../encoding.js'
 
 command(
   'account-remove',
@@ -103,8 +102,8 @@ command(
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
-    const ai = session.context.internalUnitTestingHack()
-    return hashUsername(ai, username).then(hash => {
+    const internal = session.context.$internalStuff
+    return internal.hashUsername(username).then(hash => {
       console.log('base64', base64.stringify(hash))
       console.log('base58', base58.stringify(hash))
       return null

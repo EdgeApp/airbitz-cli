@@ -5,7 +5,7 @@ import path from 'path'
 import readline from 'readline'
 
 import chalk from 'chalk'
-import { errorNames, internal, makeEdgeContext } from 'edge-core-js'
+import { errorNames, makeEdgeContext } from 'edge-core-js'
 import { coinbasePlugin, shapeshiftPlugin } from 'edge-exchange-plugins'
 import parse from 'lib-cmdparse'
 import Getopt from 'node-getopt'
@@ -15,7 +15,18 @@ import xdgBasedir from 'xdg-basedir'
 import { UsageError, command, findCommand, listCommands } from '../command.js'
 import { printCommandList } from '../commands/help.js'
 
-const { rejectify } = internal
+/**
+ * If the function f throws an error, return that as a rejected promise.
+ */
+export function rejectify (f) {
+  return function rejectify (...rest) {
+    try {
+      return f.apply(this, rest)
+    } catch (e) {
+      return Promise.reject(e)
+    }
+  }
+}
 
 // Display the original source location for errors:
 sourceMapSupport.install()
