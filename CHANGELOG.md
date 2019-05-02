@@ -1,5 +1,16 @@
 # airbitz-cli
 
+## 0.4.1
+
+- Stop login from hanging
+- Add commands
+  - `data-store-list`
+  - `data-store-delete`
+  - `data-store-get`
+  - `data-store-set`
+  - `lobby-reply`
+  - `lobby-login-fetch`
+
 ## 0.4.0
 
 - Upgrade to edge-core-js v0.15
