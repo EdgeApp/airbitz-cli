@@ -30,8 +30,45 @@ command(
 command(
   'lobby-fetch',
   {
+    usage: '<lobbyId>',
+    help: "Fetches a lobby's contents from the server",
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (argv.length !== 1) throw new UsageError(this)
+    const lobbyId = argv[0]
+
+    const internal = session.context.$internalStuff
+    return internal
+      .fetchLobbyRequest(lobbyId)
+      .then(request => console.log(JSON.stringify(request, null, 2)))
+  }
+)
+
+command(
+  'lobby-reply',
+  {
+    usage: '<lobbyId> <reply-json>',
+    help: 'Sends a reply to a lobby',
+    needsContext: true
+  },
+  function (console, session, argv) {
+    if (argv.length !== 2) throw new UsageError(this)
+    const lobbyId = argv[0]
+    const lobbyReply = JSON.parse(argv[1])
+
+    const internal = session.context.$internalStuff
+    return internal
+      .fetchLobbyRequest(lobbyId)
+      .then(request => internal.sendLobbyReply(lobbyId, request, lobbyReply))
+  }
+)
+
+command(
+  'lobby-login-fetch',
+  {
     usage: 'lobbyId',
-    help: 'Fetches an edge request from the lobby server',
+    help: 'Fetches an Edge login request from the lobby server',
     needsAccount: true
   },
   function (console, session, argv) {

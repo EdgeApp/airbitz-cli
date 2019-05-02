@@ -1,3 +1,4 @@
+import './data-store.js'
 import './edge.js'
 import './exchange.js'
 import './help.js'
