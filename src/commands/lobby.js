@@ -83,7 +83,6 @@ command(
         console.log(' displayName: ' + loginRequest.displayName)
         console.log(' displayImageUrl: ' + loginRequest.displayImageUrl)
       }
-      return void 0
     })
   }
 )

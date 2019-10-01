@@ -69,9 +69,9 @@ command(
     if (argv.length !== 0) throw new UsageError(this)
 
     const account = session.account
-    session.account = void 0
-    session.login = void 0
-    session.wallet = void 0
+    session.account = undefined
+    session.login = undefined
+    session.wallet = undefined
     return account.logout()
   }
 )

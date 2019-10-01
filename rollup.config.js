@@ -1,27 +1,48 @@
-import buble from 'rollup-plugin-buble'
-const packageJson = require('./package.json')
+import babel from 'rollup-plugin-babel'
 
-export default {
-  entry: 'src/index.js',
-  external: Object.keys(packageJson.dependencies),
-  plugins: [
-    buble({
-      objectAssign: 'Object.assign',
-      transforms: {
-        dangerousForOf: true
+import packageJson from './package.json'
+
+const babelOpts = {
+  babelrc: false,
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        exclude: ['transform-regenerator'],
+        loose: true
       }
-    })
-  ],
-  targets: [
-    {
-      dest: packageJson.main,
-      format: 'cjs',
-      sourceMap: true
-    },
-    {
-      dest: packageJson.module,
-      format: 'es',
-      sourceMap: true
-    }
+    ]
   ]
 }
+
+export default [
+  // Library:
+  {
+    external: Object.keys(packageJson.dependencies),
+    input: 'src/index.js',
+    output: [
+      { file: packageJson.main, format: 'cjs', sourcemap: true },
+      { file: packageJson.module, format: 'es', sourcemap: true }
+    ],
+    plugins: [babel(babelOpts)]
+  },
+
+  // Node.js binary:
+  {
+    external: [
+      'buffer',
+      'fs',
+      'path',
+      'readline',
+      ...Object.keys(packageJson.dependencies)
+    ],
+    input: 'src/node/index.js',
+    output: {
+      banner: '#!/usr/bin/env node',
+      file: packageJson.bin,
+      format: 'cjs',
+      sourcemap: true
+    },
+    plugins: [babel(babelOpts)]
+  }
+]

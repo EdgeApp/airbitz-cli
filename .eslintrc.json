@@ -1,15 +1,8 @@
 {
-  "extends": "standard",
-  "plugins": [
-    "standard",
-    "promise"
-  ],
+  "extends": ["standard-kit/lint", "standard-kit/lint/node"],
+  "plugins": ["prettier"],
   "rules": {
-    "camelcase": "error",
-    "no-throw-literal": "error",
     "no-var": "error",
-    "prefer-const": "error",
-    "promise/always-return": "error",
-    "promise/no-return-wrap": "error"
+    "prettier/prettier": "error"
   }
 }
