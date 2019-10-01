@@ -10,7 +10,7 @@ command(
     help: 'Removes any locally-stored data for the given username',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
@@ -25,7 +25,7 @@ command(
     help: 'Determines whether or not a username is available',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
@@ -42,7 +42,7 @@ command(
     help: 'Create a login on the auth server',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 3) throw new UsageError(this)
     const username = argv[0]
     const password = argv[1]
@@ -65,7 +65,7 @@ command(
     help: 'Logs out of the current account',
     needsAccount: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     const account = session.account
@@ -83,7 +83,7 @@ command(
     help: 'Fetches login messages for all local users',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
     return session.context
       .fetchLoginMessages()
@@ -98,7 +98,7 @@ command(
     help: 'Hashes a username using scrypt',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
@@ -118,7 +118,7 @@ command(
     help: 'Lists the usernames on this device',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     return session.context

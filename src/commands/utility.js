@@ -4,7 +4,7 @@ import { base64 } from 'rfc4648'
 import { UsageError, command } from '../command.js'
 import { base58, utf8 } from '../encoding.js'
 
-function hmacSha256 (data, key) {
+function hmacSha256(data, key) {
   const hmac = hashjs.hmac(hashjs.sha256, key)
   return hmac.update(data).digest()
 }
@@ -16,8 +16,8 @@ command(
     help: 'Visits the selected URI on the auth server',
     needsContext: true
   },
-  function (console, session, argv) {
-    function parseArgs (argv) {
+  function(console, session, argv) {
+    function parseArgs(argv) {
       switch (argv.length) {
         case 1:
           return ['GET', argv[0], {}]
@@ -44,7 +44,7 @@ command(
     help: 'Runs the filename hashing algorithm',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const dataKey = argv[0]
     const data = argv[1]

@@ -7,7 +7,7 @@ command(
     help: 'Logs the user in with the device-specific PIN',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const username = argv[0]
     const pin = argv[1]
@@ -27,7 +27,7 @@ command(
     help: 'Creates or changes the PIN for a device',
     needsLogin: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const pin = argv[0]
 

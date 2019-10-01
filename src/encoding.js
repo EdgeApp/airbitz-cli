@@ -8,16 +8,16 @@ const base58Codec = baseX(
 )
 
 export const base58 = {
-  parse (text) {
+  parse(text) {
     return base58Codec.decode(text)
   },
-  stringify (data) {
+  stringify(data) {
     return base58Codec.encode(data)
   }
 }
 
 export const utf8 = {
-  parse (text) {
+  parse(text) {
     const byteString = utf8Codec.encode(text)
     const out = new Uint8Array(byteString.length)
 
@@ -28,7 +28,7 @@ export const utf8 = {
     return out
   },
 
-  stringify (data) {
+  stringify(data) {
     // Some of our data contains terminating null bytes due to an old bug.
     // We need to filter that out here:
     const length = data[data.length - 1] === 0 ? data.length - 1 : data.length

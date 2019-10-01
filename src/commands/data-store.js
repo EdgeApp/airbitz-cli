@@ -8,7 +8,7 @@ command(
       'Lists the either the data stores in an account, or the items within a store',
     needsAccount: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 0 && argv.length !== 1) throw new UsageError(this)
     const storeId = argv[0]
 
@@ -31,7 +31,7 @@ command(
     help: 'Deletes the either a single item, or an entire data store',
     needsAccount: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 1 && argv.length !== 2) throw new UsageError(this)
     const storeId = argv[0]
     const itemId = argv[1]
@@ -51,7 +51,7 @@ command(
     help: 'Gets an item from a data store',
     needsAccount: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const storeId = argv[0]
     const itemId = argv[1]
@@ -69,7 +69,7 @@ command(
     help: 'Puts an into a data store',
     needsAccount: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 3) throw new UsageError(this)
     const storeId = argv[0]
     const itemId = argv[1]

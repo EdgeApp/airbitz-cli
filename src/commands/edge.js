@@ -7,12 +7,12 @@ command(
     help: 'Requests an edge login',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     return new Promise((resolve, reject) => {
       const opts = {
-        onLogin (err, account) {
+        onLogin(err, account) {
           if (err) return reject(err)
           session.account = account
           session.login = account.login

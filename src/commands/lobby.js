@@ -7,7 +7,7 @@ command(
     help: 'Puts the provided lobby request JSON on the auth server',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyRequest = JSON.parse(argv[0])
 
@@ -34,7 +34,7 @@ command(
     help: "Fetches a lobby's contents from the server",
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyId = argv[0]
 
@@ -52,7 +52,7 @@ command(
     help: 'Sends a reply to a lobby',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const lobbyId = argv[0]
     const lobbyReply = JSON.parse(argv[1])
@@ -71,7 +71,7 @@ command(
     help: 'Fetches an Edge login request from the lobby server',
     needsAccount: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyId = argv[0]
 
@@ -94,7 +94,7 @@ command(
     help: 'Approves an edge-login request',
     needsAccount: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyId = argv[0]
 
