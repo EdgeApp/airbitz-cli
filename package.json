@@ -74,6 +74,9 @@
     "rollup": "^1.0.0",
     "rollup-plugin-babel": "^4.0.0"
   },
+  "resolutions": {
+    "shell-quote": "1.6.1"
+  },
   "importSort": {
     ".js, .es": {
       "style": "module"
