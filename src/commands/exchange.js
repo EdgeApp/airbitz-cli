@@ -7,7 +7,7 @@ command(
     help: 'Performs an exchange-rate lookup',
     needsAccount: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length < 2 || argv.length > 3) throw new UsageError(this)
     const fromCurrency = argv[0]
     const toCurrency = argv[1]

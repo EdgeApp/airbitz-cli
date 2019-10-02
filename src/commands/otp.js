@@ -7,7 +7,7 @@ command(
     help: 'Displays the OTP key for this account',
     needsLogin: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     if (session.account.otpKey) {
@@ -26,7 +26,7 @@ command(
     help: 'Enables OTP for this account',
     needsLogin: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length > 1) throw new UsageError(this)
     const timeout = argv[0]
 
@@ -43,7 +43,7 @@ command(
     help: 'Disables OTP for this account',
     needsLogin: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     return session.account.disableOtp()
@@ -57,7 +57,7 @@ command(
     help: 'Cancels a pending OTP reset for this account',
     needsLogin: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     return session.account.cancelOtpResetRequest()
@@ -71,7 +71,7 @@ command(
     help: 'Requests an OTP reset for this account',
     needsContext: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const username = argv[0]
     const resetToken = argv[1]

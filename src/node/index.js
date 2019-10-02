@@ -26,8 +26,8 @@ lockEdgeCorePlugins()
 /**
  * If the function f throws an error, return that as a rejected promise.
  */
-export function rejectify (f) {
-  return function rejectify (...rest) {
+export function rejectify(f) {
+  return function rejectify(...rest) {
     try {
       return f.apply(this, rest)
     } catch (e) {
@@ -52,7 +52,7 @@ const getopt = new Getopt([
   ['h', 'help', 'Display options']
 ])
 
-function formatUsage (cmd) {
+function formatUsage(cmd) {
   // Set up the help options:
   let out = 'Usage: ' + cmd.name
   if (cmd.needsContext) {
@@ -74,7 +74,7 @@ const helpCommand = command(
     help: 'Displays help for any command',
     replace: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length > 1) throw new UsageError(this, 'Too many parameters')
 
     if (argv.length === 1) {
@@ -96,7 +96,7 @@ const helpCommand = command(
  * If we are passed a single object, format that as proper JSON.
  */
 const jsonConsole = {
-  log (...args) {
+  log(...args) {
     if (args.length === 1) {
       const arg = args[0]
       if (typeof arg === 'string') {
@@ -115,7 +115,7 @@ const jsonConsole = {
 /**
  * Logs an Error instance to the console.
  */
-function logError (e) {
+function logError(e) {
   console.error(chalk.red(e.toString()))
 
   // Special handling for particular error types:
@@ -140,7 +140,7 @@ function logError (e) {
  * Loads the config file,
  * and returns its contents merged with the command-line options.
  */
-function loadConfig (options) {
+function loadConfig(options) {
   // Locate all config files:
   const configPaths = xdgBasedir.configDirs
     .reverse()
@@ -164,19 +164,19 @@ function loadConfig (options) {
 
   // Calculate the active settings:
   return {
-    appId: options['app-id'] || config['appId'],
-    apiKey: options['api-key'] || config['apiKey'],
-    authServer: options['auth-server'] || config['authServer'],
-    directory: options['directory'] || config['workingDir'],
-    username: options['username'] || config['username'],
-    password: options['password'] || config['password']
+    appId: options['app-id'] || config.appId,
+    apiKey: options['api-key'] || config.apiKey,
+    authServer: options['auth-server'] || config.authServer,
+    directory: options.directory || config.workingDir,
+    username: options.username || config.username,
+    password: options.password || config.password
   }
 }
 
 /**
  * Creates a session object with a basic context object.
  */
-function makeSession (config, cmd = null) {
+function makeSession(config, cmd = null) {
   const session = {}
 
   // API key:
@@ -205,7 +205,7 @@ function makeSession (config, cmd = null) {
  * Sets up a session object with the Airbitz objects needed by the command.
  * @return a promise
  */
-function prepareSession (config, cmd) {
+function prepareSession(config, cmd) {
   // Create a context if we need one:
   let out = Promise.resolve(cmd.needsContext ? makeSession(config, cmd) : {})
 
@@ -232,7 +232,7 @@ function prepareSession (config, cmd) {
 /**
  * Parses the provided command line and attempts to run the command.
  */
-function runLine (text, session) {
+function runLine(text, session) {
   const parsed = parse(text)
   const cmd = parsed.exec ? findCommand(parsed.exec) : findCommand('help')
 
@@ -246,16 +246,16 @@ function runLine (text, session) {
 /**
  * Repeatedly prompts the user for a command to run.
  */
-function runPrompt (readline, session) {
+function runPrompt(readline, session) {
   console.log('Use the `help` command for usage information')
 
   return new Promise((resolve, reject) => {
-    function done () {
+    function done() {
       resolve()
       readline.close()
     }
 
-    function prompt () {
+    function prompt() {
       readline.question('> ', text => {
         if (/exit/.test(text)) return done()
         rejectify(runLine)(text, session)
@@ -272,7 +272,7 @@ function runPrompt (readline, session) {
 /**
  * Parses the options and invokes the requested command.
  */
-function main () {
+function main() {
   const opt = getopt.parseSystem()
 
   // Load the config file:
@@ -284,7 +284,7 @@ function main () {
       const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
-        completer (line) {
+        completer(line) {
           const commands = listCommands()
           const match = commands.filter(command => command.startsWith(line))
           return [match.length ? match : commands, line]
@@ -295,7 +295,7 @@ function main () {
   } else {
     // Look up the command:
     const cmd =
-      opt.options['help'] || !opt.argv.length
+      opt.options.help || !opt.argv.length
         ? helpCommand
         : findCommand(opt.argv.shift())
 

@@ -10,7 +10,7 @@ if [ -L ./node_modules/edge-core-js ]; then
 fi
 
 # Compile the CLI:
-./node_modules/.bin/rollup -c rollup.config.node.js
+./node_modules/.bin/rollup -c
 chmod +x ./bin/airbitz-cli
 
 # Run the CLI:

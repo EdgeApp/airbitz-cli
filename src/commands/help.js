@@ -1,6 +1,6 @@
 import { UsageError, command, findCommand, listCommands } from '../command.js'
 
-function formatUsage (cmd) {
+function formatUsage(cmd) {
   let out = 'Usage: ' + cmd.name
   if (cmd.usage != null) {
     out += ' ' + cmd.usage
@@ -8,7 +8,7 @@ function formatUsage (cmd) {
   return out
 }
 
-export function printCommandList (console) {
+export function printCommandList(console) {
   console.log('Available commands:')
   listCommands().forEach(name => {
     const cmd = findCommand(name)
@@ -26,7 +26,7 @@ command(
     usage: '[command]',
     help: 'Displays help for any command'
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length > 1) throw new UsageError(this, 'Too many parameters')
 
     if (argv.length === 1) {

@@ -4,7 +4,7 @@ const commands = {}
  * Creates an error indicating a problem with the command-line arguments.
  * @param command The command that was invoked. Can be null.
  */
-export function UsageError (command, message) {
+export function UsageError(command, message) {
   const e = new Error(message || 'Incorrect arguments')
   e.type = e.name = UsageError.name
   e.command = command
@@ -15,7 +15,7 @@ UsageError.type = UsageError.name
 /**
  * Creates a new command, and adds it to the global command registry.
  */
-export function command (name, opts, body) {
+export function command(name, opts, body) {
   if (name in commands && !opts.replace) {
     throw new Error(`Command "${name}" defined twice`)
   }
@@ -40,7 +40,7 @@ export function command (name, opts, body) {
 /**
  * Finds the command with the given name.
  */
-export function findCommand (name) {
+export function findCommand(name) {
   const cmd = commands[name]
   if (cmd == null) throw new UsageError(null, `No command named "${name}"`)
   return cmd
@@ -49,6 +49,6 @@ export function findCommand (name) {
 /**
  * Returns the list of all commands, in sorted order.
  */
-export function listCommands () {
+export function listCommands() {
   return Object.keys(commands).sort()
 }

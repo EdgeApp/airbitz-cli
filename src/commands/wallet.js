@@ -6,7 +6,7 @@ command(
     help: 'Lists the wallets in an account',
     needsAccount: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     session.account.listWalletIds().forEach(id => {
@@ -25,7 +25,7 @@ command(
     usage: '<wallet-id>',
     needsAccount: true
   },
-  function (console, session, argv) {
+  function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const walletId = argv[0]
 
