@@ -27,7 +27,7 @@
   "bin": "bin/airbitz-cli",
   "scripts": {
     "build": "rollup -c",
-    "format": "import-sort -l --write '*.js' 'src/**/*.js'; npm run lint -- --fix",
+    "fix": "npm run lint -- --fix",
     "lint": "eslint --ignore-path .gitignore .",
     "precommit": "lint-staged && npm run build",
     "prepare": "npm run build"
@@ -38,10 +38,7 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "import-sort --list-different",
-      "eslint"
-    ]
+    "*.js": "eslint"
   },
   "dependencies": {
     "base-x": "^2.0.0",
@@ -59,27 +56,21 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
-    "eslint": "^6.0.0",
-    "eslint-config-standard-kit": "^0.14.1",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^10.0.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "husky": "^3.0.7",
-    "import-sort-cli": "^6.0.0",
-    "import-sort-style-module": "^6.0.0",
-    "lint-staged": "^6.0.0",
-    "prettier": "^1.18.2",
+    "eslint": ">=6.2.2",
+    "eslint-config-standard-kit": ">=0.14.2",
+    "eslint-plugin-import": ">=2.18.0",
+    "eslint-plugin-node": ">=9.1.0",
+    "eslint-plugin-prettier": ">=3.0.0",
+    "eslint-plugin-promise": ">=4.2.1",
+    "eslint-plugin-simple-import-sort": ">=4.0.0",
+    "eslint-plugin-standard": ">=4.0.0",
+    "husky": ">=3.0.0",
+    "lint-staged": ">=9.0.0",
+    "prettier": ">=1.0.0",
     "rollup": "^1.0.0",
     "rollup-plugin-babel": "^4.0.0"
   },
   "resolutions": {
     "shell-quote": "1.6.1"
-  },
-  "importSort": {
-    ".js, .es": {
-      "style": "module"
-    }
   }
 }
