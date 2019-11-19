@@ -1,4 +1,4 @@
-import { UsageError, command, findCommand, listCommands } from '../command.js'
+import { command, findCommand, listCommands, UsageError } from '../command.js'
 
 function formatUsage(cmd) {
   let out = 'Usage: ' + cmd.name

@@ -1,9 +1,5 @@
 import '../commands/all.js'
 
-import fs from 'fs'
-import path from 'path'
-import readline from 'readline'
-
 import chalk from 'chalk'
 import {
   addEdgeCorePlugins,
@@ -12,12 +8,15 @@ import {
   makeEdgeContext
 } from 'edge-core-js'
 import exchangePlugins from 'edge-exchange-plugins'
+import fs from 'fs'
 import parse from 'lib-cmdparse'
 import Getopt from 'node-getopt'
+import path from 'path'
+import readline from 'readline'
 import sourceMapSupport from 'source-map-support'
 import xdgBasedir from 'xdg-basedir'
 
-import { UsageError, command, findCommand, listCommands } from '../command.js'
+import { command, findCommand, listCommands, UsageError } from '../command.js'
 import { printCommandList } from '../commands/help.js'
 
 addEdgeCorePlugins(exchangePlugins)

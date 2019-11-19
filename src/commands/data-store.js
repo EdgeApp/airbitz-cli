@@ -1,4 +1,4 @@
-import { UsageError, command } from '../command.js'
+import { command, UsageError } from '../command.js'
 
 command(
   'data-store-list',

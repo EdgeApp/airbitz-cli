@@ -1,7 +1,7 @@
 import hashjs from 'hash.js'
 import { base64 } from 'rfc4648'
 
-import { UsageError, command } from '../command.js'
+import { command, UsageError } from '../command.js'
 import { base58, utf8 } from '../encoding.js'
 
 function hmacSha256(data, key) {
