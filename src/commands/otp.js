@@ -60,7 +60,7 @@ command(
   function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
-    return session.account.cancelOtpResetRequest()
+    return session.account.cancelOtpReset()
   }
 )
 

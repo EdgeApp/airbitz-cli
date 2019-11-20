@@ -121,8 +121,6 @@ command(
   function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
-    return session.context
-      .listUsernames()
-      .then(usernames => console.log(usernames))
+    console.log(session.context.localUsers)
   }
 )

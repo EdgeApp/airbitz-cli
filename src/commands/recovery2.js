@@ -62,7 +62,7 @@ command(
       answers.push(argv[i + 1])
     }
 
-    return session.account.recovery2Set(questions, answers).then(key => {
+    return session.account.changeRecovery(questions, answers).then(key => {
       console.log('Recovery key: ' + key)
       return key
     })
