@@ -1,5 +1,9 @@
 # airbitz-cli
 
+## 0.4.2
+
+- Upgrade to edge-core-js v0.16
+
 ## 0.4.1
 
 - Stop login from hanging
