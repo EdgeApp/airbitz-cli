@@ -5,7 +5,7 @@ set -e
 if [ -L ./node_modules/edge-core-js ]; then
   (
     cd ./node_modules/edge-core-js
-    npm run build
+    npm run prepare
   )
 fi
 
