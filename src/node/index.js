@@ -179,8 +179,9 @@ function makeSession(config, cmd = null) {
   const session = {}
 
   // API key:
+  let apiKey = config.apiKey
   if (config.apiKey == null) {
-    throw new UsageError(cmd, 'No API key')
+    apiKey = ''
   }
   let directory = config.directory
   if (directory == null) {
@@ -189,7 +190,7 @@ function makeSession(config, cmd = null) {
   }
 
   return makeEdgeContext({
-    apiKey: config.apiKey,
+    apiKey,
     appId: config.appId,
     authServer: config.authServer,
     path: directory,
