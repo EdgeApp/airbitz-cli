@@ -1,5 +1,9 @@
 # airbitz-cli
 
+## 0.4.3 (2020-01-09)
+
+- Make the API key optional.
+
 ## 0.4.2
 
 - Upgrade to edge-core-js v0.16
