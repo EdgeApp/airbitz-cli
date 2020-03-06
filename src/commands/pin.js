@@ -21,16 +21,30 @@ command(
 )
 
 command(
+  'pin-delete',
+  {
+    usage: '',
+    help: 'Removes the PIN from an account',
+    needsLogin: true
+  },
+  function(console, session, argv) {
+    if (argv.length !== 0) throw new UsageError(this)
+
+    return session.account.deletePin()
+  }
+)
+
+command(
   'pin-setup',
   {
     usage: '<pin>',
-    help: 'Creates or changes the PIN for a device',
+    help: 'Creates or changes the PIN for an account',
     needsLogin: true
   },
   function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const pin = argv[0]
 
-    return session.account.changePIN(pin)
+    return session.account.changePin(pin)
   }
 )

@@ -124,3 +124,37 @@ command(
     console.log(session.context.localUsers)
   }
 )
+
+command(
+  'account-key',
+  {
+    usage: '',
+    help: 'Shows the login key for the account',
+    needsAccount: true
+  },
+  function(console, session, argv) {
+    if (argv.length !== 0) throw new UsageError(this)
+
+    console.log(session.account.loginKey)
+  }
+)
+
+command(
+  'key-login',
+  {
+    usage: '<username> <account-key>',
+    help: 'Logs the user in with the account-key',
+    needsContext: true
+  },
+  function(console, session, argv) {
+    if (argv.length !== 2) throw new UsageError(this)
+    const username = argv[0]
+    const loginKey = argv[1]
+
+    return session.context.loginWithKey(username, loginKey).then(account => {
+      session.account = account
+      session.login = account.login
+      return account
+    })
+  }
+)
