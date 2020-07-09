@@ -4,13 +4,13 @@ const commands = {}
  * Creates an error indicating a problem with the command-line arguments.
  * @param command The command that was invoked. Can be null.
  */
-export function UsageError(command, message) {
-  const e = new Error(message || 'Incorrect arguments')
-  e.type = e.name = UsageError.name
-  e.command = command
-  return e
+export class UsageError extends Error {
+  constructor(command, message = 'Incorrect arguments') {
+    super(message)
+    this.command = command
+    this.name = 'UsageError'
+  }
 }
-UsageError.type = UsageError.name
 
 /**
  * Creates a new command, and adds it to the global command registry.

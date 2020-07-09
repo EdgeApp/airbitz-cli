@@ -59,6 +59,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "babel-plugin-transform-fake-error-class": "^0.1.0",
     "eslint": ">=6.2.2",
     "eslint-config-standard-kit": ">=0.14.2",
     "eslint-plugin-import": ">=2.18.0",

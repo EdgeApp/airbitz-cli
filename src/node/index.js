@@ -154,9 +154,7 @@ function loadConfig(options) {
     try {
       return JSON.parse(fs.readFileSync(path, 'utf8'))
     } catch (x) {
-      const e = new Error(`Cannot load config file "${path}"`)
-      e.type = 'ConfigError'
-      throw e
+      throw new Error(`Cannot load config file "${path}"`)
     }
   })
   const config = Object.assign({}, ...configFiles)

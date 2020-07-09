@@ -12,7 +12,8 @@ const babelOpts = {
         loose: true
       }
     ]
-  ]
+  ],
+  plugins: ['transform-fake-error-class']
 }
 
 export default [
