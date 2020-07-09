@@ -126,6 +126,21 @@ command(
 )
 
 command(
+  'username-delete',
+  {
+    usage: '',
+    help: 'Forgets a username, deleting its credentials from the device',
+    needsContext: true
+  },
+  function(console, session, argv) {
+    if (argv.length !== 1) throw new UsageError(this)
+    const username = argv[0]
+
+    session.context.deleteLocalAccount(username)
+  }
+)
+
+command(
   'account-key',
   {
     usage: '',
