@@ -26,9 +26,9 @@
     "README.md"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rimraf lib && rollup -c",
     "fix": "npm run lint -- --fix",
-    "lint": "eslint --ignore-path .gitignore .",
+    "lint": "eslint --ext .js,.ts .",
     "precommit": "lint-staged && npm run build",
     "prepare": "npm run build"
   },
@@ -38,7 +38,7 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint"
+    "*.{js,ts}": "eslint"
   },
   "resolutions": {
     "shell-quote": "1.6.1"
@@ -58,9 +58,13 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@rollup/plugin-babel": "^5.0.4",
+    "@rollup/plugin-typescript": "^5.0.1",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
     "babel-plugin-transform-fake-error-class": "^0.1.0",
     "eslint": ">=6.2.2",
-    "eslint-config-standard-kit": ">=0.14.2",
+    "eslint-config-standard-kit": ">=0.14.4",
     "eslint-plugin-import": ">=2.18.0",
     "eslint-plugin-node": ">=9.1.0",
     "eslint-plugin-prettier": ">=3.0.0",
@@ -70,7 +74,8 @@
     "husky": ">=3.0.0",
     "lint-staged": ">=9.0.0",
     "prettier": ">=1.0.0",
-    "rollup": "^1.0.0",
-    "rollup-plugin-babel": "^4.0.0"
+    "rimraf": "^3.0.2",
+    "rollup": "^2.21.0",
+    "typescript": "^3.9.6"
   }
 }
