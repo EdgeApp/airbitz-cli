@@ -1,5 +1,3 @@
-// @flow
-
 import baseX from 'base-x'
 
 const base58Codec = baseX(
@@ -7,16 +5,16 @@ const base58Codec = baseX(
 )
 
 export const base58 = {
-  parse(text) {
+  parse(text: string): Uint8Array {
     return base58Codec.decode(text)
   },
-  stringify(data) {
+  stringify(data: Uint8Array | number[]): string {
     return base58Codec.encode(data)
   }
 }
 
 export const utf8 = {
-  parse(text) {
+  parse(text: string): Uint8Array {
     const byteString = encodeURI(text)
     const out = new Uint8Array(byteString.length)
 
@@ -36,7 +34,7 @@ export const utf8 = {
     return out.subarray(0, di)
   },
 
-  stringify(data) {
+  stringify(data: ArrayLike<number>): string {
     // Create a %XX escape sequence for each input byte:
     let byteString = ''
     for (let i = 0; i < data.length; ++i) {

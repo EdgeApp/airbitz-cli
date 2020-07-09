@@ -1,5 +1,5 @@
-import { command, UsageError } from '../command.js'
-import { getInternalStuff } from '../util/internal.js'
+import { command, UsageError } from '../command'
+import { getInternalStuff } from '../util/internal'
 
 command(
   'lobby-create',
@@ -8,21 +8,21 @@ command(
     help: 'Puts the provided lobby request JSON on the auth server',
     needsContext: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyRequest = JSON.parse(argv[0])
 
     const internal = getInternalStuff(session.context)
-    return internal.makeLobby(lobbyRequest).then(lobby => {
-      console.log(`Created lobby ${lobby.lobbyId}`)
-      return new Promise((resolve, reject) => {
-        lobby.on('error', reject)
-        lobby.watch('replies', replies => {
-          if (replies.length === 0) return
-          console.log(JSON.stringify(replies[0], null, 2))
-          resolve(replies[0])
-          lobby.close()
-        })
+    const lobby = await internal.makeLobby(lobbyRequest)
+    console.log(`Created lobby ${lobby.lobbyId}`)
+
+    await new Promise((resolve, reject) => {
+      lobby.on('error', reject)
+      lobby.watch('replies', (replies: unknown[]) => {
+        if (replies.length === 0) return
+        console.log(JSON.stringify(replies[0], null, 2))
+        lobby.close()
+        resolve()
       })
     })
   }
@@ -35,12 +35,12 @@ command(
     help: "Fetches a lobby's contents from the server",
     needsContext: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyId = argv[0]
 
     const internal = getInternalStuff(session.context)
-    return internal
+    await internal
       .fetchLobbyRequest(lobbyId)
       .then(request => console.log(JSON.stringify(request, null, 2)))
   }
@@ -53,15 +53,14 @@ command(
     help: 'Sends a reply to a lobby',
     needsContext: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const lobbyId = argv[0]
     const lobbyReply = JSON.parse(argv[1])
 
     const internal = getInternalStuff(session.context)
-    return internal
-      .fetchLobbyRequest(lobbyId)
-      .then(request => internal.sendLobbyReply(lobbyId, request, lobbyReply))
+    const request = await internal.fetchLobbyRequest(lobbyId)
+    await internal.sendLobbyReply(lobbyId, request, lobbyReply)
   }
 )
 
@@ -72,19 +71,18 @@ command(
     help: 'Fetches an Edge login request from the lobby server',
     needsAccount: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyId = argv[0]
 
-    return session.account.fetchLobby(lobbyId).then(lobby => {
-      const { loginRequest } = lobby
-      console.log(`loginRequest: ${loginRequest ? 'yes' : 'no'}`)
-      if (loginRequest) {
-        console.log(` appId: ${loginRequest.appId}`)
-        console.log(` displayName: ${loginRequest.displayName}`)
-        console.log(` displayImageUrl: ${loginRequest.displayImageUrl}`)
-      }
-    })
+    const lobby = await session.account.fetchLobby(lobbyId)
+    const { loginRequest } = lobby
+    console.log(`loginRequest: ${loginRequest != null ? 'yes' : 'no'}`)
+    if (loginRequest != null) {
+      console.log(` appId: ${loginRequest.appId}`)
+      console.log(` displayName: ${loginRequest.displayName}`)
+      console.log(` displayImageUrl: ${loginRequest.displayImageUrl}`)
+    }
   }
 )
 
@@ -95,17 +93,16 @@ command(
     help: 'Approves an edge-login request',
     needsAccount: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyId = argv[0]
 
-    return session.account.fetchLobby(lobbyId).then(lobby => {
-      const { loginRequest } = lobby
-      if (!loginRequest) {
-        throw new Error('This lobby is not requesting an edge login.')
-      }
+    const lobby = await session.account.fetchLobby(lobbyId)
+    const { loginRequest } = lobby
+    if (loginRequest == null) {
+      throw new Error('This lobby is not requesting an edge login.')
+    }
 
-      return loginRequest.approve()
-    })
+    await loginRequest.approve()
   }
 )

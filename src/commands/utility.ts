@@ -1,13 +1,17 @@
 import hashjs from 'hash.js'
 import { base64 } from 'rfc4648'
 
-import { command, UsageError } from '../command.js'
-import { base58, utf8 } from '../util/encoding.js'
-import { getInternalStuff } from '../util/internal.js'
+import { command, UsageError } from '../command'
+import { base58, utf8 } from '../util/encoding'
+import { getInternalStuff } from '../util/internal'
 
-function hmacSha256(data, key) {
+function hmacSha256(
+  data: ArrayLike<number>,
+  key: ArrayLike<number>
+): Uint8Array {
+  // @ts-expect-error
   const hmac = hashjs.hmac(hashjs.sha256, key)
-  return hmac.update(data).digest()
+  return Uint8Array.from(hmac.update(data).digest())
 }
 
 command(
@@ -17,7 +21,7 @@ command(
     help: 'Visits the selected URI on the auth server',
     needsContext: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     const internal = getInternalStuff(session.context)
     switch (argv.length) {
       case 1:

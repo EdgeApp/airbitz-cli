@@ -1,4 +1,6 @@
-import { command, UsageError } from '../command.js'
+import { EdgeWalletStates } from 'edge-core-js'
+
+import { command, UsageError } from '../command'
 
 command(
   'key-list',
@@ -20,7 +22,7 @@ command(
     usage: '<key-info-json>',
     needsAccount: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const keyInfo = JSON.parse(argv[0])
 
@@ -34,7 +36,7 @@ command(
       throw new UsageError(this, 'Missing `keys` field')
     }
 
-    return session.account.createWallet(keyInfo.type, keyInfo.keys)
+    await session.account.createWallet(keyInfo.type, keyInfo.keys)
   }
 )
 
@@ -45,12 +47,12 @@ command(
     usage: '<wallet-id>',
     needsAccount: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const walletId = JSON.parse(argv[0])
 
-    const opts = {}
+    const opts: EdgeWalletStates = {}
     opts[walletId] = { deleted: false }
-    return session.account.changeWalletStates(opts)
+    await session.account.changeWalletStates(opts)
   }
 )

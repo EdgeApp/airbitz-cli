@@ -16,7 +16,7 @@ import readline from 'readline'
 import sourceMapSupport from 'source-map-support'
 import xdgBasedir from 'xdg-basedir'
 
-import { command, findCommand, listCommands, UsageError } from '../command.js'
+import { command, findCommand, listCommands, UsageError } from '../command.ts'
 import { printCommandList } from '../commands/help.js'
 
 addEdgeCorePlugins(exchangePlugins)

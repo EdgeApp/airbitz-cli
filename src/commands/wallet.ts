@@ -1,4 +1,6 @@
-import { command, UsageError } from '../command.js'
+import { EdgeWalletStates } from 'edge-core-js'
+
+import { command, UsageError } from '../command'
 
 command(
   'wallet-list',
@@ -26,12 +28,12 @@ command(
     usage: '<wallet-id>',
     needsAccount: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const walletId = argv[0]
 
-    const opts = {}
+    const opts: EdgeWalletStates = {}
     opts[walletId] = { deleted: false }
-    return session.account.changeWalletStates(opts)
+    await session.account.changeWalletStates(opts)
   }
 )

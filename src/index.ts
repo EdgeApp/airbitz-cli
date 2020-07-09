@@ -1,3 +1,3 @@
-import './commands/all.js'
+import './commands/all'
 
-export { command, findCommand, listCommands, UsageError } from './command.js'
+export { command, findCommand, listCommands, UsageError } from './command'
