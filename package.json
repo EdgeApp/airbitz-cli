@@ -14,6 +14,9 @@
     "William Swanson <william@airbitz.co>",
     "Tim Horton <tim@airbitz.co>"
   ],
+  "main": "lib/airbitz-cli.cjs.js",
+  "module": "lib/airbitz-cli.js",
+  "bin": "bin/airbitz-cli",
   "files": [
     "bin/*",
     "CHANGELOG.md",
@@ -22,9 +25,6 @@
     "package.json",
     "README.md"
   ],
-  "main": "lib/airbitz-cli.cjs.js",
-  "module": "lib/airbitz-cli.js",
-  "bin": "bin/airbitz-cli",
   "scripts": {
     "build": "rollup -c",
     "fix": "npm run lint -- --fix",
@@ -39,6 +39,9 @@
   },
   "lint-staged": {
     "*.js": "eslint"
+  },
+  "resolutions": {
+    "shell-quote": "1.6.1"
   },
   "dependencies": {
     "base-x": "^2.0.0",
@@ -69,8 +72,5 @@
     "prettier": ">=1.0.0",
     "rollup": "^1.0.0",
     "rollup-plugin-babel": "^4.0.0"
-  },
-  "resolutions": {
-    "shell-quote": "1.6.1"
   }
 }
