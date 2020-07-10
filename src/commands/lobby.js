@@ -13,7 +13,7 @@ command(
 
     const internal = session.context.$internalStuff
     return internal.makeLobby(lobbyRequest).then(lobby => {
-      console.log('Created lobby ' + lobby.lobbyId)
+      console.log(`Created lobby ${lobby.lobbyId}`)
       return new Promise((resolve, reject) => {
         lobby.on('error', reject)
         lobby.watch('replies', replies => {
@@ -77,11 +77,11 @@ command(
 
     return session.account.fetchLobby(lobbyId).then(lobby => {
       const { loginRequest } = lobby
-      console.log('loginRequest: ' + (loginRequest ? 'yes' : 'no'))
+      console.log(`loginRequest: ${loginRequest ? 'yes' : 'no'}`)
       if (loginRequest) {
-        console.log(' appId: ' + loginRequest.appId)
-        console.log(' displayName: ' + loginRequest.displayName)
-        console.log(' displayImageUrl: ' + loginRequest.displayImageUrl)
+        console.log(` appId: ${loginRequest.appId}`)
+        console.log(` displayName: ${loginRequest.displayName}`)
+        console.log(` displayImageUrl: ${loginRequest.displayImageUrl}`)
       }
     })
   }

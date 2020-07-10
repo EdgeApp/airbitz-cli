@@ -63,7 +63,7 @@ command(
     }
 
     return session.account.changeRecovery(questions, answers).then(key => {
-      console.log('Recovery key: ' + key)
+      console.log(`Recovery key: ${key}`)
       return key
     })
   }

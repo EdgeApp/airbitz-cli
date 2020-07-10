@@ -53,7 +53,7 @@ const getopt = new Getopt([
 
 function formatUsage(cmd) {
   // Set up the help options:
-  let out = 'Usage: ' + cmd.name
+  let out = `Usage: ${cmd.name}`
   if (cmd.needsContext) {
     out += ' [-k <api-key>] [-d <work-dir>]'
   }
@@ -61,7 +61,7 @@ function formatUsage(cmd) {
     out += ' -u <username> -p <password>'
   }
   if (cmd.usage != null) {
-    out += ' ' + cmd.usage
+    out += ` ${cmd.usage}`
   }
   return out
 }

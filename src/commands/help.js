@@ -1,9 +1,9 @@
 import { command, findCommand, listCommands, UsageError } from '../command.js'
 
 function formatUsage(cmd) {
-  let out = 'Usage: ' + cmd.name
+  let out = `Usage: ${cmd.name}`
   if (cmd.usage != null) {
-    out += ' ' + cmd.usage
+    out += ` ${cmd.usage}`
   }
   return out
 }
@@ -12,9 +12,9 @@ export function printCommandList(console) {
   console.log('Available commands:')
   listCommands().forEach(name => {
     const cmd = findCommand(name)
-    let line = '  ' + name
+    let line = `  ${name}`
     if (cmd.help != null) {
-      line += '\t- ' + cmd.help
+      line += `\t- ${cmd.help}`
     }
     console.log(line)
   })
