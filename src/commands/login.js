@@ -1,7 +1,7 @@
 import { base64 } from 'rfc4648'
 
 import { command, UsageError } from '../command.js'
-import { base58 } from '../encoding.js'
+import { base58 } from '../util/encoding.js'
 
 command(
   'account-remove',
