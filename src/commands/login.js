@@ -7,14 +7,14 @@ command(
   'account-remove',
   {
     usage: '<username>',
-    help: 'Removes any locally-stored data for the given username',
+    help: 'Deprecated. Use username-delete.',
     needsContext: true
   },
   function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
-    return session.context.removeUsername(username)
+    return session.context.deleteLocalAccount(username)
   }
 )
 

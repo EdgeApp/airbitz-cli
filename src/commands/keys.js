@@ -51,6 +51,6 @@ command(
 
     const opts = {}
     opts[walletId] = { deleted: false }
-    return session.account.changeKeyStates(opts)
+    return session.account.changeWalletStates(opts)
   }
 )

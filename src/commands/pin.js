@@ -45,6 +45,6 @@ command(
     if (argv.length !== 1) throw new UsageError(this)
     const pin = argv[0]
 
-    return session.account.changePin(pin)
+    return session.account.changePin({ pin })
   }
 )

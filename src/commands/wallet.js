@@ -9,12 +9,13 @@ command(
   function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
-    session.account.listWalletIds().forEach(id => {
-      const wallet = session.account.getWallet(id)
+    for (const id of session.account.listWalletIds()) {
+      const wallet = session.account.getWalletInfo(id)
+      if (wallet == null) continue
       console.log(
-        `$(id) (${wallet.type}) = ${JSON.stringify(wallet.repoKeys, null, 2)}`
+        `${id} (${wallet.type}) = ${JSON.stringify(wallet.keys, null, 2)}`
       )
-    })
+    }
   }
 )
 

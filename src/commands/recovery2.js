@@ -36,7 +36,7 @@ command(
     }
 
     return session.context
-      .loginWithRecovery2(key, username, answers, null, {})
+      .loginWithRecovery2(key, username, answers, {})
       .then(account => {
         session.account = account
         session.login = account.login
