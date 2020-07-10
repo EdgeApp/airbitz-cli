@@ -3,6 +3,7 @@ import { base64 } from 'rfc4648'
 
 import { command, UsageError } from '../command.js'
 import { base58, utf8 } from '../util/encoding.js'
+import { getInternalStuff } from '../util/internal.js'
 
 function hmacSha256(data, key) {
   const hmac = hashjs.hmac(hashjs.sha256, key)
@@ -17,23 +18,23 @@ command(
     needsContext: true
   },
   function(console, session, argv) {
-    function parseArgs(argv) {
-      switch (argv.length) {
-        case 1:
-          return ['GET', argv[0], {}]
-        case 2:
-          return ['POST', argv[0], JSON.parse(argv[1])]
-        case 3:
-          return [argv[0], argv[1], JSON.parse(argv[2])]
-        default:
-          throw new UsageError(this)
-      }
+    const internal = getInternalStuff(session.context)
+    switch (argv.length) {
+      case 1:
+        return internal
+          .authRequest('GET', argv[0], {})
+          .then(reply => console.log(reply))
+      case 2:
+        return internal
+          .authRequest('POST', argv[0], JSON.parse(argv[1]))
+          .then(reply => console.log(reply))
+      case 3:
+        return internal
+          .authRequest(argv[0], argv[1], JSON.parse(argv[2]))
+          .then(reply => console.log(reply))
+      default:
+        throw new UsageError(this)
     }
-
-    const internal = session.context.$internalStuff
-    return internal
-      .authRequest(...parseArgs(argv))
-      .then(reply => console.log(reply))
   }
 )
 

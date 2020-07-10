@@ -1,4 +1,5 @@
 import { command, UsageError } from '../command.js'
+import { getInternalStuff } from '../util/internal.js'
 
 command(
   'lobby-create',
@@ -11,7 +12,7 @@ command(
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyRequest = JSON.parse(argv[0])
 
-    const internal = session.context.$internalStuff
+    const internal = getInternalStuff(session.context)
     return internal.makeLobby(lobbyRequest).then(lobby => {
       console.log(`Created lobby ${lobby.lobbyId}`)
       return new Promise((resolve, reject) => {
@@ -38,7 +39,7 @@ command(
     if (argv.length !== 1) throw new UsageError(this)
     const lobbyId = argv[0]
 
-    const internal = session.context.$internalStuff
+    const internal = getInternalStuff(session.context)
     return internal
       .fetchLobbyRequest(lobbyId)
       .then(request => console.log(JSON.stringify(request, null, 2)))
@@ -57,7 +58,7 @@ command(
     const lobbyId = argv[0]
     const lobbyReply = JSON.parse(argv[1])
 
-    const internal = session.context.$internalStuff
+    const internal = getInternalStuff(session.context)
     return internal
       .fetchLobbyRequest(lobbyId)
       .then(request => internal.sendLobbyReply(lobbyId, request, lobbyReply))

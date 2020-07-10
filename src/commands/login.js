@@ -2,6 +2,7 @@ import { base64 } from 'rfc4648'
 
 import { command, UsageError } from '../command.js'
 import { base58 } from '../util/encoding.js'
+import { getInternalStuff } from '../util/internal.js'
 
 command(
   'account-remove',
@@ -102,7 +103,7 @@ command(
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
-    const internal = session.context.$internalStuff
+    const internal = getInternalStuff(session.context)
     return internal.hashUsername(username).then(hash => {
       console.log('base64', base64.stringify(hash))
       console.log('base58', base58.stringify(hash))

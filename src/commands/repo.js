@@ -1,6 +1,7 @@
 import { base16 } from 'rfc4648'
 
 import { command, UsageError } from '../command.js'
+import { getInternalStuff } from '../util/internal.js'
 
 command(
   'repo-sync',
@@ -13,7 +14,7 @@ command(
     if (argv.length !== 1) throw new UsageError(this)
     const syncKey = base16.parse(argv[0])
 
-    const internal = session.context.$internalStuff
+    const internal = getInternalStuff(session.context)
     internal.syncRepo(syncKey).then(results => {
       const changed = results.changes.length !== 0
       console.log(changed ? 'changed' : 'unchanged')
@@ -35,7 +36,7 @@ command(
     const dataKey = base16.parse(argv[1])
     const path = argv.length === 3 ? argv[2] : ''
 
-    const internal = session.context.$internalStuff
+    const internal = getInternalStuff(session.context)
     return internal
       .getRepoDisklet(syncKey, dataKey)
       .then(disklet => disklet.list(path))
@@ -57,7 +58,7 @@ command(
     const path = argv[2]
     const value = argv[3]
 
-    const internal = session.context.$internalStuff
+    const internal = getInternalStuff(session.context)
     return internal
       .getRepoDisklet(syncKey, dataKey)
       .then(disklet => disklet.setText(path, value))
@@ -77,7 +78,7 @@ command(
     const dataKey = base16.parse(argv[1])
     const path = argv[2]
 
-    const internal = session.context.$internalStuff
+    const internal = getInternalStuff(session.context)
     return internal
       .getRepoDisklet(syncKey, dataKey)
       .then(disklet => disklet.getText(path))
