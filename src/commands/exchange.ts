@@ -1,4 +1,4 @@
-import { command, UsageError } from '../command.js'
+import { command, UsageError } from '../command'
 
 command(
   'exchange-convert',
@@ -9,15 +9,13 @@ command(
   },
   function(console, session, argv) {
     if (argv.length < 2 || argv.length > 3) throw new UsageError(this)
-    const fromCurrency = argv[0]
-    const toCurrency = argv[1]
-    const amount = argv[2] || 1
+    const [fromCurrency, toCurrency, amount = 1] = argv
 
     console.log(
       session.account.exchangeCache.convertCurrency(
         fromCurrency,
         toCurrency,
-        amount
+        Number(amount)
       )
     )
   }

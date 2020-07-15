@@ -1,4 +1,6 @@
-import { command, UsageError } from '../command.js'
+import { EdgeWalletStates } from 'edge-core-js'
+
+import { command, UsageError } from '../command'
 
 command(
   'wallet-list',
@@ -9,12 +11,13 @@ command(
   function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
-    session.account.listWalletIds().forEach(id => {
-      const wallet = session.account.getWallet(id)
+    for (const id of session.account.listWalletIds()) {
+      const wallet = session.account.getWalletInfo(id)
+      if (wallet == null) continue
       console.log(
-        `$(id) (${wallet.type}) = ${JSON.stringify(wallet.repoKeys, null, 2)}`
+        `${id} (${wallet.type}) = ${JSON.stringify(wallet.keys, null, 2)}`
       )
-    })
+    }
   }
 )
 
@@ -25,12 +28,12 @@ command(
     usage: '<wallet-id>',
     needsAccount: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const walletId = argv[0]
 
-    const opts = {}
+    const opts: EdgeWalletStates = {}
     opts[walletId] = { deleted: false }
-    return session.account.changeWalletStates(opts)
+    await session.account.changeWalletStates(opts)
   }
 )

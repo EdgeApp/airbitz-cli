@@ -1,4 +1,4 @@
-import { command, UsageError } from '../command.js'
+import { command, UsageError } from '../command'
 
 command(
   'recovery2-questions',
@@ -7,12 +7,12 @@ command(
     help: "Shows a user's recovery questions",
     needsContext: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const key = argv[0]
     const username = argv[1]
 
-    return session.context
+    await session.context
       .fetchRecovery2Questions(key, username)
       .then(questions => questions.forEach(question => console.log(question)))
   }
@@ -25,22 +25,20 @@ command(
     help: 'Logs the user in with a recovery key and answers',
     needsContext: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length < 2) throw new UsageError(this)
     const key = argv[0]
     const username = argv[1]
 
-    const answers = []
+    const answers: string[] = []
     for (let i = 2; i < argv.length; ++i) {
       answers.push(argv[i])
     }
 
-    return session.context
-      .loginWithRecovery2(key, username, answers, null, {})
+    await session.context
+      .loginWithRecovery2(key, username, answers, {})
       .then(account => {
         session.account = account
-        session.login = account.login
-        return account
       })
   }
 )
@@ -52,19 +50,18 @@ command(
     help: 'Creates or changes the recovery questions for a login',
     needsLogin: true
   },
-  function(console, session, argv) {
-    if (argv.length % 2) throw new UsageError(this)
+  async function(console, session, argv) {
+    if (argv.length % 2 !== 0) throw new UsageError(this)
 
-    const questions = []
-    const answers = []
+    const questions: string[] = []
+    const answers: string[] = []
     for (let i = 0; i < argv.length; i += 2) {
       questions.push(argv[i])
       answers.push(argv[i + 1])
     }
 
-    return session.account.changeRecovery(questions, answers).then(key => {
-      console.log('Recovery key: ' + key)
-      return key
+    await session.account.changeRecovery(questions, answers).then(key => {
+      console.log(`Recovery key: ${key}`)
     })
   }
 )

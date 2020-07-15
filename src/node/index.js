@@ -16,7 +16,7 @@ import readline from 'readline'
 import sourceMapSupport from 'source-map-support'
 import xdgBasedir from 'xdg-basedir'
 
-import { command, findCommand, listCommands, UsageError } from '../command.js'
+import { command, findCommand, listCommands, UsageError } from '../command.ts'
 import { printCommandList } from '../commands/help.js'
 
 addEdgeCorePlugins(exchangePlugins)
@@ -53,7 +53,7 @@ const getopt = new Getopt([
 
 function formatUsage(cmd) {
   // Set up the help options:
-  let out = 'Usage: ' + cmd.name
+  let out = `Usage: ${cmd.name}`
   if (cmd.needsContext) {
     out += ' [-k <api-key>] [-d <work-dir>]'
   }
@@ -61,7 +61,7 @@ function formatUsage(cmd) {
     out += ' -u <username> -p <password>'
   }
   if (cmd.usage != null) {
-    out += ' ' + cmd.usage
+    out += ` ${cmd.usage}`
   }
   return out
 }
@@ -154,9 +154,7 @@ function loadConfig(options) {
     try {
       return JSON.parse(fs.readFileSync(path, 'utf8'))
     } catch (x) {
-      const e = new Error(`Cannot load config file "${path}"`)
-      e.type = 'ConfigError'
-      throw e
+      throw new Error(`Cannot load config file "${path}"`)
     }
   })
   const config = Object.assign({}, ...configFiles)

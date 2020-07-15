@@ -1,20 +1,26 @@
-import { command, findCommand, listCommands, UsageError } from '../command.js'
+import {
+  Command,
+  command,
+  findCommand,
+  listCommands,
+  UsageError
+} from '../command'
 
-function formatUsage(cmd) {
-  let out = 'Usage: ' + cmd.name
+function formatUsage(cmd: Command): string {
+  let out = `Usage: ${cmd.name}`
   if (cmd.usage != null) {
-    out += ' ' + cmd.usage
+    out += ` ${cmd.usage}`
   }
   return out
 }
 
-export function printCommandList(console) {
+export function printCommandList(console: { log(...args: any[]): void }): void {
   console.log('Available commands:')
   listCommands().forEach(name => {
     const cmd = findCommand(name)
-    let line = '  ' + name
+    let line = `  ${name}`
     if (cmd.help != null) {
-      line += '\t- ' + cmd.help
+      line += `\t- ${cmd.help}`
     }
     console.log(line)
   })

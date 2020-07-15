@@ -1,9 +1,11 @@
-import babel from 'rollup-plugin-babel'
+import babel from '@rollup/plugin-babel'
+import typescript from '@rollup/plugin-typescript'
 
 import packageJson from './package.json'
 
 const babelOpts = {
   babelrc: false,
+  babelHelpers: 'bundled',
   presets: [
     [
       '@babel/preset-env',
@@ -12,19 +14,20 @@ const babelOpts = {
         loose: true
       }
     ]
-  ]
+  ],
+  plugins: ['transform-fake-error-class']
 }
 
 export default [
   // Library:
   {
     external: Object.keys(packageJson.dependencies),
-    input: 'src/index.js',
+    input: 'src/index.ts',
     output: [
       { file: packageJson.main, format: 'cjs', sourcemap: true },
       { file: packageJson.module, format: 'es', sourcemap: true }
     ],
-    plugins: [babel(babelOpts)]
+    plugins: [babel(babelOpts), typescript()]
   },
 
   // Node.js binary:
@@ -43,6 +46,6 @@ export default [
       format: 'cjs',
       sourcemap: true
     },
-    plugins: [babel(babelOpts)]
+    plugins: [babel(babelOpts), typescript()]
   }
 ]

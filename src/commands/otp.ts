@@ -1,4 +1,4 @@
-import { command, UsageError } from '../command.js'
+import { command, UsageError } from '../command'
 
 command(
   'otp-status',
@@ -10,10 +10,10 @@ command(
   function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
-    if (session.account.otpKey) {
+    if (session.account.otpKey != null) {
       console.log(`OTP enabled with key ${session.account.otpKey}`)
     } else console.log('OTP disabled')
-    if (session.account.otpResetDate) {
+    if (session.account.otpResetDate != null) {
       console.log(`OTP reset will occur at ${session.account.otpResetDate}`)
     } else console.log('No OTP reset pending')
   }
@@ -26,11 +26,11 @@ command(
     help: 'Enables OTP for this account',
     needsLogin: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length > 1) throw new UsageError(this)
-    const timeout = argv[0]
+    const timeout = Number(argv[0])
 
-    return session.account
+    await session.account
       .enableOtp(timeout)
       .then(() => console.log(session.account.otpKey))
   }
@@ -43,10 +43,10 @@ command(
     help: 'Disables OTP for this account',
     needsLogin: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
-    return session.account.disableOtp()
+    await session.account.disableOtp()
   }
 )
 
@@ -57,10 +57,10 @@ command(
     help: 'Cancels a pending OTP reset for this account',
     needsLogin: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
-    return session.account.cancelOtpReset()
+    await session.account.cancelOtpReset()
   }
 )
 
@@ -71,12 +71,12 @@ command(
     help: 'Requests an OTP reset for this account',
     needsContext: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const username = argv[0]
     const resetToken = argv[1]
 
-    return session.context
+    await session.context
       .requestOtpReset(username, resetToken)
       .then(date => console.log(date))
   }
