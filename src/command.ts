@@ -1,10 +1,4 @@
-import { EdgeAccount, EdgeContext, EdgeCurrencyWallet } from 'edge-core-js'
-
-export interface Session {
-  account: EdgeAccount
-  context: EdgeContext
-  wallet: EdgeCurrencyWallet
-}
+import { Session } from './util/session'
 
 type InvokeCommand = (
   this: Command,
