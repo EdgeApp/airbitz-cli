@@ -7,12 +7,12 @@ command(
     help: 'Performs an exchange-rate lookup',
     needsAccount: true
   },
-  function(console, session, argv) {
+  async function(console, session, argv) {
     if (argv.length < 2 || argv.length > 3) throw new UsageError(this)
     const [fromCurrency, toCurrency, amount = 1] = argv
 
     console.log(
-      session.account.exchangeCache.convertCurrency(
+      await session.account.exchangeCache.convertCurrency(
         fromCurrency,
         toCurrency,
         Number(amount)
