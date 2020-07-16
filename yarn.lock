@@ -914,11 +914,6 @@ astral-regex@^1.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-1.0.0.tgz#6c8c3fb827dd43ee3918f27b82782ab7658a6fd9"
   integrity sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==
 
-async-limiter@~1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.0.tgz#78faed8c3d074ab81f22b4e985d79e8738f720f8"
-  integrity sha512-jp/uFnooOiO+L211eZOoSyzpOITMXx1rBITauYykG3BRYPu8h0UcxsPNB04RR5vo4Tyz3+ay17tR6JVf9qzYWg==
-
 babel-plugin-dynamic-import-node@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.3.0.tgz#f00f507bdaa3c3e3ff6e7e5e98d90a7acab96f7f"
@@ -1092,6 +1087,11 @@ clean-stack@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
   integrity sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==
+
+cleaners@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/cleaners/-/cleaners-0.2.1.tgz#535849cfabc91e3ae1fc872b43d450446cd1a1a1"
+  integrity sha512-DSz39+aAcvfqwruSz7H7xY9kE3tRbMTiq2GQtZHpNWox2npyoQGdMUYR7pYgApJNSDY5Q9GNRo+JyncxI5USIA==
 
 cli-cursor@^2.0.0, cli-cursor@^2.1.0:
   version "2.1.0"
@@ -1296,10 +1296,10 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-disklet@^0.4.2:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/disklet/-/disklet-0.4.3.tgz#a71fec7726220e11c36619e30ae976b3d38d4cda"
-  integrity sha512-8H64WbDbi0xhrLkVABotR2jlKZfzaUEhoxi9LGzrqUYa7IaOq68ULEqxyW58wpKa8nyEScH/TC6nby+Q7A+jvA==
+disklet@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/disklet/-/disklet-0.4.5.tgz#f62546a94f939cca4dd20d9c3d5c5e43c9529441"
+  integrity sha512-ivPnHcgFOR5kXcAhR2pMrwtNfNAtoWW0SZ0laSFCr4vboU28PERUKLtUeCC0PWh/X3ykZ+3UFE5doALSOuthnQ==
   dependencies:
     rfc4648 "^1.3.0"
 
@@ -1332,16 +1332,17 @@ duplexer@^0.1.1, duplexer@~0.1.1:
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
   integrity sha1-rOb/gIwc5mtX0ev5eXessCM0z8E=
 
-edge-core-js@^0.16.13:
-  version "0.16.13"
-  resolved "https://registry.yarnpkg.com/edge-core-js/-/edge-core-js-0.16.13.tgz#400d046bfa89602a40c659410aa08f68930b06aa"
-  integrity sha512-DCBAnxAQKCdexmfYxeAKciDMiwg/pmePwxCRbxqbK/nHU8PGttWFcWCQsLG2YllgeYvIo1A4vWnLRw/cifvYpg==
+edge-core-js@^0.17.9:
+  version "0.17.9"
+  resolved "https://registry.yarnpkg.com/edge-core-js/-/edge-core-js-0.17.9.tgz#a7ff5fd795789b131ca34b8204a18c147671308f"
+  integrity sha512-CYrQuec+WtvyN/GR5uiN47e8EllH9n05k3xCc3USx0Ug9L1BeGWR+XmXbqwQNbTx8t3ZDN5Ue2QU8zKf2JELOQ==
   dependencies:
     aes-js "^3.1.0"
     base-x "^1.0.4"
     biggystring "^3.0.2"
+    cleaners "^0.2.1"
     currency-codes "^1.1.2"
-    disklet "^0.4.2"
+    disklet "^0.4.5"
     elliptic "^6.4.0"
     esm "^3.2.4"
     ethereumjs-tx "^1.3.7"
@@ -1351,13 +1352,11 @@ edge-core-js@^0.16.13:
     json-csv "^1.5.0"
     node-fetch "^2.0.0"
     redux "^3.6.0"
-    redux-keto "^0.3.2"
+    redux-keto "^0.3.3"
     redux-pixies "^0.3.6"
     rfc4648 "^1.1.0"
     scrypt-js "^2.0.3"
-    utf8 "^3.0.0"
-    ws "^5.1.1"
-    yaob "^0.3.4"
+    yaob "^0.3.6"
 
 edge-exchange-plugins@^0.6.0:
   version "0.6.0"
@@ -2967,9 +2966,10 @@ readable-stream@^2.2.2:
     string_decoder "~1.0.3"
     util-deprecate "~1.0.1"
 
-redux-keto@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/redux-keto/-/redux-keto-0.3.2.tgz#15c18d61fec5e76e3d0d3f02767a996fee4ff622"
+redux-keto@^0.3.3:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/redux-keto/-/redux-keto-0.3.4.tgz#1bf78a36736dc181dd419b10e57116dea17fa3a5"
+  integrity sha512-16q/QujMkv+zdsVRExJuGbl6grXZLoRakBbQR5E9DmEAPIeJoXtjmc6L3bCMUVjBfF+0XFQyJDZwjhS2guh+ng==
 
 redux-pixies@^0.3.6:
   version "0.3.6"
@@ -3638,18 +3638,11 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
-ws@^5.1.1:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-5.2.2.tgz#dffef14866b8e8dc9133582514d1befaf96e980f"
-  integrity sha512-jaHFD6PFv6UgoIVda6qZllptQsMlDEJkTQcybzzXDYM1XO9Y8em691FGMPmM46WGyLU4z9KMgQN+qrux/nhlHA==
-  dependencies:
-    async-limiter "~1.0.0"
-
 xdg-basedir@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-3.0.0.tgz#496b2cc109eca8dbacfe2dc72b603c17c5870ad4"
 
-yaob@^0.3.4:
+yaob@^0.3.6:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/yaob/-/yaob-0.3.6.tgz#84f9970d2e3629e041a791d1dea41f8a5387e91f"
   integrity sha512-MGfSGsmQsRgWM62vPn+7NjSeU70EH78aZg5uXhLGAw94C7nMDxKJaamozTTGuiF4cwp8bsoM4cOhiDogk23INg==
