@@ -1088,7 +1088,7 @@ clean-stack@^2.0.0:
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
   integrity sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==
 
-cleaners@^0.2.1:
+cleaners@^0.2.0, cleaners@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/cleaners/-/cleaners-0.2.1.tgz#535849cfabc91e3ae1fc872b43d450446cd1a1a1"
   integrity sha512-DSz39+aAcvfqwruSz7H7xY9kE3tRbMTiq2GQtZHpNWox2npyoQGdMUYR7pYgApJNSDY5Q9GNRo+JyncxI5USIA==
@@ -1358,11 +1358,13 @@ edge-core-js@^0.17.9:
     scrypt-js "^2.0.3"
     yaob "^0.3.6"
 
-edge-exchange-plugins@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/edge-exchange-plugins/-/edge-exchange-plugins-0.6.0.tgz#c75624e80bb7e45cee8111720674894022944e85"
-  integrity sha512-u90IYvWqT70q2ShMQx9D5wkcE5LXTxda3kNRSkwgHpB5iI+lNV/Z9qEE5UjjlQUfe7d90yDj7kwzwqwvXcaFMQ==
+edge-exchange-plugins@^0.11.4:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/edge-exchange-plugins/-/edge-exchange-plugins-0.11.4.tgz#69611709faa68246f8156a3248076295b724eada"
+  integrity sha512-u8JJFX0aTVoWb7cyNasQxMWxgSEFHCnrrmkThi/d2fBPFoCIkjq7PzqHXDPXge7YenSS48NmanYVjKTtoeeoRQ==
   dependencies:
+    biggystring "^3.0.2"
+    cleaners "^0.2.0"
     esm "^3.2.4"
     hashjs "^1.2.0"
     iso4217 "^0.2.0"

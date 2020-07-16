@@ -192,7 +192,7 @@ function makeSession(config, cmd = null) {
     appId: config.appId,
     authServer: config.authServer,
     path: directory,
-    plugins: { coinbase: true, 'shapeshift-rate': true }
+    plugins: { coinbase: true, coincap: true }
   }).then(context => {
     session.context = context
     return session
