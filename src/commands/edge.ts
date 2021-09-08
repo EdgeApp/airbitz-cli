@@ -7,7 +7,7 @@ command(
     help: 'Requests an edge login',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     // Subscribe to login events:

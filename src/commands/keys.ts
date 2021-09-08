@@ -8,7 +8,7 @@ command(
     help: 'Lists the keys in an account',
     needsAccount: true
   },
-  function(console, session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     console.log(session.account.allKeys)
@@ -22,7 +22,7 @@ command(
     usage: '<key-info-json>',
     needsAccount: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const keyInfo = JSON.parse(argv[0])
 
@@ -47,7 +47,7 @@ command(
     usage: '<wallet-id>',
     needsAccount: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const walletId = JSON.parse(argv[0])
 

@@ -11,7 +11,7 @@ command(
     help: 'Deprecated. Use username-delete.',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
@@ -26,7 +26,7 @@ command(
     help: 'Determines whether or not a username is available',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
@@ -43,7 +43,7 @@ command(
     help: 'Create a login on the auth server',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 3) throw new UsageError(this)
     const username = argv[0]
     const password = argv[1]
@@ -64,7 +64,7 @@ command(
     help: 'Logs out of the current account',
     needsAccount: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     const account = session.account
@@ -83,7 +83,7 @@ command(
     help: 'Fetches login messages for all local users',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
     await session.context
       .fetchLoginMessages()
@@ -98,7 +98,7 @@ command(
     help: 'Hashes a username using scrypt',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
@@ -117,7 +117,7 @@ command(
     help: 'Lists the usernames on this device',
     needsContext: true
   },
-  function(console, session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     console.log(session.context.localUsers)
@@ -131,7 +131,7 @@ command(
     help: 'Forgets a username, deleting its credentials from the device',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const username = argv[0]
 
@@ -146,7 +146,7 @@ command(
     help: 'Shows the login key for the account',
     needsAccount: true
   },
-  function(console, session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     console.log(session.account.loginKey)
@@ -160,7 +160,7 @@ command(
     help: 'Logs the user in with the account-key',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const username = argv[0]
     const loginKey = argv[1]

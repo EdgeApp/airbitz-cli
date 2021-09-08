@@ -10,7 +10,7 @@ command(
     help: 'Fetches the contents of a sync repo',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const syncKey = base16.parse(argv[0])
 
@@ -29,7 +29,7 @@ command(
     help: 'Shows the contents of a sync repo folder',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length < 2 || argv.length > 3) throw new UsageError(this)
     const syncKey = base16.parse(argv[0])
     const dataKey = base16.parse(argv[1])
@@ -48,7 +48,7 @@ command(
     help: 'Writes a file to the sync repo',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 4) throw new UsageError(this)
     const syncKey = base16.parse(argv[0])
     const dataKey = base16.parse(argv[1])
@@ -68,7 +68,7 @@ command(
     help: 'Reads a file from the sync repo',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 3) throw new UsageError(this)
     const syncKey = base16.parse(argv[0])
     const dataKey = base16.parse(argv[1])

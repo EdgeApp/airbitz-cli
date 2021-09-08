@@ -73,7 +73,7 @@ const helpCommand = command(
     help: 'Displays help for any command',
     replace: true
   },
-  function(console, session, argv) {
+  function (console, session, argv) {
     if (argv.length > 1) throw new UsageError(this, 'Too many parameters')
 
     if (argv.length === 1) {
@@ -256,9 +256,7 @@ function runPrompt(readline, session) {
     function prompt() {
       readline.question('> ', text => {
         if (/exit/.test(text)) return done()
-        rejectify(runLine)(text, session)
-          .catch(logError)
-          .then(prompt)
+        rejectify(runLine)(text, session).catch(logError).then(prompt)
       })
     }
 

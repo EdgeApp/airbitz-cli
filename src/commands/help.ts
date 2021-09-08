@@ -14,7 +14,9 @@ function formatUsage(cmd: Command): string {
   return out
 }
 
-export function printCommandList(console: { log(...args: any[]): void }): void {
+export function printCommandList(console: {
+  log: (...args: any[]) => void
+}): void {
   console.log('Available commands:')
   listCommands().forEach(name => {
     const cmd = findCommand(name)
@@ -32,7 +34,7 @@ command(
     usage: '[command]',
     help: 'Displays help for any command'
   },
-  function(console, session, argv) {
+  function (console, session, argv) {
     if (argv.length > 1) throw new UsageError(this, 'Too many parameters')
 
     if (argv.length === 1) {

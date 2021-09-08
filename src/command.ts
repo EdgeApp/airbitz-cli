@@ -8,7 +8,7 @@ export interface Session {
 
 type InvokeCommand = (
   this: Command,
-  console: { log(...args: any[]): void },
+  console: { log: (...args: any[]) => void },
   session: Session,
   argv: string[]
 ) => void | Promise<void>

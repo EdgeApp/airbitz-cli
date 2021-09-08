@@ -7,7 +7,7 @@ command(
     help: 'Logs the user in with the device-specific PIN',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const username = argv[0]
     const pin = argv[1]
@@ -25,7 +25,7 @@ command(
     help: 'Removes the PIN from an account',
     needsLogin: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
     await session.account.deletePin()
@@ -39,7 +39,7 @@ command(
     help: 'Creates or changes the PIN for an account',
     needsLogin: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
     const pin = argv[0]
 

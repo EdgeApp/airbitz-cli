@@ -22,7 +22,7 @@ interface EdgeLobby {
 
   readonly lobbyId: string
   readonly replies: unknown[]
-  close(): void
+  close: () => void
 }
 
 export interface SyncResult {
@@ -38,17 +38,17 @@ export interface SyncResult {
  * and for unit testing.
  */
 export interface EdgeInternalStuff {
-  authRequest(method: string, path: string, body?: {}): Promise<unknown>
-  hashUsername(username: string): Promise<Uint8Array>
-  makeLobby(lobbyRequest: LobbyRequest, period?: number): Promise<EdgeLobby>
-  fetchLobbyRequest(lobbyId: string): Promise<LobbyRequest>
-  sendLobbyReply(
+  authRequest: (method: string, path: string, body?: {}) => Promise<unknown>
+  hashUsername: (username: string) => Promise<Uint8Array>
+  makeLobby: (lobbyRequest: LobbyRequest, period?: number) => Promise<EdgeLobby>
+  fetchLobbyRequest: (lobbyId: string) => Promise<LobbyRequest>
+  sendLobbyReply: (
     lobbyId: string,
     lobbyRequest: LobbyRequest,
     replyData: unknown
-  ): Promise<void>
-  syncRepo(syncKey: Uint8Array): Promise<SyncResult>
-  getRepoDisklet(syncKey: Uint8Array, dataKey: Uint8Array): Promise<Disklet>
+  ) => Promise<void>
+  syncRepo: (syncKey: Uint8Array) => Promise<SyncResult>
+  getRepoDisklet: (syncKey: Uint8Array, dataKey: Uint8Array) => Promise<Disklet>
 }
 
 /**

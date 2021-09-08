@@ -21,19 +21,19 @@ command(
     help: 'Visits the selected URI on the auth server',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     const internal = getInternalStuff(session.context)
     switch (argv.length) {
       case 1:
-        return internal
+        return await internal
           .authRequest('GET', argv[0], {})
           .then(reply => console.log(reply))
       case 2:
-        return internal
+        return await internal
           .authRequest('POST', argv[0], JSON.parse(argv[1]))
           .then(reply => console.log(reply))
       case 3:
-        return internal
+        return await internal
           .authRequest(argv[0], argv[1], JSON.parse(argv[2]))
           .then(reply => console.log(reply))
       default:
@@ -49,7 +49,7 @@ command(
     help: 'Runs the filename hashing algorithm',
     needsContext: true
   },
-  function(console, session, argv) {
+  function (console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const dataKey = argv[0]
     const data = argv[1]

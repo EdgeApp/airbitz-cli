@@ -7,7 +7,7 @@ command(
     help: "Shows a user's recovery questions",
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 2) throw new UsageError(this)
     const key = argv[0]
     const username = argv[1]
@@ -25,7 +25,7 @@ command(
     help: 'Logs the user in with a recovery key and answers',
     needsContext: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length < 2) throw new UsageError(this)
     const key = argv[0]
     const username = argv[1]
@@ -50,7 +50,7 @@ command(
     help: 'Creates or changes the recovery questions for a login',
     needsLogin: true
   },
-  async function(console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length % 2 !== 0) throw new UsageError(this)
 
     const questions: string[] = []
