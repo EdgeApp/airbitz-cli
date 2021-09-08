@@ -1,5 +1,12 @@
 # airbitz-cli
 
+## 0.4.5 (2020-07-09)
+
+- added: Include Typescript definitions for the CLI library.
+- added: Include a native mjs entry point for modern Node versions.
+- changed: Upgrade edge-core-js to v0.17.9.
+- fixed: Many broken commands work again, thanks to type-checking.
+
 ## 0.4.4 (2020-07-09)
 
 - Add commands:
