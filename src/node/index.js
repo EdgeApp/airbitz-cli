@@ -122,6 +122,13 @@ function logError(e) {
   }
 }
 
+let pendingLogs = []
+
+function showCoreLogs() {
+  for (const line of pendingLogs) console.log(line)
+  pendingLogs = []
+}
+
 /**
  * Loads the config file,
  * and returns its contents merged with the command-line options.
@@ -179,7 +186,10 @@ async function makeSession(config) {
     appId: config.appId,
     authServer: config.authServer,
     path: directory,
-    plugins: { coinbase: true, coincap: true }
+    plugins: { coinbase: true, coincap: true },
+    onLog(event) {
+      pendingLogs.push(`${event.source}: ${event.message}`)
+    }
   })
   return session
 }
@@ -213,13 +223,15 @@ async function prepareSession(config, cmd) {
  */
 async function runLine(text, session) {
   const parsed = parse(text)
-  const cmd = parsed.exec ? findCommand(parsed.exec) : findCommand('help')
+  if (!parsed.exec) return showCoreLogs()
+  const cmd = findCommand(parsed.exec)
 
   if ((cmd.needsLogin || cmd.needsAccount) && session.account == null) {
     throw new UsageError(cmd, 'Please log in first')
   }
 
   await cmd.invoke(jsonConsole, session, parsed.args)
+  showCoreLogs()
 }
 
 /**
@@ -279,6 +291,7 @@ async function main() {
     const session = await prepareSession(config, cmd)
     // Invoke the command:
     await cmd.invoke(jsonConsole, session, opt.argv)
+    showCoreLogs()
   }
 }
 
