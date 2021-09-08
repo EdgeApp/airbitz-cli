@@ -28,7 +28,7 @@ interface EdgeLobby {
 export interface SyncResult {
   changes: { [path: string]: any }
   status: {
-    lastHash: string | void
+    lastHash?: string | null
     lastSync: number
   }
 }

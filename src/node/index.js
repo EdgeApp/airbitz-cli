@@ -1,4 +1,4 @@
-import '../commands/all.js'
+import '../commands/all'
 
 import chalk from 'chalk'
 import {
@@ -16,8 +16,8 @@ import readline from 'readline'
 import sourceMapSupport from 'source-map-support'
 import xdgBasedir from 'xdg-basedir'
 
-import { command, findCommand, listCommands, UsageError } from '../command.ts'
-import { printCommandList } from '../commands/help.js'
+import { command, findCommand, listCommands, UsageError } from '../command'
+import { printCommandList } from '../commands/help'
 
 addEdgeCorePlugins(exchangePlugins)
 lockEdgeCorePlugins()

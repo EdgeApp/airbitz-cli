@@ -22,7 +22,7 @@ command(
         if (replies.length === 0) return
         console.log(JSON.stringify(replies[0], null, 2))
         lobby.close()
-        resolve()
+        resolve(undefined)
       })
     })
   }
@@ -79,9 +79,12 @@ command(
     const { loginRequest } = lobby
     console.log(`loginRequest: ${loginRequest != null ? 'yes' : 'no'}`)
     if (loginRequest != null) {
-      console.log(` appId: ${loginRequest.appId}`)
-      console.log(` displayName: ${loginRequest.displayName}`)
-      console.log(` displayImageUrl: ${loginRequest.displayImageUrl}`)
+      const { appId, displayName, displayImageUrl } = loginRequest
+      console.log(` appId: ${appId}`)
+      console.log(` displayName: ${displayName}`)
+      if (displayImageUrl != null) {
+        console.log(` displayImageUrl: ${displayImageUrl}`)
+      }
     }
   }
 )

@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "lib",
+    "emitDeclarationOnly": true,
     "esModuleInterop": true,
-    "noEmit": true,
     "strict": true
-  }
+  },
+  "exclude": ["node_modules", "lib"]
 }

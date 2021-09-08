@@ -1,11 +1,15 @@
 import babel from '@rollup/plugin-babel'
-import typescript from '@rollup/plugin-typescript'
+import resolve from '@rollup/plugin-node-resolve'
+import mjs from 'rollup-plugin-mjs-entry'
 
 import packageJson from './package.json'
 
+const extensions = ['.ts']
 const babelOpts = {
-  babelrc: false,
   babelHelpers: 'bundled',
+  babelrc: false,
+  extensions,
+  include: ['src/**/*'],
   presets: [
     [
       '@babel/preset-env',
@@ -13,10 +17,12 @@ const babelOpts = {
         exclude: ['transform-regenerator'],
         loose: true
       }
-    ]
+    ],
+    '@babel/typescript'
   ],
   plugins: ['transform-fake-error-class']
 }
+const resolveOpts = { extensions }
 
 export default [
   // Library:
@@ -24,10 +30,14 @@ export default [
     external: Object.keys(packageJson.dependencies),
     input: 'src/index.ts',
     output: [
-      { file: packageJson.main, format: 'cjs', sourcemap: true },
-      { file: packageJson.module, format: 'es', sourcemap: true }
+      { file: packageJson.main, format: 'cjs' },
+      { file: packageJson.module, format: 'es' }
     ],
-    plugins: [babel(babelOpts), typescript()]
+    plugins: [
+      resolve(resolveOpts),
+      babel(babelOpts),
+      mjs({ includeDefault: true })
+    ]
   },
 
   // Node.js binary:
@@ -43,9 +53,8 @@ export default [
     output: {
       banner: '#!/usr/bin/env node',
       file: packageJson.bin,
-      format: 'cjs',
-      sourcemap: true
+      format: 'cjs'
     },
-    plugins: [babel(babelOpts), typescript()]
+    plugins: [resolve(resolveOpts), babel(babelOpts)]
   }
 ]
