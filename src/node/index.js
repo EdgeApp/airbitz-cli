@@ -22,19 +22,6 @@ import { printCommandList } from '../commands/help'
 addEdgeCorePlugins(exchangePlugins)
 lockEdgeCorePlugins()
 
-/**
- * If the function f throws an error, return that as a rejected promise.
- */
-export function rejectify(f) {
-  return function rejectify(...rest) {
-    try {
-      return f.apply(this, rest)
-    } catch (e) {
-      return Promise.reject(e)
-    }
-  }
-}
-
 // Display the original source location for errors:
 sourceMapSupport.install()
 
@@ -173,7 +160,7 @@ function loadConfig(options) {
 /**
  * Creates a session object with a basic context object.
  */
-function makeSession(config, cmd = null) {
+async function makeSession(config) {
   const session = {}
 
   // API key:
@@ -187,50 +174,44 @@ function makeSession(config, cmd = null) {
       xdgBasedir.config != null ? xdgBasedir.config + '/airbitz' : './airbitz'
   }
 
-  return makeEdgeContext({
+  session.context = await makeEdgeContext({
     apiKey,
     appId: config.appId,
     authServer: config.authServer,
     path: directory,
     plugins: { coinbase: true, coincap: true }
-  }).then(context => {
-    session.context = context
-    return session
   })
+  return session
 }
 
 /**
  * Sets up a session object with the Airbitz objects needed by the command.
  * @return a promise
  */
-function prepareSession(config, cmd) {
+async function prepareSession(config, cmd) {
   // Create a context if we need one:
-  let out = Promise.resolve(cmd.needsContext ? makeSession(config, cmd) : {})
+  const session = cmd.needsContext ? await makeSession(config, cmd) : {}
 
   // Create a login if we need one:
   if (cmd.needsLogin) {
-    out = out.then(session => {
-      if (config.username == null || config.password == null) {
-        throw new UsageError(cmd, 'No login credentials')
-      }
+    if (config.username == null || config.password == null) {
+      throw new UsageError(cmd, 'No login credentials')
+    }
 
-      return session.context
-        .loginWithPassword(config.username, config.password, null, {})
-        .then(account => {
-          session.account = account
-          session.login = account.login
-          return session
-        })
-    })
+    const account = await session.context.loginWithPassword(
+      config.username,
+      config.password
+    )
+    session.account = account
   }
 
-  return out
+  return session
 }
 
 /**
  * Parses the provided command line and attempts to run the command.
  */
-function runLine(text, session) {
+async function runLine(text, session) {
   const parsed = parse(text)
   const cmd = parsed.exec ? findCommand(parsed.exec) : findCommand('help')
 
@@ -238,16 +219,16 @@ function runLine(text, session) {
     throw new UsageError(cmd, 'Please log in first')
   }
 
-  return Promise.resolve(cmd.invoke(jsonConsole, session, parsed.args))
+  await cmd.invoke(jsonConsole, session, parsed.args)
 }
 
 /**
  * Repeatedly prompts the user for a command to run.
  */
-function runPrompt(readline, session) {
+async function runPrompt(readline, session) {
   console.log('Use the `help` command for usage information')
 
-  return new Promise((resolve, reject) => {
+  await new Promise((resolve, reject) => {
     function done() {
       resolve()
       readline.close()
@@ -256,7 +237,7 @@ function runPrompt(readline, session) {
     function prompt() {
       readline.question('> ', text => {
         if (/exit/.test(text)) return done()
-        rejectify(runLine)(text, session).catch(logError).then(prompt)
+        runLine(text, session).catch(logError).then(prompt)
       })
     }
 
@@ -268,7 +249,7 @@ function runPrompt(readline, session) {
 /**
  * Parses the options and invokes the requested command.
  */
-function main() {
+async function main() {
   const opt = getopt.parseSystem()
 
   // Load the config file:
@@ -276,18 +257,17 @@ function main() {
 
   if (opt.argv.length === 0) {
     // Run the interactive shell:
-    return makeSession(config).then(session => {
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        completer(line) {
-          const commands = listCommands()
-          const match = commands.filter(command => command.startsWith(line))
-          return [match.length ? match : commands, line]
-        }
-      })
-      return runPrompt(rl, session)
+    const session = await makeSession(config)
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      completer(line) {
+        const commands = listCommands()
+        const match = commands.filter(command => command.startsWith(line))
+        return [match.length ? match : commands, line]
+      }
     })
+    await runPrompt(rl, session)
   } else {
     // Look up the command:
     const cmd =
@@ -296,14 +276,16 @@ function main() {
         : findCommand(opt.argv.shift())
 
     // Set up the session:
-    return prepareSession(config, cmd).then(session => {
-      // Invoke the command:
-      return cmd.invoke(jsonConsole, session, opt.argv)
-    })
+    const session = await prepareSession(config, cmd)
+    // Invoke the command:
+    await cmd.invoke(jsonConsole, session, opt.argv)
   }
 }
 
 // Invoke the main function with error reporting:
-rejectify(main)()
-  .catch(logError)
-  .then(() => process.exit(1))
+main()
+  .then(() => process.exit(0))
+  .catch(error => {
+    logError(error)
+    process.exit(1)
+  })
