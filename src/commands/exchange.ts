@@ -12,7 +12,7 @@ command(
     const [fromCurrency, toCurrency, amount = 1] = argv
 
     console.log(
-      await session.account.exchangeCache.convertCurrency(
+      await session.account.rateCache.convertCurrency(
         fromCurrency,
         toCurrency,
         Number(amount)
