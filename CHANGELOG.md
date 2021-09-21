@@ -1,6 +1,11 @@
 # airbitz-cli
 
-## 0.4.5 (2020-07-09)
+## 0.4.6 (2020-09-21)
+
+- changed: Upgrade to edge-core-js v0.18.6.
+- fixed: Prevent core logging from spamming the console in interactive mode.
+
+## 0.4.5 (2021-09-08)
 
 - added: Include Typescript definitions for the CLI library.
 - added: Include a native mjs entry point for modern Node versions.
