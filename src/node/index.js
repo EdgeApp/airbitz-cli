@@ -1,6 +1,5 @@
 import '../commands/all'
 
-import chalk from 'chalk'
 import {
   addEdgeCorePlugins,
   errorNames,
@@ -10,6 +9,7 @@ import {
 import exchangePlugins from 'edge-exchange-plugins'
 import fs from 'fs'
 import parse from 'lib-cmdparse'
+import { dim, green, red } from 'nanocolors'
 import Getopt from 'node-getopt'
 import path from 'path'
 import readline from 'readline'
@@ -90,7 +90,7 @@ const jsonConsole = {
       } else if (arg instanceof Error) {
         logError(arg)
       } else {
-        console.log(chalk.green(JSON.stringify(arg, null, 2)))
+        console.log(green(JSON.stringify(arg, null, 2)))
       }
     } else {
       console.log(...args)
@@ -102,7 +102,7 @@ const jsonConsole = {
  * Logs an Error instance to the console.
  */
 function logError(e) {
-  console.error(chalk.red(e.toString()))
+  console.error(red(e.toString()))
 
   // Special handling for particular error types:
   switch (e.name) {
@@ -117,7 +117,7 @@ function logError(e) {
       }
       break
     default:
-      console.error(chalk.dim(e.stack.replace(/.*\n/, '')))
+      console.error(dim(e.stack.replace(/.*\n/, '')))
       break
   }
 }
