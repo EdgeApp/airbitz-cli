@@ -2,7 +2,7 @@ import '../commands/all'
 
 import {
   addEdgeCorePlugins,
-  errorNames,
+  asMaybePasswordError,
   lockEdgeCorePlugins,
   makeEdgeContext
 } from 'edge-core-js'
@@ -101,25 +101,22 @@ const jsonConsole = {
 /**
  * Logs an Error instance to the console.
  */
-function logError(e) {
-  console.error(red(e.toString()))
+function logError(error) {
+  console.error(red(error.toString()))
 
   // Special handling for particular error types:
-  switch (e.name) {
-    case UsageError.name:
-      if (e.command != null) {
-        console.error(formatUsage(e.command))
-      }
-      break
-    case errorNames.PasswordError:
-      if (e.wait) {
-        console.error(`Please try again in ${e.wait} seconds`)
-      }
-      break
-    default:
-      console.error(dim(e.stack.replace(/.*\n/, '')))
-      break
+  if (error.name === UsageError.name && error.command != null) {
+    console.error(formatUsage(error.command))
+    return
   }
+
+  const passwordError = asMaybePasswordError(error)
+  if (passwordError != null && passwordError.wait != null) {
+    console.error(`Please try again in ${passwordError.wait} seconds`)
+    return
+  }
+
+  console.error(dim(error.stack.replace(/.*\n/, '')))
 }
 
 let pendingLogs = []
