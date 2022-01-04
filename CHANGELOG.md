@@ -1,5 +1,9 @@
 # airbitz-cli
 
+## 0.4.7 (2022-01-03)
+
+- fixed: Do not crash the CLI when individual commands fail.
+
 ## 0.4.6 (2020-09-21)
 
 - changed: Upgrade to edge-core-js v0.18.6.
