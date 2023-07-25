@@ -41,6 +41,22 @@ command(
 )
 
 command(
+  'key-get',
+  {
+    help: 'Reads a raw private key',
+    usage: '<wallet-id>',
+    needsAccount: true
+  },
+  async function (console, session, argv) {
+    if (argv.length !== 1) throw new UsageError(this)
+    const [walletId] = argv
+
+    const raw = await session.account.getRawPrivateKey(walletId)
+    console.log(raw)
+  }
+)
+
+command(
   'key-undelete',
   {
     help: "Removes a key's deleted flag",
@@ -49,7 +65,7 @@ command(
   },
   async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
-    const walletId = JSON.parse(argv[0])
+    const [walletId] = argv
 
     const opts: EdgeWalletStates = {}
     opts[walletId] = { deleted: false }
