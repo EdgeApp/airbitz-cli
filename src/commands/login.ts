@@ -50,7 +50,7 @@ command(
     const pin = argv[2]
 
     await session.context
-      .createAccount(username, password, pin)
+      .createAccount({ username, password, pin })
       .then(account => {
         session.account = account
       })
@@ -146,10 +146,10 @@ command(
     help: 'Shows the login key for the account',
     needsAccount: true
   },
-  function (console, session, argv) {
+  async function (console, session, argv) {
     if (argv.length !== 0) throw new UsageError(this)
 
-    console.log(session.account.loginKey)
+    console.log(await session.account.getLoginKey())
   }
 )
 
