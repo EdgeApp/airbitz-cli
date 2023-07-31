@@ -1,5 +1,9 @@
 # airbitz-cli
 
+## 1.0.1 (2023-07-31)
+
+- fixed: Modernize package structure to work with the latest Node.js and TypeScript versions.
+
 ## 1.0.0 (2023-07-31)
 
 - changed: Upgrade to edge-core-js v1.3.3.
