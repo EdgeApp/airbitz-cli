@@ -1,5 +1,11 @@
 # airbitz-cli
 
+## 1.0.0 (2023-07-31)
+
+- changed: Upgrade to edge-core-js v1.3.3.
+- changed: The `key-list` command no longer shows private keys, just info.
+- added: The new `key-get` command shows raw private keys.
+
 ## 0.4.7 (2022-01-03)
 
 - fixed: Do not crash the CLI when individual commands fail.
