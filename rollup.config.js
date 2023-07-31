@@ -1,6 +1,5 @@
 import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
-import mjs from 'rollup-plugin-mjs-entry'
 
 import packageJson from './package.json'
 
@@ -33,11 +32,7 @@ export default [
       { file: packageJson.main, format: 'cjs' },
       { file: packageJson.module, format: 'es' }
     ],
-    plugins: [
-      resolve(resolveOpts),
-      babel(babelOpts),
-      mjs({ includeDefault: true })
-    ]
+    plugins: [resolve(resolveOpts), babel(babelOpts)]
   },
 
   // Node.js binary:

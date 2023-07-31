@@ -14,28 +14,35 @@
     "William Swanson <william@airbitz.co>",
     "Tim Horton <tim@airbitz.co>"
   ],
+  "type": "module",
   "exports": {
     ".": {
-      "import": "./lib/index.mjs",
-      "require": "./lib/index.js"
+      "import": {
+        "types": "./src/index.d.ts",
+        "default": "./lib/airbitz-cli.js"
+      },
+      "require": {
+        "types": "./src/index.d.ts",
+        "default": "./lib/cjs/airbitz-cli.js"
+      }
     },
     "./package.json": "./package.json"
   },
-  "main": "lib/index.js",
-  "module": "lib/airbitz-cli.js",
-  "types": "./lib/src/index.d.ts",
-  "bin": "bin/airbitz-cli",
+  "main": "./lib/cjs/airbitz-cli.js",
+  "module": "./lib/airbitz-cli.js",
+  "types": "./src/index.d.ts",
+  "bin": "./bin/airbitz-cli",
   "files": [
-    "bin/*",
-    "CHANGELOG.md",
-    "lib/*",
-    "LICENSE",
-    "package.json",
-    "README.md"
+    "/bin/",
+    "/CHANGELOG.md",
+    "/lib/",
+    "/LICENSE",
+    "/package.json",
+    "/README.md"
   ],
   "scripts": {
     "clean": "rimraf bin lib",
-    "build": "rollup -c",
+    "build": "rollup -c && echo '{\"type\":\"commonjs\"}' > lib/cjs/package.json",
     "fix": "eslint . --fix",
     "lint": "eslint .",
     "precommit": "lint-staged && npm-run-all types",
@@ -83,7 +90,6 @@
     "prettier": "^2.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.21.0",
-    "rollup-plugin-mjs-entry": "^0.1.1",
     "typescript": "^4.1.2"
   }
 }
