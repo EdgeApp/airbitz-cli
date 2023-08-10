@@ -42,7 +42,7 @@
   ],
   "scripts": {
     "clean": "rimraf bin lib",
-    "build": "rollup -c && echo '{\"type\":\"commonjs\"}' > lib/cjs/package.json",
+    "build": "rollup -c",
     "fix": "eslint . --fix",
     "lint": "eslint .",
     "precommit": "lint-staged && npm-run-all types",

@@ -23,6 +23,20 @@ const babelOpts = {
 }
 const resolveOpts = { extensions }
 
+function emitCjsPackage() {
+  return {
+    name: 'emit-cjs-package',
+    generateBundle(outputOptions) {
+      if (outputOptions.format !== 'cjs') return
+      this.emitFile({
+        type: 'asset',
+        fileName: 'package.json',
+        source: JSON.stringify({ type: 'commonjs' })
+      })
+    }
+  }
+}
+
 export default [
   // Library:
   {
@@ -32,7 +46,7 @@ export default [
       { file: packageJson.main, format: 'cjs' },
       { file: packageJson.module, format: 'es' }
     ],
-    plugins: [resolve(resolveOpts), babel(babelOpts)]
+    plugins: [babel(babelOpts), emitCjsPackage(), resolve(resolveOpts)]
   },
 
   // Node.js binary:
@@ -50,6 +64,6 @@ export default [
       file: packageJson.bin,
       format: 'cjs'
     },
-    plugins: [resolve(resolveOpts), babel(babelOpts)]
+    plugins: [babel(babelOpts), emitCjsPackage(), resolve(resolveOpts)]
   }
 ]
