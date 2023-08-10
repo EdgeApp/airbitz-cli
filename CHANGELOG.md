@@ -1,5 +1,9 @@
 # airbitz-cli
 
+## 1.0.2 (2023-08-10)
+
+- fixed: Correctly mark the `airbitz-cli` executable as being CommonJS.
+
 ## 1.0.1 (2023-07-31)
 
 - fixed: Modernize package structure to work with the latest Node.js and TypeScript versions.
