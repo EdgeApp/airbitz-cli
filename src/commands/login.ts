@@ -1,3 +1,4 @@
+import { asMaybe, asObject, asString } from 'cleaners'
 import { base64 } from 'rfc4648'
 
 import { command, UsageError } from '../command'
@@ -103,10 +104,18 @@ command(
     const username = argv[0]
 
     const internal = getInternalStuff(session.context)
-    await internal.hashUsername(username).then(hash => {
-      console.log('base64', base64.stringify(hash))
-      console.log('base58', base58.stringify(hash))
-    })
+    const hash = await internal.hashUsername(username)
+    console.log('base64', base64.stringify(hash))
+    console.log('base58', base58.stringify(hash))
+
+    // Fetch the loginId too:
+    const response = await internal
+      .authRequest('POST', '/v2/login', {
+        userId: hash
+      })
+      .catch(error => console.log(String(error)))
+    const clean = asMaybe(asObject({ loginId: asString }))(response)
+    if (clean != null) console.log('loginId', clean.loginId)
   }
 )
 
