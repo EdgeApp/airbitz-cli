@@ -1,5 +1,10 @@
 # airbitz-cli
 
+## 1.1.0 (2023-09-14)
+
+- added: Look up the loginId during the `username-hash` command.
+- changed: Upgrade to edge-core-js v1.4.2, which fixes PIN changes on light accounts.
+
 ## 1.0.2 (2023-08-10)
 
 - fixed: Correctly mark the `airbitz-cli` executable as being CommonJS.
