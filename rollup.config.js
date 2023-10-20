@@ -58,7 +58,7 @@ export default [
       'readline',
       ...Object.keys(packageJson.dependencies)
     ],
-    input: 'src/node/index.js',
+    input: 'src/node/index.ts',
     output: {
       banner: '#!/usr/bin/env node',
       file: packageJson.bin,

@@ -15,9 +15,17 @@ import readline from 'readline'
 import sourceMapSupport from 'source-map-support'
 import xdgBasedir from 'xdg-basedir'
 
-import { command, findCommand, listCommands, UsageError } from '../command'
+import {
+  asMaybeUsageError,
+  Command,
+  command,
+  findCommand,
+  listCommands,
+  UsageError
+} from '../command'
 import { printCommandList } from '../commands/help'
-import { loadConfig } from './cliConfig'
+import { Session } from '../util/session'
+import { CliConfig, loadConfig } from './cliConfig'
 
 addEdgeCorePlugins(exchangePlugins)
 lockEdgeCorePlugins()
@@ -38,7 +46,7 @@ const getopt = new Getopt([
   ['h', 'help', 'Display options']
 ])
 
-function formatUsage(cmd) {
+function formatUsage(cmd: Command): string {
   // Set up the help options:
   let out = `Usage: ${cmd.name}`
   if (cmd.needsContext) {
@@ -82,7 +90,7 @@ const helpCommand = command(
  * If we are passed a single object, format that as proper JSON.
  */
 const jsonConsole = {
-  log(...args) {
+  log(...args: any[]): void {
     if (args.length === 1) {
       const arg = args[0]
       if (typeof arg === 'string') {
@@ -101,27 +109,30 @@ const jsonConsole = {
 /**
  * Logs an Error instance to the console.
  */
-function logError(error) {
-  console.error(red(error.toString()))
+function logError(error: unknown): void {
+  console.error(red(String(error)))
 
   // Special handling for particular error types:
-  if (error.name === UsageError.name && error.command != null) {
-    console.error(formatUsage(error.command))
+  const usageError = asMaybeUsageError(error)
+  if (usageError?.command != null) {
+    console.error(formatUsage(usageError.command))
     return
   }
 
   const passwordError = asMaybePasswordError(error)
-  if (passwordError != null && passwordError.wait != null) {
+  if (passwordError?.wait != null) {
     console.error(`Please try again in ${passwordError.wait} seconds`)
     return
   }
 
-  console.error(dim(error.stack.replace(/.*\n/, '')))
+  if (error instanceof Error && error.stack != null) {
+    console.error(dim(error.stack.replace(/.*\n/, '')))
+  }
 }
 
-let pendingLogs = []
+let pendingLogs: string[] = []
 
-function showCoreLogs() {
+function showCoreLogs(): void {
   for (const line of pendingLogs) console.log(line)
   pendingLogs = []
 }
@@ -129,16 +140,14 @@ function showCoreLogs() {
 /**
  * Creates a session object with a basic context object.
  */
-async function makeSession(config) {
+async function makeSession(config: CliConfig): Promise<Session> {
   const defaultDir =
     xdgBasedir.config != null
       ? path.join(xdgBasedir.config, '/airbitz')
       : './airbitz'
   const { authServer, appId = '', apiKey = '', directory = defaultDir } = config
 
-  const session = {}
-
-  session.context = await makeEdgeContext({
+  const context = await makeEdgeContext({
     apiKey,
     appId,
     authServer,
@@ -148,16 +157,31 @@ async function makeSession(config) {
       pendingLogs.push(`${event.source}: ${event.message}`)
     }
   })
-  return session
+  return {
+    // TODO: Fix the `Session` type to allow `undefined` here:
+    account: undefined as any,
+    context,
+    wallet: undefined as any
+  }
 }
 
 /**
  * Sets up a session object with the Airbitz objects needed by the command.
  * @return a promise
  */
-async function prepareSession(config, cmd) {
+async function prepareSession(
+  config: CliConfig,
+  cmd: Command
+): Promise<Session> {
   // Create a context if we need one:
-  const session = cmd.needsContext ? await makeSession(config, cmd) : {}
+  const session: Session = cmd.needsContext
+    ? await makeSession(config)
+    : {
+        // TODO: Fix the `Session` type to allow `undefined` here:
+        account: undefined as any,
+        context: undefined as any,
+        wallet: undefined as any
+      }
 
   // Create a login if we need one:
   if (cmd.needsLogin) {
@@ -178,9 +202,9 @@ async function prepareSession(config, cmd) {
 /**
  * Parses the provided command line and attempts to run the command.
  */
-async function runLine(text, session) {
+async function runLine(text: string, session: Session): Promise<void> {
   const parsed = parse(text)
-  if (!parsed.exec) return showCoreLogs()
+  if (parsed.exec == null) return showCoreLogs()
   const cmd = findCommand(parsed.exec)
 
   if ((cmd.needsLogin || cmd.needsAccount) && session.account == null) {
@@ -194,18 +218,22 @@ async function runLine(text, session) {
 /**
  * Repeatedly prompts the user for a command to run.
  */
-async function runPrompt(readline, session) {
+async function runPrompt(
+  readline: readline.Interface,
+  session: Session
+): Promise<void> {
   console.log('Use the `help` command for usage information')
 
-  await new Promise((resolve, reject) => {
-    function done() {
+  await new Promise<void>((resolve, reject) => {
+    function done(): void {
       resolve()
       readline.close()
     }
 
-    function prompt() {
+    function prompt(): void {
       readline.question('> ', text => {
-        if (/exit/.test(text)) return done()
+        if (text.includes('exit')) return done()
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         runLine(text, session).catch(logError).then(prompt)
       })
     }
@@ -218,7 +246,7 @@ async function runPrompt(readline, session) {
 /**
  * Parses the options and invokes the requested command.
  */
-async function main() {
+async function main(): Promise<void> {
   const { argv, options } = getopt.parseSystem()
 
   // Load the config file, and merge it with the command-line options:
@@ -236,10 +264,10 @@ async function main() {
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
-      completer(line) {
+      completer(line: string) {
         const commands = listCommands()
         const match = commands.filter(command => command.startsWith(line))
-        return [match.length ? match : commands, line]
+        return [match.length > 0 ? match : commands, line]
       }
     })
     await runPrompt(rl, session)
