@@ -7,7 +7,6 @@ import {
   makeEdgeContext
 } from 'edge-core-js'
 import exchangePlugins from 'edge-exchange-plugins'
-import fs from 'fs'
 import parse from 'lib-cmdparse'
 import { dim, green, red } from 'nanocolors'
 import Getopt from 'node-getopt'
@@ -18,6 +17,7 @@ import xdgBasedir from 'xdg-basedir'
 
 import { command, findCommand, listCommands, UsageError } from '../command'
 import { printCommandList } from '../commands/help'
+import { loadConfig } from './cliConfig'
 
 addEdgeCorePlugins(exchangePlugins)
 lockEdgeCorePlugins()
@@ -127,61 +127,21 @@ function showCoreLogs() {
 }
 
 /**
- * Loads the config file,
- * and returns its contents merged with the command-line options.
- */
-function loadConfig(options) {
-  // Locate all config files:
-  const configPaths = xdgBasedir.configDirs
-    .reverse()
-    .map(dir => path.join(dir, '/airbitz/airbitz.conf'))
-    .filter(path => fs.existsSync(path))
-  if (options.config != null) {
-    configPaths.push(options.config)
-  }
-
-  // Load and merge the config files:
-  const configFiles = configPaths.map(path => {
-    try {
-      return JSON.parse(fs.readFileSync(path, 'utf8'))
-    } catch (x) {
-      throw new Error(`Cannot load config file "${path}"`)
-    }
-  })
-  const config = Object.assign({}, ...configFiles)
-
-  // Calculate the active settings:
-  return {
-    appId: options['app-id'] || config.appId,
-    apiKey: options['api-key'] || config.apiKey,
-    authServer: options['auth-server'] || config.authServer,
-    directory: options.directory || config.workingDir,
-    username: options.username || config.username,
-    password: options.password || config.password
-  }
-}
-
-/**
  * Creates a session object with a basic context object.
  */
 async function makeSession(config) {
-  const session = {}
+  const defaultDir =
+    xdgBasedir.config != null
+      ? path.join(xdgBasedir.config, '/airbitz')
+      : './airbitz'
+  const { authServer, appId = '', apiKey = '', directory = defaultDir } = config
 
-  // API key:
-  let apiKey = config.apiKey
-  if (config.apiKey == null) {
-    apiKey = ''
-  }
-  let directory = config.directory
-  if (directory == null) {
-    directory =
-      xdgBasedir.config != null ? xdgBasedir.config + '/airbitz' : './airbitz'
-  }
+  const session = {}
 
   session.context = await makeEdgeContext({
     apiKey,
-    appId: config.appId,
-    authServer: config.authServer,
+    appId,
+    authServer,
     path: directory,
     plugins: { coinbase: true, coincap: true },
     onLog(event) {
@@ -259,12 +219,18 @@ async function runPrompt(readline, session) {
  * Parses the options and invokes the requested command.
  */
 async function main() {
-  const opt = getopt.parseSystem()
+  const { argv, options } = getopt.parseSystem()
 
-  // Load the config file:
-  const config = loadConfig(opt.options)
+  // Load the config file, and merge it with the command-line options:
+  const config = loadConfig(options.config)
+  config.apiKey = options['api-key'] ?? config.apiKey
+  config.appId = options['app-id'] ?? config.appId
+  config.authServer = options['auth-server'] ?? config.authServer
+  config.directory = options.directory ?? config.workingDir
+  config.password = options.password ?? config.password
+  config.username = options.username ?? config.username
 
-  if (opt.argv.length === 0) {
+  if (argv.length === 0) {
     // Run the interactive shell:
     const session = await makeSession(config)
     const rl = readline.createInterface({
@@ -280,14 +246,14 @@ async function main() {
   } else {
     // Look up the command:
     const cmd =
-      opt.options.help || !opt.argv.length
+      options.help != null || argv.length === 0
         ? helpCommand
-        : findCommand(opt.argv.shift())
+        : findCommand(argv.shift())
 
     // Set up the session:
     const session = await prepareSession(config, cmd)
     // Invoke the command:
-    await cmd.invoke(jsonConsole, session, opt.argv)
+    await cmd.invoke(jsonConsole, session, argv)
     showCoreLogs()
   }
 }
