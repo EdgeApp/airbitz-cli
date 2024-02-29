@@ -1471,7 +1471,7 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-currency-codes@^1.1.2:
+currency-codes@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/currency-codes/-/currency-codes-1.5.1.tgz#7ed12dc00be91414937c71855ff5ea6059b88d47"
   integrity sha512-hqy8vtlIYKzO6pe2TE0V4/riZALIc7nhtE9cvxk5FDRCvfGplgzUvpTmZlMsyO+NeK5U41j+sQXJOo8l8v9kdg==
@@ -1551,17 +1551,17 @@ doctrine@^3.0.0:
     esutils "^2.0.2"
 
 edge-core-js@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/edge-core-js/-/edge-core-js-1.4.2.tgz#dc5b967831f9cdcdcb14aaba4e2c4c0553a87d51"
-  integrity sha512-duAMDoAsnbClaTWQEeAm5aecNnFVdYzfSUTloeWjGdqCdzyQyjZiPeDbnmbXJ1O5zqDK3Vh7yLvVUBTawdaj7w==
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/edge-core-js/-/edge-core-js-1.14.0.tgz#16569cf6a24b50e26e0105eca554bd041ce15a01"
+  integrity sha512-P2yGTyu4eqoFUHFnrmkemxJrFFezql+cL2ZZ01JDyRJFgeAwy9zlEmg1Aj4IgOq8hzoNUFTd68fKTVPZZRDKEA==
   dependencies:
     aes-js "^3.1.0"
     base-x "^4.0.0"
     biggystring "^4.0.0"
     cleaners "^0.3.14"
-    currency-codes "^1.1.2"
+    currency-codes "^1.5.1"
     disklet "^0.5.2"
-    edge-sync-client "^0.2.7"
+    edge-sync-client "^0.2.8"
     elliptic "^6.4.0"
     hash.js "^1.1.7"
     hmac-drbg "^1.0.1"
@@ -1569,10 +1569,10 @@ edge-core-js@^1.4.2:
     redux "^4.2.0"
     redux-keto "^0.3.5"
     redux-pixies "^0.3.6"
-    rfc4648 "^1.4.0"
+    rfc4648 "^1.5.3"
     scrypt-js "^2.0.3"
     serverlet "^0.1.2"
-    yaob "^0.3.11"
+    yaob "^0.3.12"
     yavent "^0.1.3"
 
 edge-exchange-plugins@^0.11.4:
@@ -1587,10 +1587,10 @@ edge-exchange-plugins@^0.11.4:
     iso4217 "^0.2.0"
     utf8 "^3.0.0"
 
-edge-sync-client@^0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/edge-sync-client/-/edge-sync-client-0.2.7.tgz#57041f1a17565f24750803a99aaea517361fe9e1"
-  integrity sha512-ySWvsvHisg3e5gV/KBQymt0Fos1Nqupb6fbvxn5YXM5SmsOWz2iGRqocSc/Qxyd85WV7G/DjpJ8zWVqf0eUTrg==
+edge-sync-client@^0.2.8:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/edge-sync-client/-/edge-sync-client-0.2.9.tgz#fa5eadd3b5a53f941dd269cd4e14dbd0854b945f"
+  integrity sha512-+gPMTc2EQ7XY06PgCsXNdg91LFR6KKsqBAVT6GAJLvprb9GYrgqKu3qtsIQRca9FaodTYqEEnZr0Lj/wErDLZw==
   dependencies:
     base-x "^1.0.4"
     cleaners "^0.3.9"
@@ -3004,10 +3004,10 @@ reusify@^1.0.4:
   resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
   integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
 
-rfc4648@^1.1.0, rfc4648@^1.3.0, rfc4648@^1.4.0, rfc4648@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/rfc4648/-/rfc4648-1.5.0.tgz#1ba940ec1649685ec4d88788dc57fb8e18855055"
-  integrity sha512-FA6W9lDNeX8WbMY31io1xWg+TpZCbeDKsBo0ocwACZiWnh9TUAyk9CCuBQuOPmYnwwdEQZmraQ2ZK7yJsxErBg==
+rfc4648@^1.1.0, rfc4648@^1.3.0, rfc4648@^1.5.0, rfc4648@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/rfc4648/-/rfc4648-1.5.3.tgz#e62b81736c10361ca614efe618a566e93d0b41c0"
+  integrity sha512-MjOWxM065+WswwnmNONOT+bD1nXzY9Km6u3kzvnx8F8/HXGZdz3T6e6vZJ8Q/RIMUSp/nxqjH3GwvJDy8ijeQQ==
 
 rimraf@^3.0.2:
   version "3.0.2"
@@ -3504,10 +3504,10 @@ yaml@^1.10.0:
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
-yaob@^0.3.11:
-  version "0.3.11"
-  resolved "https://registry.yarnpkg.com/yaob/-/yaob-0.3.11.tgz#54dc4e03f5edabf7a0701c57e73e97cc69d2fc42"
-  integrity sha512-RRMKxWsjMGF9X7fyPny0w3icGriQCCT7FMtNrmxxyjxQIQn8GB4+CT4SWpgUca82RBvjRt5pRqKmbnvmMfKc9A==
+yaob@^0.3.12:
+  version "0.3.12"
+  resolved "https://registry.yarnpkg.com/yaob/-/yaob-0.3.12.tgz#fb37da4749f1202cc96dedeb8763082c914b5e35"
+  integrity sha512-HVXUb7s4ZawrEtpAEpuNwsD6oHCqapY9aCnMEeZnk3lIAlTO85Gw7pT2xzmYy3Q4CKPcG9pCW3h2rgf9vBTuqg==
   dependencies:
     rfc4648 "^1.1.0"
 

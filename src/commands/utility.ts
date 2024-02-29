@@ -1,3 +1,4 @@
+import { asLoginRequestBody } from 'edge-core-js'
 import hashjs from 'hash.js'
 import { base64 } from 'rfc4648'
 
@@ -30,11 +31,15 @@ command(
           .then(reply => console.log(reply))
       case 2:
         return await internal
-          .authRequest('POST', argv[0], JSON.parse(argv[1]))
+          .authRequest('POST', argv[0], asLoginRequestBody(JSON.parse(argv[1])))
           .then(reply => console.log(reply))
       case 3:
         return await internal
-          .authRequest(argv[0], argv[1], JSON.parse(argv[2]))
+          .authRequest(
+            argv[0],
+            argv[1],
+            asLoginRequestBody(JSON.parse(argv[2]))
+          )
           .then(reply => console.log(reply))
       default:
         throw new UsageError(this)

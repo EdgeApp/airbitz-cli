@@ -1,5 +1,9 @@
 # airbitz-cli
 
+## Unreleased
+
+- fixed: Clean the `auth-fetch` payload to avoid data corruption.
+
 ## 1.1.0 (2023-09-14)
 
 - added: Look up the loginId during the `username-hash` command.
