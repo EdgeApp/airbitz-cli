@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.1.2 (2024-03-12)
+
+- fixed: Bump our edge-core-js dependency to v1.14.0.
+
 ## 1.1.1 (2024-03-12)
 
 - fixed: Clean the `auth-fetch` payload to avoid data corruption.
