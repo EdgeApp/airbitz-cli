@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "base-x": "^3.0.8",
-    "edge-core-js": "^1.4.2",
+    "edge-core-js": "^1.14.0",
     "edge-exchange-plugins": "^0.11.4",
     "hash.js": "^1.1.7",
     "lib-cmdparse": "^0.1.0",
