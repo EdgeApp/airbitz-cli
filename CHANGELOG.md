@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.1.1 (2024-03-12)
+
 - fixed: Clean the `auth-fetch` payload to avoid data corruption.
 
 ## 1.1.0 (2023-09-14)
