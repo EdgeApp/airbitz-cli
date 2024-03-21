@@ -48,6 +48,12 @@ export class UsageError extends Error {
   }
 }
 
+export function asMaybeUsageError(error: unknown): UsageError | undefined {
+  if (error instanceof Error && error.name === 'UsageError') {
+    return error
+  }
+}
+
 /**
  * Creates a new command, and adds it to the global command registry.
  */
