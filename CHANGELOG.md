@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.1.3 (2024-03-21)
+
+- changed: Use cleaners for the config file, to better report errors.
+
 ## 1.1.2 (2024-03-12)
 
 - fixed: Bump our edge-core-js dependency to v1.14.0.
