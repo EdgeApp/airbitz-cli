@@ -1543,10 +1543,10 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-edge-core-js@^1.14.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/edge-core-js/-/edge-core-js-1.14.0.tgz#16569cf6a24b50e26e0105eca554bd041ce15a01"
-  integrity sha512-P2yGTyu4eqoFUHFnrmkemxJrFFezql+cL2ZZ01JDyRJFgeAwy9zlEmg1Aj4IgOq8hzoNUFTd68fKTVPZZRDKEA==
+edge-core-js@^2.18.0:
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/edge-core-js/-/edge-core-js-2.18.0.tgz#9188b28bb68bf7646a1d8bdda0e06844ea9dc6e8"
+  integrity sha512-YqH4zNvk31THl01T6JPZ5oTFWMm7DpKueWlUDNOiLjknArxL9GaQfFMo1m+Yvr2JiPdaBKsrwM1MaN2rYyHRog==
   dependencies:
     aes-js "^3.1.0"
     base-x "^4.0.0"
