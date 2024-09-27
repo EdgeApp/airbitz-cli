@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- removed: `exchange-convert` command. The core no longer supports exchange rate plugins.
+
 ## 1.1.3 (2024-03-21)
 
 - changed: Use cleaners for the config file, to better report errors.

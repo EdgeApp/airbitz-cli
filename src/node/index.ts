@@ -1,12 +1,10 @@
 import '../commands/all'
 
 import {
-  addEdgeCorePlugins,
   asMaybePasswordError,
   lockEdgeCorePlugins,
   makeEdgeContext
 } from 'edge-core-js'
-import exchangePlugins from 'edge-exchange-plugins'
 import parse from 'lib-cmdparse'
 import { dim, green, red } from 'nanocolors'
 import Getopt from 'node-getopt'
@@ -27,7 +25,6 @@ import { printCommandList } from '../commands/help'
 import { Session } from '../util/session'
 import { CliConfig, loadConfig } from './cliConfig'
 
-addEdgeCorePlugins(exchangePlugins)
 lockEdgeCorePlugins()
 
 // Display the original source location for errors:
@@ -152,7 +149,7 @@ async function makeSession(config: CliConfig): Promise<Session> {
     appId,
     authServer,
     path: directory,
-    plugins: { coinbase: true, coincap: true },
+    plugins: {},
     onLog(event) {
       pendingLogs.push(`${event.source}: ${event.message}`)
     }

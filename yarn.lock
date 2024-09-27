@@ -1264,13 +1264,6 @@ base-x@^4.0.0:
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-4.0.0.tgz#d0e3b7753450c73f8ad2389b5c018a4af7b2224a"
   integrity sha512-FuwxlW4H5kh37X/oW59pwTzzTKRzfrrQwhmyspRM7swOEZcHtDZSCt45U6oKgtuFE+WYPblePMVIPR4RZrh/hw==
 
-biggystring@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/biggystring/-/biggystring-3.0.2.tgz#e9a8cd1ada0ec54b377a621cde53dea5e19085b6"
-  integrity sha512-Sl1Ek3XwFliCf08nIaypxQtW+XwocfF33h5WC2baU5xVBf/LBctiK28cB3hmhWOBeArtZp0FbNk4hgDFCP3Fag==
-  dependencies:
-    bn.js "^4.11.7"
-
 biggystring@^4.0.0:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/biggystring/-/biggystring-4.1.3.tgz#9a7d6e79e82781ecd1504aac30a1a815f073adcc"
@@ -1575,18 +1568,6 @@ edge-core-js@^1.14.0:
     yaob "^0.3.12"
     yavent "^0.1.3"
 
-edge-exchange-plugins@^0.11.4:
-  version "0.11.34"
-  resolved "https://registry.yarnpkg.com/edge-exchange-plugins/-/edge-exchange-plugins-0.11.34.tgz#d23b798c825aed0960cd9902759b65ca6c33ce38"
-  integrity sha512-SeT1kw+WzlVhQZPYhtcR/3/pB5sHDCPR6ofuDxAQ3S4a6lKUZwuzZ3ajMrO+ryHHbFcErf5wmmuhzrY/CIIORg==
-  dependencies:
-    biggystring "^3.0.2"
-    cleaners "^0.3.9"
-    esm "^3.2.4"
-    hashjs "^1.2.0"
-    iso4217 "^0.2.0"
-    utf8 "^3.0.0"
-
 edge-sync-client@^0.2.8:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/edge-sync-client/-/edge-sync-client-0.2.9.tgz#fa5eadd3b5a53f941dd269cd4e14dbd0854b945f"
@@ -1847,11 +1828,6 @@ eslint@^7.14.0:
     table "^6.0.9"
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
-
-esm@^3.2.4:
-  version "3.2.25"
-  resolved "https://registry.yarnpkg.com/esm/-/esm-3.2.25.tgz#342c18c29d56157688ba5ce31f8431fbb795cc10"
-  integrity sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==
 
 espree@^7.3.0, espree@^7.3.1:
   version "7.3.1"
@@ -2137,11 +2113,6 @@ hash.js@^1.0.0, hash.js@^1.0.3, hash.js@^1.1.7:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hashjs@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/hashjs/-/hashjs-1.2.0.tgz#a40e2d69de57826774643029c7b1bb4f2390baaa"
-  integrity sha1-pA4tad5Xgmd0ZDApx7G7TyOQuqo=
-
 hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -2340,11 +2311,6 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
-
-iso4217@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/iso4217/-/iso4217-0.2.0.tgz#139ce00ac0cf0d360e48b22215c797f016b2840d"
-  integrity sha1-E5zgCsDPDTYOSLIiFceX8BayhA0=
 
 js-tokens@^4.0.0:
   version "4.0.0"
@@ -3404,11 +3370,6 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
-
-utf8@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/utf8/-/utf8-3.0.0.tgz#f052eed1364d696e769ef058b183df88c87f69d1"
-  integrity sha512-E8VjFIQ/TyQgp+TZfS6l8yp/xWppSAHzidGiRrqe4bK4XP9pTRyKFgGJpO3SN7zdX4DeomTrwaseCHovfpFcqQ==
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"
