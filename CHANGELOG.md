@@ -3,6 +3,7 @@
 ## Unreleased
 
 - removed: `exchange-convert` command. The core no longer supports exchange rate plugins.
+- removed: Deprecated `account-remove` command.
 
 ## 1.1.3 (2024-03-21)
 
