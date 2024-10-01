@@ -1,6 +1,5 @@
 import './data-store'
 import './edge'
-import './exchange'
 import './help'
 import './keys'
 import './lobby'

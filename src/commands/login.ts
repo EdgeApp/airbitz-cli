@@ -6,21 +6,6 @@ import { base58 } from '../util/encoding'
 import { getInternalStuff } from '../util/internal'
 
 command(
-  'account-remove',
-  {
-    usage: '<username>',
-    help: 'Deprecated. Use username-delete.',
-    needsContext: true
-  },
-  async function (console, session, argv) {
-    if (argv.length !== 1) throw new UsageError(this)
-    const username = argv[0]
-
-    await session.context.deleteLocalAccount(username)
-  }
-)
-
-command(
   'account-available',
   {
     usage: '<username>',
@@ -142,9 +127,17 @@ command(
   },
   async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
-    const username = argv[0]
+    const username = session.context.fixUsername(argv[0])
 
-    await session.context.deleteLocalAccount(username)
+    const userInfo = session.context.localUsers.find(
+      info => info.username === username
+    )
+    if (userInfo == null) {
+      console.log(`Cannot find user "${username}"`)
+      return
+    }
+
+    await session.context.forgetAccount(userInfo.loginId)
   }
 )
 

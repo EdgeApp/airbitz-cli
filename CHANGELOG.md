@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- changed: The `lobby-login-fetch` command shows `displayImageDarkUrl` and `displayImageLightUrl` instead of the deprecated `displayImageUrl`.
+- removed: `exchange-convert` command. The core no longer supports exchange rate plugins.
+- removed: Deprecated `account-remove` command.
+
 ## 1.1.3 (2024-03-21)
 
 - changed: Use cleaners for the config file, to better report errors.

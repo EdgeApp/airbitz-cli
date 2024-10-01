@@ -79,11 +79,15 @@ command(
     const { loginRequest } = lobby
     console.log(`loginRequest: ${loginRequest != null ? 'yes' : 'no'}`)
     if (loginRequest != null) {
-      const { appId, displayName, displayImageUrl } = loginRequest
+      const { appId, displayImageDarkUrl, displayImageLightUrl, displayName } =
+        loginRequest
       console.log(` appId: ${appId}`)
       console.log(` displayName: ${displayName}`)
-      if (displayImageUrl != null) {
-        console.log(` displayImageUrl: ${displayImageUrl}`)
+      if (displayImageDarkUrl != null) {
+        console.log(` displayImageDarkUrl: ${displayImageDarkUrl}`)
+      }
+      if (displayImageLightUrl != null) {
+        console.log(` displayImageLightUrl: ${displayImageLightUrl}`)
       }
     }
   }
