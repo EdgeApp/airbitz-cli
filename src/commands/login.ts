@@ -1,4 +1,5 @@
-import { asMaybe, asObject, asString } from 'cleaners'
+import { asMaybe, asObject } from 'cleaners'
+import { asBase64 } from 'edge-core-js'
 import { base64 } from 'rfc4648'
 
 import { command, UsageError } from '../command'
@@ -86,7 +87,7 @@ command(
   },
   async function (console, session, argv) {
     if (argv.length !== 1) throw new UsageError(this)
-    const username = argv[0]
+    const username = session.context.fixUsername(argv[0])
 
     const internal = getInternalStuff(session.context)
     const hash = await internal.hashUsername(username)
@@ -99,8 +100,11 @@ command(
         userId: hash
       })
       .catch(error => console.log(String(error)))
-    const clean = asMaybe(asObject({ loginId: asString }))(response)
-    if (clean != null) console.log('loginId', clean.loginId)
+    const clean = asMaybe(asObject({ loginId: asBase64 }))(response)
+    if (clean != null) {
+      console.log('loginId base64', base64.stringify(clean.loginId))
+      console.log('loginId base58', base58.stringify(clean.loginId))
+    }
   }
 )
 
